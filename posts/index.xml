@@ -17,7 +17,8 @@
       <pubDate>Sat, 10 Jul 2021 17:39:44 +0100</pubDate>
       
       <guid>https://lamiiine.github.io/posts/&#43;&#43;i-or-i&#43;&#43;/</guid>
-      <description>Seldom is our code free of control flow statements, especially iterators. In this post, I will discuss the differences between the use of i++ and ++i.</description>
+      <description>Who is faster and more efficient: i++ or ++i?! Let&amp;rsquo;s take an example for better understanding:
+int i = 0 ; int j = i++; // j here is equal to 0 still because the increment happens after the return of the value // This means that the old value is kept in a copy.  int k = ++i ; // k here is equal to 2 because it was incremented without a copy  Therefore, ++i is more efficient to use than i++.</description>
     </item>
     
     <item>
