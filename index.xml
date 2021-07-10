@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lamine Abdellaoui</title>
+    <link>https://lamiiine.github.io/</link>
+    <description>Recent content on Lamine Abdellaoui</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 10 Jul 2021 17:39:44 +0100</lastBuildDate>
+    
+	<atom:link href="https://lamiiine.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>&#43;&#43;i or i&#43;&#43;</title>
+      <link>https://lamiiine.github.io/posts/&#43;&#43;i-or-i&#43;&#43;/</link>
+      <pubDate>Sat, 10 Jul 2021 17:39:44 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/&#43;&#43;i-or-i&#43;&#43;/</guid>
+      <description>Seldom is our code free of control flow statements, especially iterators. In this post, I will discuss the differences between the use of i++ and ++i.</description>
+    </item>
+    
+    <item>
+      <title>My First Post</title>
+      <link>https://lamiiine.github.io/posts/my-first-post/</link>
+      <pubDate>Sat, 10 Jul 2021 01:25:43 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/my-first-post/</guid>
+      <description>my first post on my blog to say that I will be writing about tech and everything related.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://lamiiine.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lamiiine.github.io/about/</guid>
+      <description>I am a computer science graduate from AUC with minor in History with the help of the prestegious Tomorrow&amp;rsquo;s Leaders Scholarship Program. I also spent a semester abroad at JMU in Virginia, USA.
+I am open to kick start my career in tech. If you want to know more about me, I would be happy to chat with you.</description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>https://lamiiine.github.io/contact/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lamiiine.github.io/contact/</guid>
+      <description>Find Me on the Web  Twitter Github Linkedin Facebook  Email  Email: mlamine.abdellaoui@aucegypt.edu  </description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>https://lamiiine.github.io/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lamiiine.github.io/projects/</guid>
+      <description> To be updated soon
+ </description>
+    </item>
+    
+    <item>
+      <title>Resources</title>
+      <link>https://lamiiine.github.io/resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lamiiine.github.io/resources/</guid>
+      <description>I intend to put anything I came across and found it useful for public knowledge.
+ To be updated soon.
+ </description>
+    </item>
+    
+    <item>
+      <title>Resume</title>
+      <link>https://lamiiine.github.io/resume/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://lamiiine.github.io/resume/</guid>
+      <description>Download Resume  Under Process .
+ </description>
+    </item>
+    
+  </channel>
+</rss>
