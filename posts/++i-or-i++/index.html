@@ -25,16 +25,16 @@
   <meta name="author" content="Lamine Abdellaoui" />
   
   
-  <title>Lamine Abdellaoui | &#43;&#43;i or i&#43;&#43;</title>
+  <title>Lamine Abdellaoui | Know when to use &#43;&#43;i instead of  i&#43;&#43;</title>
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="&#43;&#43;i or i&#43;&#43;"/>
-<meta name="twitter:description" content="Who is faster and more efficient: i&#43;&#43; or &#43;&#43;i?! Let&rsquo;s take an example for better understanding:
-int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the increment happens after the return of the value // This means that the old value is kept in a copy.  int k = &#43;&#43;i ; // k here is equal to 2 because it was incremented without a copy Therefore, &#43;&#43;i is more efficient to use than i&#43;&#43;(of course there are cases where this does not fully apply)."/>
+<meta name="twitter:title" content="Know when to use &#43;&#43;i instead of  i&#43;&#43;"/>
+<meta name="twitter:description" content="When I first started using C&#43;&#43;, almost all sources use i&#43;&#43; inside a for-loop, until one day, I saw a loop with &#43;&#43;i and decided to investigate the differences between the two in terms of efficiency. Therefore, I am here to discuss what I found. Let&rsquo;s take an example for better understanding:
+int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the increment happens after the return of the value // This means that the old value is kept in a copy."/>
 
-  <meta property="og:title" content="&#43;&#43;i or i&#43;&#43;" />
-<meta property="og:description" content="Who is faster and more efficient: i&#43;&#43; or &#43;&#43;i?! Let&rsquo;s take an example for better understanding:
-int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the increment happens after the return of the value // This means that the old value is kept in a copy.  int k = &#43;&#43;i ; // k here is equal to 2 because it was incremented without a copy Therefore, &#43;&#43;i is more efficient to use than i&#43;&#43;(of course there are cases where this does not fully apply)." />
+  <meta property="og:title" content="Know when to use &#43;&#43;i instead of  i&#43;&#43;" />
+<meta property="og:description" content="When I first started using C&#43;&#43;, almost all sources use i&#43;&#43; inside a for-loop, until one day, I saw a loop with &#43;&#43;i and decided to investigate the differences between the two in terms of efficiency. Therefore, I am here to discuss what I found. Let&rsquo;s take an example for better understanding:
+int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the increment happens after the return of the value // This means that the old value is kept in a copy." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://lamiiine.github.io/posts/&#43;&#43;i-or-i&#43;&#43;/" />
 <meta property="article:published_time" content="2021-07-10T17:39:44+01:00" />
@@ -122,7 +122,7 @@ int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the incre
 <section id="content">
   <article>
     <header>
-      <h1 id="title">&#43;&#43;i or i&#43;&#43;</h1>
+      <h1 id="title">Know when to use &#43;&#43;i instead of  i&#43;&#43;</h1>
       
       <p id="date">
         <time>
@@ -136,9 +136,9 @@ int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the incre
       
     </header>
 
-    <p>Who is faster and more efficient: i++ or ++i?!
+    <p>When I first started using C++, almost all sources use <strong>i++</strong> inside a for-loop, until one day, I saw a loop with <strong>++i</strong> and decided  to investigate the differences between the two in terms of efficiency. Therefore, I am here to discuss what I found.
 Let&rsquo;s take an example for better understanding:</p>
-<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> 
+<div class="highlight"><pre class="chroma"><code class="language-objc" data-lang="objc"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> 
 <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span> <span class="c1">// j here is equal to 0 still because the increment happens after the return of the value
 </span><span class="c1">// This means that the old value is kept in a copy.
 </span><span class="c1"></span>
