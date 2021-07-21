@@ -6,13 +6,24 @@
     <description>Recent content in Posts on Lamine Abdellaoui</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Jul 2021 17:39:44 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 19 Jul 2021 13:48:22 +0100</lastBuildDate>
     
 	<atom:link href="https://lamiiine.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Know when to use &#43;&#43;i instead of  i&#43;&#43;</title>
+      <title>Save time with these Linux Shell commands</title>
+      <link>https://lamiiine.github.io/posts/save-time-with-these-linux-shell-commands/</link>
+      <pubDate>Mon, 19 Jul 2021 13:48:22 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/save-time-with-these-linux-shell-commands/</guid>
+      <description>Here I put the list of Linux shell commands I use frequently and I find efficient and good to know
+sudo !! (or sudo bang bang): A lot of the time, when I copy a command, paste in shell and quickly press Enter, I realize I forgot to write sudo first. No worries, sudo !! rerun the last command with sudo prepended to it.
+Cut a word at a time backwards: Sometimes you want to remove a word backwrods in your command.</description>
+    </item>
+    
+    <item>
+      <title>In C&#43;&#43;, &#43;&#43;i is faster than i&#43;&#43;</title>
       <link>https://lamiiine.github.io/posts/&#43;&#43;i-or-i&#43;&#43;/</link>
       <pubDate>Sat, 10 Jul 2021 17:39:44 +0100</pubDate>
       

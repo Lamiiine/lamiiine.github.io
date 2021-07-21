@@ -6,13 +6,24 @@
     <description>Recent content on Lamine Abdellaoui</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Jul 2021 17:39:44 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 19 Jul 2021 13:48:22 +0100</lastBuildDate>
     
 	<atom:link href="https://lamiiine.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Know when to use &#43;&#43;i instead of  i&#43;&#43;</title>
+      <title>Save time with these Linux Shell commands</title>
+      <link>https://lamiiine.github.io/posts/save-time-with-these-linux-shell-commands/</link>
+      <pubDate>Mon, 19 Jul 2021 13:48:22 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/save-time-with-these-linux-shell-commands/</guid>
+      <description>Here I put the list of Linux shell commands I use frequently and I find efficient and good to know
+sudo !! (or sudo bang bang): A lot of the time, when I copy a command, paste in shell and quickly press Enter, I realize I forgot to write sudo first. No worries, sudo !! rerun the last command with sudo prepended to it.
+Cut a word at a time backwards: Sometimes you want to remove a word backwrods in your command.</description>
+    </item>
+    
+    <item>
+      <title>In C&#43;&#43;, &#43;&#43;i is faster than i&#43;&#43;</title>
       <link>https://lamiiine.github.io/posts/&#43;&#43;i-or-i&#43;&#43;/</link>
       <pubDate>Sat, 10 Jul 2021 17:39:44 +0100</pubDate>
       
@@ -27,7 +38,7 @@ int i = 0 ; int j = i++; // j here is equal to 0 still because the increment hap
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://lamiiine.github.io/about/</guid>
-      <description>I am a computer science graduate from AUC with minor in History with the help of the prestegious Tomorrow&amp;rsquo;s Leaders Scholarship Program. I also spent a semester abroad at JMU in Virginia, USA.
+      <description>I am a CS graduate from AUC with minor in History, a Tomorrow&amp;rsquo;s Leaders Scholarship Program recipient. I also spent a semester abroad at JMU in Virginia, USA.
 I am open to kick start my career in tech. If you want to know more about me, I would be happy to chat with you.</description>
     </item>
     
@@ -46,7 +57,7 @@ I am open to kick start my career in tech. If you want to know more about me, I 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://lamiiine.github.io/projects/</guid>
-      <description> To be updated soon
+      <description> To be updated soon.
  </description>
     </item>
     
@@ -56,9 +67,8 @@ I am open to kick start my career in tech. If you want to know more about me, I 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://lamiiine.github.io/resources/</guid>
-      <description>I intend to put anything I came across and found it useful for public knowledge.
- To be updated soon.
- </description>
+      <description>Github has this beautiful feature called Explore and amongst the things I like about this feature: The Awesome list, where one could find hundreds of github repos about all sorts of things: jobs, books, courses. This inspired me to create my Awesome list here.
+Courses  Learn Python, Data Viz, Pandas &amp;amp; More Linux Foundation Free Courses  Tech Blogs &amp;amp; resources I like  My favourite Cpp blog is by far Jason Turner and he, also, has a Youtube channel where he talks about Cpp as well.</description>
     </item>
     
     <item>

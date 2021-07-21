@@ -23,14 +23,14 @@
   <meta name="author" content="Lamine Abdellaoui" />
   
   
-  <title>Lamine Abdellaoui | Know when to use &#43;&#43;i instead of  i&#43;&#43;</title>
+  <title>Lamine Abdellaoui | In C&#43;&#43;, &#43;&#43;i is faster than i&#43;&#43;</title>
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Know when to use &#43;&#43;i instead of  i&#43;&#43;"/>
+<meta name="twitter:title" content="In C&#43;&#43;, &#43;&#43;i is faster than i&#43;&#43;"/>
 <meta name="twitter:description" content="When I first started using C&#43;&#43;, almost all sources use i&#43;&#43; inside a for-loop, until one day, I saw a loop with &#43;&#43;i and decided to investigate the differences between the two in terms of efficiency. Therefore, I am here to discuss what I found. Let&rsquo;s take an example for better understanding:
 int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the increment happens after the return of the value // This means that the old value is kept in a copy."/>
 
-  <meta property="og:title" content="Know when to use &#43;&#43;i instead of  i&#43;&#43;" />
+  <meta property="og:title" content="In C&#43;&#43;, &#43;&#43;i is faster than i&#43;&#43;" />
 <meta property="og:description" content="When I first started using C&#43;&#43;, almost all sources use i&#43;&#43; inside a for-loop, until one day, I saw a loop with &#43;&#43;i and decided to investigate the differences between the two in terms of efficiency. Therefore, I am here to discuss what I found. Let&rsquo;s take an example for better understanding:
 int i = 0 ; int j = i&#43;&#43;; // j here is equal to 0 still because the increment happens after the return of the value // This means that the old value is kept in a copy." />
 <meta property="og:type" content="article" />
@@ -147,7 +147,7 @@ if (!doNotTrack) {
 <section id="content">
   <article>
     <header>
-      <h1 id="title">Know when to use &#43;&#43;i instead of  i&#43;&#43;</h1>
+      <h1 id="title">In C&#43;&#43;, &#43;&#43;i is faster than i&#43;&#43;</h1>
       
       <p id="date">
         <time>
@@ -163,12 +163,12 @@ if (!doNotTrack) {
 
     <p>When I first started using C++, almost all sources use <strong>i++</strong> inside a for-loop, until one day, I saw a loop with <strong>++i</strong> and decided  to investigate the differences between the two in terms of efficiency. Therefore, I am here to discuss what I found.
 Let&rsquo;s take an example for better understanding:</p>
-<div class="highlight"><pre class="chroma"><code class="language-objc" data-lang="objc"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> 
-<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span> <span class="c1">// j here is equal to 0 still because the increment happens after the return of the value
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span> <span class="o">;</span> 
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">++;</span> <span class="c1">// j here is equal to 0 still because the increment happens after the return of the value
 </span><span class="c1">// This means that the old value is kept in a copy.
 </span><span class="c1"></span>
-<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="o">++</span><span class="n">i</span> <span class="p">;</span> <span class="c1">// k here is equal to 2 because it was incremented without a copy
-</span></code></pre></div><p>Therefore, ++i is more efficient to use than i++(of course there are cases where this does not fully apply).</p>
+<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="o">++</span><span class="n">i</span> <span class="o">;</span> <span class="c1">// k here is equal to 2 because it was incremented without a copy
+</span></code></pre></div><p>Therefore, ++i is more efficient to use than i++ (of course there are cases where this does not fully apply).</p>
 
   </article>
   
@@ -194,10 +194,10 @@ Let&rsquo;s take an example for better understanding:</p>
   </p>
   <p>
     (c) 2021 Lamine Abdellaoui |
-    <a href="mailto:mlamine.abdellaoui@aucegypt.edu"
+    <a href="https://codeforces.com/profile/mlamine8"
       ><img 
-        src="https://image.flaticon.com/icons/png/512/2913/2913990.png"
-        style="width: 22px; vertical-align: middle"
+        src="https://codeforces.org/s/81572/images/codeforces-logo-with-telegram.png"
+        style="width: 100px; vertical-align: middle"
         /></a> |
     
     <a href="https://github.com/lamiiine" 
