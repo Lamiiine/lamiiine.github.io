@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shell on Lamine Abdellaoui</title>
+    <link>https://lamiiine.github.io/tags/shell/</link>
+    <description>Recent content in Shell on Lamine Abdellaoui</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 19 Jul 2021 13:48:22 +0100</lastBuildDate>
+    
+	<atom:link href="https://lamiiine.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Save time with these Linux Shell commands</title>
+      <link>https://lamiiine.github.io/posts/save-time-with-these-linux-shell-commands/</link>
+      <pubDate>Mon, 19 Jul 2021 13:48:22 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/save-time-with-these-linux-shell-commands/</guid>
+      <description>Here I put the list of Linux shell commands I use frequently and I find efficient and good to know
+sudo !! (or sudo bang bang): A lot of the time, when I copy a command, paste in shell and quickly press Enter, I realize I forgot to write sudo first. No worries, sudo !! rerun the last command with sudo prepended to it.
+Cut a word at a time backwards: Sometimes you want to remove a word backwrods in your command.</description>
+    </item>
+    
+  </channel>
+</rss>
