@@ -6,37 +6,9 @@
     <description>Recent content in Tags on Lamine Abdellaoui</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Jul 2021 13:48:22 +0100</lastBuildDate>
     
 	<atom:link href="https://lamiiine.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Linux</title>
-      <link>https://lamiiine.github.io/tags/linux/</link>
-      <pubDate>Mon, 19 Jul 2021 13:48:22 +0100</pubDate>
-      
-      <guid>https://lamiiine.github.io/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Shell</title>
-      <link>https://lamiiine.github.io/tags/shell/</link>
-      <pubDate>Mon, 19 Jul 2021 13:48:22 +0100</pubDate>
-      
-      <guid>https://lamiiine.github.io/tags/shell/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>C&#43;&#43;</title>
-      <link>https://lamiiine.github.io/tags/c&#43;&#43;/</link>
-      <pubDate>Sat, 10 Jul 2021 17:39:44 +0100</pubDate>
-      
-      <guid>https://lamiiine.github.io/tags/c&#43;&#43;/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>

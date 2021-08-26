@@ -6,10 +6,29 @@
     <description>Recent content on Lamine Abdellaoui</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Jul 2021 13:48:22 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 25 Aug 2021 22:29:34 +0100</lastBuildDate>
     
 	<atom:link href="https://lamiiine.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Turn On &amp; Off Terminal Echoing</title>
+      <link>https://lamiiine.github.io/posts/test/</link>
+      <pubDate>Wed, 25 Aug 2021 22:29:34 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/test/</guid>
+      <description>Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal or building complex user interfaces. Therefore, in this writeup, I will guide you step by step to help you turn on &amp;amp; off Echoing.</description>
+    </item>
+    
+    <item>
+      <title>Turn On &amp; Off Terminal Echoing</title>
+      <link>https://lamiiine.github.io/posts/turn-on-off-terminal-echoing/</link>
+      <pubDate>Wed, 25 Aug 2021 22:29:34 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/turn-on-off-terminal-echoing/</guid>
+      <description>Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal. In this tutorial, I will guide you through the steps to help you enable and disable raw mode.
+Setup: I won’t be using any external libraries so you only need a C compiler and the std library it comes with it.</description>
+    </item>
     
     <item>
       <title>Save time with these Linux Shell commands</title>
@@ -47,7 +66,7 @@ int i = 0 ; int j = i++; // j here is equal to 0 still because the increment hap
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://lamiiine.github.io/about/</guid>
-      <description>This section tells you about what I am currently doing. 6 months into a graduate life, hundreds of jobs applications, hundreds of edited CVs, and oh, hundreds of rejections too. Am I going to quit?! no, launched this personal website for better outreach and visibility. Currently, I am learning Kubernetes, systems programming and data science. Also, working on drafting new blog entries about C++, tech, and topics I find interesting (stay tunned), as well as talking to my machine.</description>
+      <description>Now, 6 months into a graduate life, hundreds of jobs applications, hundreds of edited CVs, and oh, hundreds of rejections too. Am I going to quit?! no, launched this personal website for better outreach and visibility. Currently, I am learning Kubernetes, systems programming and data science. Also, working on drafting new blog entries about C++, tech, and topics I find interesting (stay tunned), as well as talking to my machine.</description>
     </item>
     
     <item>
@@ -56,7 +75,8 @@ int i = 0 ; int j = i++; // j here is equal to 0 still because the increment hap
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://lamiiine.github.io/now/</guid>
-      <description>This section tells you about what I am currently doing. 6 months into a graduate life, hundreds of jobs applications, hundreds of edited CVs, and oh, hundreds of rejections too. Am I going to quit?! no, launched this personal website for better outreach and visibility. Currently, I am learning Kubernetes, systems programming and data science. Also, working on drafting new blog entries about C++, tech, and topics I find interesting (stay tunned), as well as talking to my machine.</description>
+      <description>Now, 6 months into a graduate life, hundreds of jobs applications, hundreds of edited CVs, and oh, hundreds of rejections too. Am I going to quit?! no, I built this personal website for better outreach and visibility. Currently, I am learning Kubernetes, systems programming and data science. Also, working on drafting new blog entries about C++, tech, and topics I find interesting (stay tunned).
+I am open to kick start my career in tech.</description>
     </item>
     
     <item>
@@ -67,7 +87,7 @@ int i = 0 ; int j = i++; // j here is equal to 0 still because the increment hap
       <guid>https://lamiiine.github.io/projects/</guid>
       <description>Here you can find a list of my projects:
 amazon_track A python script that uses web scraping to track an Amazon product&amp;rsquo;s price and email the customer in case the price has gone below the threshold he/she/they set.
- amazon_track
+ Source : amazon_track
  </description>
     </item>
     

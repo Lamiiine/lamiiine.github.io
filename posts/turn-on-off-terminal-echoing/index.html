@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html><head>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+  <meta name="generator" content="Hugo 0.60.0" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
+  <base href="/" />
+  <meta
+    name="description"
+    content="I write about stuff"
+  />
+  	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+  <meta name="author" content="Lamine Abdellaoui" />
+  
+  
+  <title>Lamine Abdellaoui | Turn On &amp; Off Terminal Echoing</title>
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Turn On &amp; Off Terminal Echoing"/>
+<meta name="twitter:description" content="Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal. In this tutorial, I will guide you through the steps to help you enable and disable raw mode.
+Setup: I won’t be using any external libraries so you only need a C compiler and the std library it comes with it."/>
+
+  <meta property="og:title" content="Turn On &amp; Off Terminal Echoing" />
+<meta property="og:description" content="Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal. In this tutorial, I will guide you through the steps to help you enable and disable raw mode.
+Setup: I won’t be using any external libraries so you only need a C compiler and the std library it comes with it." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lamiiine.github.io/posts/turn-on-off-terminal-echoing/" />
+<meta property="article:published_time" content="2021-08-25T22:29:34+01:00" />
+<meta property="article:modified_time" content="2021-08-25T22:29:34+01:00" /><meta property="og:site_name" content="Lamine Abdellaoui" />
+
+
+  <link rel="canonical" href="" />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    href=""
+    
+    title="Lamine Abdellaoui"
+  />
+  
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="syntax.css" />
+  <link rel="shortcut icon" href="" />
+   
+</head>
+<body><header id="nav">
+<head>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-202284868-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-202284868-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+  <h1 style="font-size: 2em">
+    <a href="/" style="text-decoration: none"
+      >Lamine Abdellaoui</a
+    >
+  </h1>
+  <div>
+    
+
+    <a href="/">
+      
+      Home</a
+    >
+    /
+    
+
+    <a href="/posts/">
+      
+      Blog</a
+    >
+    /
+    
+
+    <a href="/projects/">
+      
+      Projects</a
+    >
+    /
+    
+
+    <a href="/resources/">
+      
+      Resources</a
+    >
+    /
+    
+
+    <a href="/resume/">
+      
+      Resume</a
+    >
+    /
+    
+
+    <a href="/now/">
+      
+      Now</a
+    >
+    /
+    
+
+    <a href="/contact/">
+      
+      Contact</a
+    >
+    /
+    
+
+  </div>
+</header>
+<div id="content">
+      
+
+<section id="content">
+  <article>
+    <header>
+      <h1 id="title">Turn On &amp; Off Terminal Echoing</h1>
+      
+      <p id="date">
+        <time>
+          
+
+          
+
+          Aug 25, 2021
+        </time>
+      </p>
+      
+    </header>
+
+    <p>Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal. In this tutorial, I will guide you through the steps to help you enable and disable raw mode.</p>
+<p>Setup:
+I won’t be using any external libraries so you only need a C compiler and the std library it comes with it. I will also be using the make program(this is not necessary, so don’t worry if you don’t have it).
+Check if you have a C compiler installed on your machine, type the following into you command line cc &ndash;version (cc stands for C Compiler). Also, if you want to check whether make is installed, type the following: make &ndash;version.</p>
+<p>Turning off Echoing or canonical mode:
+By default, the terminal is set to run on canonical mode or cooked mode which reflects to the terminal every key press. I will be showing you how to turn-off &amp; On echoing:</p>
+<p>Turn Off Echoing:
+I will be using &lt;termios.h&gt;, which is the UNIX API for terminal.</p>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;termios.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="kt">void</span> <span class="nf">turnOffEcho</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="nc">termios</span> <span class="n">raw</span><span class="p">;</span>
+    <span class="n">tcgetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+    <span class="n">raw</span><span class="p">.</span><span class="n">c_lflag</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">ECHO</span><span class="p">);</span>
+    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">turnOffEcho</span><span class="p">();</span>
+
+    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">!=</span> <span class="sc">&#39;q&#39;</span><span class="p">)</span>
+        <span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>tcgeattr(): it helps read terminal attributes to a struct. (<a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcgetattr.html">https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcgetattr.html</a>)
+c_Iflag(): an interger local flag used to control terminal functions<br>
+ECHO: is flag defined as 4 bytes (32bits)
+tcsetattr(): it helps apply the changes to the terminal. (<a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcsetattr.html">https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcsetattr.html</a>)
+TCSAFLUSH: it waits for all the output to be written to terminal to apply the changes. (<a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcflush.html">https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcflush.html</a>)</p>
+<p>Run the program:
+Go to the folder where the c file is located
+Run the terminal
+Type cc fileName.c -o fileName
+If no errors occur, an executable with fileName is produced. If so, type ./fileName
+You can type in the terminal and see raw mode in effect. To quit, you can type q then enter and this will disregard any input after the q.</p>
+<p>Turn On Echoing:
+To turn things back into normal. We need to adjust the code so it turns on Echo as soon as we quit.
+To do so, we need to adjust the above code accordingly.</p>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;termios.h&gt;</span><span class="cp">
+</span><span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp"></span><span class="k">struct</span> <span class="nc">termios</span> <span class="n">orig_termios</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">turnOnEcho</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">orig_termios</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">turnOffEcho</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">tcgetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">orig_termios</span><span class="p">);</span>
+    <span class="n">atexit</span><span class="p">(</span><span class="n">turnOnEcho</span><span class="p">);</span>
+    <span class="k">struct</span> <span class="nc">termios</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">orig_termios</span><span class="p">;</span>
+    <span class="n">raw</span><span class="p">.</span><span class="n">c_lflag</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">ECHO</span><span class="p">);</span>
+    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">turnOffEcho</span><span class="p">();</span>
+    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">!=</span> <span class="sc">&#39;q&#39;</span><span class="p">)</span>
+        <span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>We first create a global struct variable orig_termios to save the terminal’s original attributes and apply the changes to struct raw.</p>
+<p>atexit(): a function that takes a function argument to be called when the program is terminated. (<a href="https://man7.org/linux/man-pages/man3/atexit.3.html">https://man7.org/linux/man-pages/man3/atexit.3.html</a>)</p>
+<p>Now you can compile this program and run it again to see the changes applied.</p>
+<p>Bonus:
+If you get tired of having to write the command line to compile your program, you can save time and use make instead. How?</p>
+<p>Create a Makefile using the terminal in the same folder of your c file.
+Copy the following into the terminal:
+fileName: fileName.c
+$(CC) fileName.c -o fileName -Wall -Wextra -pedantic -std=c99
+fileName is what we are looking to build and it needs fileName.c to do so.
+(CC) a variable which translates exactly to cc (c compiler)</p>
+<p>-Wall -Eextra and -pendantic returns warnings and std=c99 tells the machine which C language std we are using.
+Save the file then run make using terminal and your program will compile if no errors occur.</p>
+
+  </article>
+  
+
+</section>
+
+  
+    </div><footer>
+  <hr />
+  <p>
+    A tech passionate, looking to embark my first professional experience post graduation.
+  </p>
+  <p>
+    (c) 2021 Lamine Abdellaoui |
+    <a href="https://codeforces.com/profile/mlamine8"
+      ><img 
+        src="https://codeforces.org/s/81572/images/codeforces-logo-with-telegram.png"
+        style="width: 100px; vertical-align: middle"
+        /></a> |
+    
+    <a href="https://github.com/lamiiine" 
+      ><img 
+       src="https://image.flaticon.com/icons/png/512/733/733609.png"
+       style="width: 20px; vertical-align: middle"
+       /></a> |
+    <a href="https://twitter.com/Lamiiiiiine"
+      ><img
+        src="https://image.flaticon.com/icons/png/512/179/179342.png"
+        style="width: 22px; vertical-align: middle"
+    /></a>
+  </p>
+  <p>
+    <a href="http://www.catb.org/hacker-emblem/"
+      ><img
+        src="https://image.flaticon.com/icons/png/512/2157/2157626.png"
+        alt="hacker
+               emblem"
+        title="hacker emblem"
+        style="width: 22px; display: inline"
+    /></a>
+  </p>
+</footer>
+</body>
+</html>

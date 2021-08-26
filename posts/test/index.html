@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html><head>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+  <meta name="generator" content="Hugo 0.60.0" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="no-referrer" />
+  <base href="/" />
+  <meta
+    name="description"
+    content="I write about stuff"
+  />
+  	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+  <meta name="author" content="Lamine Abdellaoui" />
+  
+  
+  <title>Lamine Abdellaoui | Turn On &amp; Off Terminal Echoing</title>
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Turn On &amp; Off Terminal Echoing"/>
+<meta name="twitter:description" content="Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal or building complex user interfaces. Therefore, in this writeup, I will guide you step by step to help you turn on &amp; off Echoing."/>
+
+  <meta property="og:title" content="Turn On &amp; Off Terminal Echoing" />
+<meta property="og:description" content="Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal or building complex user interfaces. Therefore, in this writeup, I will guide you step by step to help you turn on &amp; off Echoing." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lamiiine.github.io/posts/test/" />
+<meta property="article:published_time" content="2021-08-25T22:29:34+01:00" />
+<meta property="article:modified_time" content="2021-08-25T22:29:34+01:00" /><meta property="og:site_name" content="Lamine Abdellaoui" />
+
+
+  <link rel="canonical" href="" />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    href=""
+    
+    title="Lamine Abdellaoui"
+  />
+  
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="syntax.css" />
+  <link rel="shortcut icon" href="" />
+   
+</head>
+<body><header id="nav">
+<head>
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-202284868-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-202284868-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+  <h1 style="font-size: 2em">
+    <a href="/" style="text-decoration: none"
+      >Lamine Abdellaoui</a
+    >
+  </h1>
+  <div>
+    
+
+    <a href="/">
+      
+      Home</a
+    >
+    /
+    
+
+    <a href="/posts/">
+      
+      Blog</a
+    >
+    /
+    
+
+    <a href="/projects/">
+      
+      Projects</a
+    >
+    /
+    
+
+    <a href="/resources/">
+      
+      Resources</a
+    >
+    /
+    
+
+    <a href="/resume/">
+      
+      Resume</a
+    >
+    /
+    
+
+    <a href="/now/">
+      
+      Now</a
+    >
+    /
+    
+
+    <a href="/contact/">
+      
+      Contact</a
+    >
+    /
+    
+
+  </div>
+</header>
+<div id="content">
+      
+
+<section id="content">
+  <article>
+    <header>
+      <h1 id="title">Turn On &amp; Off Terminal Echoing</h1>
+      
+      <p id="date">
+        <time>
+          
+
+          
+
+          Aug 25, 2021
+        </time>
+      </p>
+      
+    </header>
+
+    <p><img src="/images/echo.png" alt=""></p>
+<p><a href="https://www.geeksforgeeks.org/echo-command-in-linux-with-examples/"><strong>Echo</strong></a> is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal or building complex user interfaces.
+Therefore, in this writeup, I will guide you step by step to help you turn on &amp; off Echoing.</p>
+<h2 id="setup">Setup:</h2>
+<p>I won’t be using any external libraries so you only need a C compiler and the std library it comes with it. I will also be using the make program(this is not necessary, so don’t worry if you don’t have it installed).<br>
+First, check if you have a C compiler installed on your machine by typing the following into you command line</p>
+<blockquote>
+<blockquote>
+<p><strong>cc &ndash;version</strong></p>
+</blockquote>
+</blockquote>
+<p>(cc stands for C Compiler).
+And to check if make is installed, type the following:</p>
+<blockquote>
+<blockquote>
+<p><strong>make &ndash;version</strong></p>
+</blockquote>
+</blockquote>
+<h2 id="turning-off-echoing-or-canonical-mode">Turning off Echoing or canonical mode:</h2>
+<p>By default, the terminal is set to run on canonical mode or cooked mode which reflects to the terminal every key press. I will be showing you how to turn-off &amp; On echoing:<br>
+I will be using <strong>&lt;termios.h&gt;</strong>, which is the UNIX API for the terminal.</p>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">	<span class="cp">#include</span> <span class="cpf">&lt;termios.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="kt">void</span> <span class="nf">turnOffEcho</span><span class="p">()</span>
+	<span class="p">{</span>
+	    <span class="k">struct</span> <span class="nc">termios</span> <span class="n">raw</span><span class="p">;</span>
+	    <span class="n">tcgetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+	    <span class="n">raw</span><span class="p">.</span><span class="n">c_lflag</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">ECHO</span><span class="p">);</span>
+	    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+	<span class="p">{</span>
+	    <span class="n">turnOffEcho</span><span class="p">();</span>
+
+	    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+	    <span class="k">while</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">!=</span> <span class="sc">&#39;q&#39;</span><span class="p">);</span>
+	    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div><p><a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcgetattr.html">tcgeattr()</a>: it helps read terminal attributes to a struct.<br>
+c_Iflag(): an interger local flag used to control terminal functions<br>
+ECHO: is flag defined as 4 bytes (32bits).<br>
+<a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcsetattr.html">tcsetattr()</a>: it helps apply the changes to the terminal.<br>
+<a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcflush.html">TCSAFLUSH</a>: it waits for all the output to be written to terminal to apply the changes.</p>
+<h2 id="running-the-program">Running the program:</h2>
+<ul>
+<li>Go to the folder where the c file is located</li>
+<li>Run the terminal</li>
+<li>Type <strong>cc fileName.c -o fileName</strong></li>
+<li>If no errors occur, an executable with fileName is produced. If so, type ./fileName</li>
+<li>You can test the program by typing in the terminal and see raw mode in effect.</li>
+<li>To quit, you need to type q then enter and this will disregard any input after the q.</li>
+</ul>
+<h2 id="turn-on-echoing">Turn On Echoing:</h2>
+<p>To turn things back into normal. We need to adjust the code so it turns on Echo as soon as we quit. This requires a little adjustment to the code above.</p>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">	<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="cp">#include</span> <span class="cpf">&lt;termios.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="k">struct</span> <span class="nc">termios</span> <span class="n">orig_termios</span><span class="p">;</span>
+	<span class="kt">void</span> <span class="nf">turnOnEcho</span><span class="p">()</span> <span class="p">{</span>
+	    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">orig_termios</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="kt">void</span> <span class="nf">turnOffEcho</span><span class="p">()</span> <span class="p">{</span>
+	    <span class="n">tcgetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">orig_termios</span><span class="p">);</span>
+	    <span class="n">atexit</span><span class="p">(</span><span class="n">turnOnEcho</span><span class="p">);</span>
+	    
+	    <span class="k">struct</span> <span class="nc">termios</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">orig_termios</span><span class="p">;</span>
+	    <span class="n">raw</span><span class="p">.</span><span class="n">c_lflag</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">ECHO</span><span class="p">);</span>
+	    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	    <span class="n">turnOffEcho</span><span class="p">();</span>
+	    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+	    <span class="k">while</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">!=</span> <span class="sc">&#39;q&#39;</span><span class="p">)</span>
+		<span class="p">;</span>
+	    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div><p>We first create a global struct variable <strong>orig_termios</strong> to save the terminal’s original attributes and apply the changes to struct raw.</p>
+<p><a href="https://man7.org/linux/man-pages/man3/atexit.3.html">atexit()</a>: a function that takes a function argument to be called when the program is terminated.</p>
+<p>Now you can compile this program and run it again to see the changes applied.</p>
+<h2 id="bonus">Bonus:</h2>
+<p>If you get tired of having to write <strong>cc fileName.c -o fileName</strong> every time you want to compile your code, you can save time and use make instead. How?</p>
+<ol>
+<li>Create a Makefile using the terminal in the same folder of your c file.</li>
+<li>Copy the following into the terminal:
+<strong>fileName: fileName.c</strong>
+<strong>$(CC) fileName.c -o fileName -Wall -Wextra -pedantic -std=c99</strong></li>
+<li>Type <strong>make</strong> into the terminal then hit <strong>enter</strong>.</li>
+<li>If no errors occur, type <strong>./fileName</strong> to run your program.</li>
+</ol>
+<p><strong>fileName</strong> is what we are looking to build and it needs <strong>fileName.c</strong> to do so.<br>
+<strong>(CC)</strong> a variable which translates exactly to cc (c compiler).<br>
+<strong>-Wall -Wextra and -pendantic</strong> returns warnings and <strong>std=c99</strong> tells the machine which C language std we are using.</p>
+<p>This tutorial is inspired from <a href="https://github.com/snaptoken">Snaptoken</a> tutorials.</p>
+
+  </article>
+  
+
+</section>
+
+  
+    </div><footer>
+  <hr />
+  <p>
+    A tech passionate, looking to embark my first professional experience post graduation.
+  </p>
+  <p>
+    (c) 2021 Lamine Abdellaoui |
+    <a href="https://codeforces.com/profile/mlamine8"
+      ><img 
+        src="https://codeforces.org/s/81572/images/codeforces-logo-with-telegram.png"
+        style="width: 100px; vertical-align: middle"
+        /></a> |
+    
+    <a href="https://github.com/lamiiine" 
+      ><img 
+       src="https://image.flaticon.com/icons/png/512/733/733609.png"
+       style="width: 20px; vertical-align: middle"
+       /></a> |
+    <a href="https://twitter.com/Lamiiiiiine"
+      ><img
+        src="https://image.flaticon.com/icons/png/512/179/179342.png"
+        style="width: 22px; vertical-align: middle"
+    /></a>
+  </p>
+  <p>
+    <a href="http://www.catb.org/hacker-emblem/"
+      ><img
+        src="https://image.flaticon.com/icons/png/512/2157/2157626.png"
+        alt="hacker
+               emblem"
+        title="hacker emblem"
+        style="width: 22px; display: inline"
+    /></a>
+  </p>
+</footer>
+</body>
+</html>

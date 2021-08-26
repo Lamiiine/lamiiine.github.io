@@ -6,10 +6,29 @@
     <description>Recent content in Posts on Lamine Abdellaoui</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Jul 2021 13:48:22 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 25 Aug 2021 22:29:34 +0100</lastBuildDate>
     
 	<atom:link href="https://lamiiine.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Turn On &amp; Off Terminal Echoing</title>
+      <link>https://lamiiine.github.io/posts/test/</link>
+      <pubDate>Wed, 25 Aug 2021 22:29:34 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/test/</guid>
+      <description>Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal or building complex user interfaces. Therefore, in this writeup, I will guide you step by step to help you turn on &amp;amp; off Echoing.</description>
+    </item>
+    
+    <item>
+      <title>Turn On &amp; Off Terminal Echoing</title>
+      <link>https://lamiiine.github.io/posts/turn-on-off-terminal-echoing/</link>
+      <pubDate>Wed, 25 Aug 2021 22:29:34 +0100</pubDate>
+      
+      <guid>https://lamiiine.github.io/posts/turn-on-off-terminal-echoing/</guid>
+      <description>Echo is a feature that outputs any key pressed to the terminal and allows you to see what you are typing.Usually, this is useful in canonical mode; However, it could be a hassle if you are trying to hide the characters you are typing in the terminal. In this tutorial, I will guide you through the steps to help you enable and disable raw mode.
+Setup: I won’t be using any external libraries so you only need a C compiler and the std library it comes with it.</description>
+    </item>
     
     <item>
       <title>Save time with these Linux Shell commands</title>
