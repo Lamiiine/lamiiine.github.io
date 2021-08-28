@@ -168,38 +168,40 @@ if (!doNotTrack) {
 <p>A lot of the time, when I copy a command, paste in shell and quickly press Enter, I realize I forgot to write sudo first. No worries, sudo !! rerun the last command with sudo prepended to it.</p>
 <h2 id="cut-a-word-at-a-time-backwards">Cut a word at a time backwards:</h2>
 <p>Sometimes you want to remove a word backwrods in your command.<strong>Ctrl + w</strong> will do the work for you.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort <span class="p">|</span> xargs 
-</code></pre></div><blockquote>
+<pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span> <span style='color:#308080; '>|</span> xargs 
+</pre>
+<blockquote>
 <p><strong>Ctrl + w</strong> right after <strong>xargs</strong> gives:</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort <span class="p">|</span> 
-</code></pre></div><blockquote>
+<pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span> <span style='color:#308080; '>|</span> 
+</pre>
+<blockquote>
 <p>Type <strong>Ctrl + w</strong> again gives:</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort
-</code></pre></div><h2 id="cut-to-the-end-of--a-line">Cut to the end of  a line:</h2>
+<pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span>
+</pre><h2 id="cut-to-the-end-of--a-line">Cut to the end of  a line:</h2>
 <p>If you are trying to eliminate/Cut an argument in your command, simply type <strong>Ctrl + k</strong>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort <span class="p">|</span> xargs 
-</code></pre></div><blockquote>
+<pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span> <span style='color:#308080; '>|</span> xargs 
+</pre><blockquote>
 <p><strong>Ctrl + k</strong> right after <strong>sort</strong> gives:</p>
-</blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort 
-</code></pre></div><h2 id="cut-to-the-beginning-of-the-line">Cut to the beginning of the line:</h2>
+</blockquote><pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span> 
+</pre><h2 id="cut-to-the-beginning-of-the-line">Cut to the beginning of the line:</h2>
 <p>This is the inverse of cutting to the end of the line. That is if you want to cut a command to the beginning of the line you simply type <strong>Ctrl + u</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort  <span class="p">|</span> xargs
-</code></pre></div><blockquote>
+<pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span>  <span style='color:#308080; '>|</span> xargs
+</pre>
+<blockquote>
 <p><!-- raw HTML omitted -->Ctrl<!-- raw HTML omitted --> + <!-- raw HTML omitted -->u<!-- raw HTML omitted --> before <strong>sort</strong> gives:</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sort  <span class="p">|</span> xargs
-</code></pre></div><h2 id="paste-back-the-removedcut-line">Paste back the removed/cut line:</h2>
+<pre style='color:#000020;background:#f6f8ff;'>$ <span style='color:#003060; '>sort</span>  <span style='color:#308080; '>|</span> xargs
+</pre><h2 id="paste-back-the-removedcut-line">Paste back the removed/cut line:</h2>
 <p>If you are trying to paste back the line you removed whether to the beginning of the line or to the end of it, you simply type <strong>Ctrl + y</strong> which returns the last thing you cut.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort 
-</code></pre></div><blockquote>
+<pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span> 
+</pre><blockquote>
+
 <p><strong>Ctrl+ y</strong> right after <strong>sort</strong> gives:</p>
 </blockquote>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">$cut</span> -d: -f1 &lt; /etc/passwd <span class="p">|</span> sort  <span class="p">|</span> xargs
-</code></pre></div>
-  </article>
+<pre style='color:#000020;background:#f6f8ff;'>$cut <span style='color:#308080; '>-</span>d<span style='color:#406080; '>:</span> <span style='color:#308080; '>-</span>f1 <span style='color:#308080; '>&lt;</span> <span style='color:#308080; '>/</span>etc<span style='color:#308080; '>/</span>passwd <span style='color:#308080; '>|</span> <span style='color:#003060; '>sort</span>  <span style='color:#308080; '>|</span> xargs
+</pre>  </article>
   
 
 </section>
