@@ -163,13 +163,11 @@ if (!doNotTrack) {
 
     <p>When I first started using C++, almost all sources use <strong>i++</strong> inside a for-loop, until one day, I saw a loop with <strong>++i</strong> and decided  to investigate the differences between the two in terms of efficiency. Therefore, I am here to discuss what I found.
 Let&rsquo;s take an example for better understanding:</p>
-<pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>int</span> i <span style='color:#308080; '>=</span> <span style='color:#008c00; '>0</span> <span style='color:#406080; '>;</span> 
-<span style='color:#200080; font-weight:bold; '>int</span> j <span style='color:#308080; '>=</span> i<span style='color:#308080; '>+</span><span style='color:#308080; '>+</span><span style='color:#406080; '>;</span> <span style='color:#595979; '>// j here is equal to 0 still because the increment happens after the return of the value</span>
-<span style='color:#595979; '>// This means that the old value is kept in a copy.</span>
-
-<span style='color:#200080; font-weight:bold; '>int</span> k <span style='color:#308080; '>=</span> <span style='color:#308080; '>+</span><span style='color:#308080; '>+</span>i <span style='color:#406080; '>;</span> <span style='color:#595979; '>// k here is equal to 2 because it was incremented without a copy</span>
-</pre>
-
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span> <span class="o">;</span> 
+<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">++;</span> <span class="c1">// j here is equal to 0 still because the increment happens after the return of the value
+</span><span class="c1">// This means that the old value is kept in a copy.
+</span><span class="c1"></span>
+<span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="o">++</span><span class="n">i</span> <span class="o">;</span> <span class="c1">// k here is equal to 2 because it was incremented without a copy
 </span></code></pre></div><p>Therefore, ++i is more efficient to use than i++ (of course there are cases where this does not fully apply, cases where the compiler optimizes the process).</p>
 
   </article>
@@ -181,7 +179,7 @@ Let&rsquo;s take an example for better understanding:</p>
     </div><footer>
   <hr />
   <p>
-    A tech passionate, looking to embark my first professional experience post graduation.
+    A tech passionate, chess & sudoku player, aspiring to understand & solve intelligence.
   </p>
   <p>
     (c) 2021 Lamine Abdellaoui |

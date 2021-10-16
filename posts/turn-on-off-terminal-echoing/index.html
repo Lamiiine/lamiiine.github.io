@@ -165,36 +165,40 @@ Therefore, in this writeup, I will guide you step by step to help you turn on &a
 <h2 id="setup">Setup:</h2>
 <p>I won’t be using any external libraries so you only need a C compiler and the std library it comes with it. I will also be using the make program(this is not necessary, so don’t worry if you don’t have it installed).<br>
 First, check if you have a C compiler installed on your machine by typing the following into you command line</p>
-<pre style='color:#000020;background:#f6f8ff;'>  cc <span style='color:#308080; '>-</span><span style='color:#308080; '>-</span>version
-</pre>
+<blockquote>
+<blockquote>
+<p><strong>cc &ndash;version</strong></p>
+</blockquote>
+</blockquote>
 <p>(cc stands for C Compiler).
 And to check if make is installed, type the following:</p>
-<pre style='color:#000020;background:#f6f8ff;'>  make <span style='color:#308080; '>-</span><span style='color:#308080; '>-</span>version
-</pre>
+<blockquote>
+<blockquote>
+<p><strong>make &ndash;version</strong></p>
+</blockquote>
+</blockquote>
 <h2 id="turning-off-echoing-or-canonical-mode">Turning off Echoing or canonical mode:</h2>
 <p>By default, the terminal is set to run on canonical mode or cooked mode which reflects to the terminal every key press. I will be showing you how to turn-off &amp; On echoing:<br>
 I will be using <strong>&lt;termios.h&gt;</strong>, which is the UNIX API for the terminal.</p>
-<pre style='color:#000020;background:#f6f8ff;'><span style='color:#004a43; '>#</span><span style='color:#004a43; '>include </span><span style='color:#800000; '>&lt;</span><span style='color:#40015a; '>termios.h</span><span style='color:#800000; '>></span>
-<span style='color:#004a43; '>#</span><span style='color:#004a43; '>include </span><span style='color:#800000; '>&lt;</span><span style='color:#40015a; '>unistd.h</span><span style='color:#800000; '>></span>
-<span style='color:#200080; font-weight:bold; '>void</span> turnOffEcho<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span>
-<span style='color:#406080; '>{</span>
-    <span style='color:#200080; font-weight:bold; '>struct</span> termios raw<span style='color:#406080; '>;</span>
-    tcgetattr<span style='color:#308080; '>(</span>STDIN_FILENO<span style='color:#308080; '>,</span> <span style='color:#308080; '>&amp;</span>raw<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-    raw<span style='color:#308080; '>.</span>c_lflag <span style='color:#308080; '>&amp;</span><span style='color:#308080; '>=</span> <span style='color:#308080; '>~</span><span style='color:#308080; '>(</span>ECHO<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-    tcsetattr<span style='color:#308080; '>(</span>STDIN_FILENO<span style='color:#308080; '>,</span> TCSAFLUSH<span style='color:#308080; '>,</span> <span style='color:#308080; '>&amp;</span>raw<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-<span style='color:#406080; '>}</span>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">	<span class="cp">#include</span> <span class="cpf">&lt;termios.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="kt">void</span> <span class="nf">turnOffEcho</span><span class="p">()</span>
+	<span class="p">{</span>
+	    <span class="k">struct</span> <span class="nc">termios</span> <span class="n">raw</span><span class="p">;</span>
+	    <span class="n">tcgetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+	    <span class="n">raw</span><span class="p">.</span><span class="n">c_lflag</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">ECHO</span><span class="p">);</span>
+	    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+	<span class="p">}</span>
 
-<span style='color:#200080; font-weight:bold; '>int</span> <span style='color:#400000; '>main</span><span style='color:#308080; '>(</span><span style='color:#308080; '>)</span>
-<span style='color:#406080; '>{</span>
-    turnOffEcho<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+	<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+	<span class="p">{</span>
+	    <span class="n">turnOffEcho</span><span class="p">();</span>
 
-    <span style='color:#200080; font-weight:bold; '>char</span> c<span style='color:#406080; '>;</span>
-    <span style='color:#200080; font-weight:bold; '>while</span> <span style='color:#308080; '>(</span>read<span style='color:#308080; '>(</span>STDIN_FILENO<span style='color:#308080; '>,</span> <span style='color:#308080; '>&amp;</span>c<span style='color:#308080; '>,</span> <span style='color:#008c00; '>1</span><span style='color:#308080; '>)</span> <span style='color:#308080; '>=</span><span style='color:#308080; '>=</span> <span style='color:#008c00; '>1</span> <span style='color:#308080; '>&amp;</span><span style='color:#308080; '>&amp;</span> c <span style='color:#308080; '>!</span><span style='color:#308080; '>=</span> <span style='color:#1060b6; '>'q'</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-
-    <span style='color:#200080; font-weight:bold; '>return</span> <span style='color:#008c00; '>0</span><span style='color:#406080; '>;</span>
-<span style='color:#406080; '>}</span>
-</pre>
-<!--Created using ToHtml.com on 2021-08-28 16:09:51 UTC --><p><a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcgetattr.html">tcgeattr()</a>: it helps read terminal attributes to a struct.<br>
+	    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+	    <span class="k">while</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">!=</span> <span class="sc">&#39;q&#39;</span><span class="p">);</span>
+	    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div><p><a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcgetattr.html">tcgeattr()</a>: it helps read terminal attributes to a struct.<br>
 c_Iflag(): an interger local flag used to control terminal functions<br>
 ECHO: is flag defined as 4 bytes (32bits).<br>
 <a href="https://pubs.opengroup.org/onlinepubs/7908799/xsh/tcsetattr.html">tcsetattr()</a>: it helps apply the changes to the terminal.<br>
@@ -209,28 +213,31 @@ ECHO: is flag defined as 4 bytes (32bits).<br>
 <li>To quit, you need to type q then enter and this will disregard any input after the q.</li>
 </ul>
 <h2 id="turn-on-echoing">Turn On Echoing:</h2>
-<p>To turn things back into normal. We need to adjust the code so it turns on Echo as soon as we quit. This requires a little adjustment to the code above.</p><pre style='color:#000020;background:#f6f8ff;'><span style='color:#004a43; '>#</span><span style='color:#004a43; '>include </span><span style='color:#800000; '>&lt;</span><span style='color:#40015a; '>stdlib.h</span><span style='color:#800000; '>></span>
-<span style='color:#004a43; '>#</span><span style='color:#004a43; '>include </span><span style='color:#800000; '>&lt;</span><span style='color:#40015a; '>termios.h</span><span style='color:#800000; '>></span>
-<span style='color:#004a43; '>#</span><span style='color:#004a43; '>include </span><span style='color:#800000; '>&lt;</span><span style='color:#40015a; '>unistd.h</span><span style='color:#800000; '>></span>
-<span style='color:#200080; font-weight:bold; '>struct</span> termios orig_termios<span style='color:#406080; '>;</span>
-<span style='color:#200080; font-weight:bold; '>void</span> turnOnEcho<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span> <span style='color:#406080; '>{</span>
-    tcsetattr<span style='color:#308080; '>(</span>STDIN_FILENO<span style='color:#308080; '>,</span> TCSAFLUSH<span style='color:#308080; '>,</span> <span style='color:#308080; '>&amp;</span>orig_termios<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-<span style='color:#406080; '>}</span>
-<span style='color:#200080; font-weight:bold; '>void</span> turnOffEcho<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span> <span style='color:#406080; '>{</span>
-    tcgetattr<span style='color:#308080; '>(</span>STDIN_FILENO<span style='color:#308080; '>,</span> <span style='color:#308080; '>&amp;</span>orig_termios<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-    <span style='color:#003060; '>atexit</span><span style='color:#308080; '>(</span>turnOnEcho<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-    <span style='color:#200080; font-weight:bold; '>struct</span> termios raw <span style='color:#308080; '>=</span> orig_termios<span style='color:#406080; '>;</span>
-    raw<span style='color:#308080; '>.</span>c_lflag <span style='color:#308080; '>&amp;</span><span style='color:#308080; '>=</span> <span style='color:#308080; '>~</span><span style='color:#308080; '>(</span>ECHO<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-    tcsetattr<span style='color:#308080; '>(</span>STDIN_FILENO<span style='color:#308080; '>,</span> TCSAFLUSH<span style='color:#308080; '>,</span> <span style='color:#308080; '>&amp;</span>raw<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-<span style='color:#406080; '>}</span>
-<span style='color:#200080; font-weight:bold; '>int</span> <span style='color:#400000; '>main</span><span style='color:#308080; '>(</span><span style='color:#308080; '>)</span> <span style='color:#406080; '>{</span>
-    turnOffEcho<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-    <span style='color:#200080; font-weight:bold; '>char</span> c<span style='color:#406080; '>;</span>
-    <span style='color:#200080; font-weight:bold; '>while</span> <span style='color:#308080; '>(</span>read<span style='color:#308080; '>(</span>STDIN_FILENO<span style='color:#308080; '>,</span> <span style='color:#308080; '>&amp;</span>c<span style='color:#308080; '>,</span> <span style='color:#008c00; '>1</span><span style='color:#308080; '>)</span> <span style='color:#308080; '>=</span><span style='color:#308080; '>=</span> <span style='color:#008c00; '>1</span> <span style='color:#308080; '>&amp;</span><span style='color:#308080; '>&amp;</span> c <span style='color:#308080; '>!</span><span style='color:#308080; '>=</span> <span style='color:#1060b6; '>'q'</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
-    <span style='color:#200080; font-weight:bold; '>return</span> <span style='color:#008c00; '>0</span><span style='color:#406080; '>;</span>
-<span style='color:#406080; '>}</span>
-</pre>
-<!--Created using ToHtml.com on 2021-08-28 16:08:01 UTC --><p>We first create a global struct variable <strong>orig_termios</strong> to save the terminal’s original attributes and apply the changes to struct raw.</p>
+<p>To turn things back into normal. We need to adjust the code so it turns on Echo as soon as we quit. This requires a little adjustment to the code above.</p>
+<div class="highlight"><pre class="chroma"><code class="language-cpp" data-lang="cpp">	<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="cp">#include</span> <span class="cpf">&lt;termios.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="cp">#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span><span class="cp"></span>	<span class="k">struct</span> <span class="nc">termios</span> <span class="n">orig_termios</span><span class="p">;</span>
+	<span class="kt">void</span> <span class="nf">turnOnEcho</span><span class="p">()</span> <span class="p">{</span>
+	    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">orig_termios</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="kt">void</span> <span class="nf">turnOffEcho</span><span class="p">()</span> <span class="p">{</span>
+	    <span class="n">tcgetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">orig_termios</span><span class="p">);</span>
+	    <span class="n">atexit</span><span class="p">(</span><span class="n">turnOnEcho</span><span class="p">);</span>
+	    
+	    <span class="k">struct</span> <span class="nc">termios</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">orig_termios</span><span class="p">;</span>
+	    <span class="n">raw</span><span class="p">.</span><span class="n">c_lflag</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="n">ECHO</span><span class="p">);</span>
+	    <span class="n">tcsetattr</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="n">TCSAFLUSH</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">raw</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	    <span class="n">turnOffEcho</span><span class="p">();</span>
+	    <span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+	    <span class="k">while</span> <span class="p">(</span><span class="n">read</span><span class="p">(</span><span class="n">STDIN_FILENO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">!=</span> <span class="sc">&#39;q&#39;</span><span class="p">)</span>
+		<span class="p">;</span>
+	    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span>
+</code></pre></div><p>We first create a global struct variable <strong>orig_termios</strong> to save the terminal’s original attributes and apply the changes to struct raw.</p>
 <p><a href="https://man7.org/linux/man-pages/man3/atexit.3.html">atexit()</a>: a function that takes a function argument to be called when the program is terminated.</p>
 <p>Now you can compile this program and run it again to see the changes applied.</p>
 <h2 id="bonus">Bonus:</h2>
@@ -257,7 +264,7 @@ ECHO: is flag defined as 4 bytes (32bits).<br>
     </div><footer>
   <hr />
   <p>
-    A tech passionate, looking to embark my first professional experience post graduation.
+    A tech passionate, chess & sudoku player, aspiring to understand & solve intelligence.
   </p>
   <p>
     (c) 2021 Lamine Abdellaoui |
