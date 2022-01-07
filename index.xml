@@ -76,13 +76,9 @@ I am open to kick start my career as a software engineer, site reliability engin
       
       <guid>https://lamiiine.github.io/projects/</guid>
       <description>Here you can find a list of my projects:
-amazon_track A python script that uses web scraping to track an Amazon product&amp;rsquo;s price and email the customer in case the price has gone below the threshold he/she/they set.
- Source : amazon_track
-Stack : Python , BeautifulSoup
- Bootloader A simple bootloader built as part of a course assignment.
- Source: bootloader
-Stack : MIPS, QEMU
- </description>
+Scrape CDC Vaccination data A git-scraping based project to track live vaccination data from the CDC website and push it into a JSON file. The Process is automated using a cron job and github actions.
+ Source : cdc-vaccination-scraped Stack :YAML, Github Actions.
+ amazon_track A python script that uses web scraping to track an Amazon product&amp;rsquo;s price and email the customer in case the price has gone below the threshold he/she/they set.</description>
     </item>
     
     <item>
