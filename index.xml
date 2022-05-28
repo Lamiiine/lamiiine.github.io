@@ -77,11 +77,10 @@ I am open to kick start my career as a software engineer, site reliability engin
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://lamiiine.github.io/projects/</guid>
-      <description>Here you can find a list of my projects:
-Scrape CDC Vaccination data A git-scraping based project to track live vaccination data from the CDC website and push it into a JSON file. The Process is automated using a cron job and github actions.
- Source : cdc-vaccination-scraped
-Stack :YAML, Github Actions.
- amazon_track A python script that uses web scraping to track an Amazon product&amp;rsquo;s price and email the customer in case the price has gone below the threshold they set.</description>
+      <description>A list of projects I have worked on:
+Recognition of Ancient Egyptian Artifacts using a Feature Points Extraction Methodology (Research Paper): We used a Feature Points Extraction Methodology on a dataset (mainly Egyptian Artifacts from the several museums in Cairo) that my team and I gathered, filtered and cleaned ourselves.
+ Publication link
+ Scrape CDC Vaccination data A git-scraping based project to track live vaccination data from the CDC website and push it into a JSON file.</description>
     </item>
     
     <item>
