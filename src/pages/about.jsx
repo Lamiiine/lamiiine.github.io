@@ -43,7 +43,7 @@ const About = () => {
                 src={avatarImage}
                 alt="picture of the author"
                 sizes="(min-width: 1024px) 32rem, 20rem"
-                className="object-cover aspect-square rounded-2xl bg-primaryText-100 dark:bg-primaryText-800"
+                className="object-cover aspect-square sm:rotate-3 rounded-2xl bg-primaryText-100 dark:bg-primaryText-800"
               />
             </div>
           </div>
@@ -59,23 +59,17 @@ const About = () => {
           </div>
           <div className="lg:pl-20">
             <ul role="list">
-              <SocialLink
-                href={siteMetadata.socials.twitter}
-                icon={TwitterIcon}
+            <SocialLink
+                href={`mailto:${siteMetadata.email}`}
+                icon={MailIcon}
+                className="mt-4 border-t border-primaryText-100 dark:border-primaryText-700/40"
               >
-                Follow on Twitter
-              </SocialLink>
-              <SocialLink
-                href={siteMetadata.socials.instagram}
-                icon={InstagramIcon}
-                className="mt-4"
-              >
-                Follow on Instagram
+                {siteMetadata.email}
               </SocialLink>
               <SocialLink
                 href={siteMetadata.socials.github}
                 icon={GitHubIcon}
-                className="mt-4"
+                className="mt-12"
               >
                 Follow on GitHub
               </SocialLink>
@@ -87,12 +81,13 @@ const About = () => {
                 Follow on LinkedIn
               </SocialLink>
               <SocialLink
-                href={`mailto:${siteMetadata.email}`}
-                icon={MailIcon}
-                className="pt-8 mt-8 border-t border-primaryText-100 dark:border-primaryText-700/40"
+                href={siteMetadata.socials.twitter}
+                icon={TwitterIcon}
+                className="mt-4"
+
               >
-                {siteMetadata.email}
-              </SocialLink>
+                Follow on Twitter
+              </SocialLink>          
             </ul>
           </div>
         </div>
