@@ -93,32 +93,31 @@ const siteMetadata = {
   featureSection: {
     title: 'Why Choose Me?',
     description:
-      'I am a full stack developer and I love to build things. I can also make a crappy pizza.',
+      'I am a full stack developer and I love to build things.',
     //TODO also need to update the features array in the FeatureSection component
   },
   experience: {
     title: 'Things I’ve done trying to put my dent in the universe.',
     intro:
-      "I have never delivered pizza before, but I have made it. I don't think you should hire me for my pizza skills, but I'm sure I'm a great developer. I've been coding for a long time, and my mom says I'm pretty good at it.",
-    //TODO also need to update the experience array in the ExperienceSection component. This is because of the icons used.
+      "I am a coder, my mon says I am good at it. I also help people find visa sponsored jobs via my job board",
     education: [
       {
-        schoolName: 'University of British Columbia',
-        degree: 'Bachelor of Kinesiology',
+        schoolName: 'The American University in Cairo - Egypt',
+        degree: 'Computer Science',
         description:
-          'Kinesiology is the study of human movement. It is a multidisciplinary field that draws on knowledge from the biological, physical, and social sciences to understand how people move and function. Kinesiology is a broad field that includes the study of human movement, health, and wellness. It is a multidisciplinary field that draws on knowledge from the biological, physical, and social sciences to understand how people move and function. Kinesiology is a broad field that includes the study of human movement, health, and wellness.',
-        startDate: '2013',
-        endDate: '2017',
+          'Fully funded scholarship with 2% acceptance rate.',
+        startDate: '2016',
+        endDate: '2020',
         typeofDegree: 'Bachelor Degree',
       },
       {
-        schoolName: 'Lighthouse Labs',
-        degree: 'Web Development',
+        schoolName: 'James Madison University - USA',
+        degree: 'Computer Science',
         description:
-          'Lighthouse Labs is a 12-week full-time web development bootcamp.  The program is designed to teach students the skills needed to become a junior web developer.',
-        startDate: '2022',
-        endDate: '2022',
-        typeofDegree: 'Bootcamp',
+          'Merit-based, fully funded scholarship to do a semester abroad',
+        startDate: '2019',
+        endDate: '2019',
+        typeofDegree: 'Semester Abroad',
       },
     ],
   },
