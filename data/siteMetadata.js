@@ -3,7 +3,7 @@ import { RiShoppingBagLine, RiCarLine } from 'react-icons/ri'
 import { IoFastFoodOutline } from 'react-icons/io5'
 
 const siteMetadata = {
-  title: 'Best Nextjs Tailwind Portfolio',
+  title: 'Lamine | Software Engineer ',
   description:
     'This is where you can learn about me and my work. I am a full stack developer and I love to build things.',
   author: 'Lamine Abdellaoui',
