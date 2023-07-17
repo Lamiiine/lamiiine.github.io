@@ -11,7 +11,7 @@ const siteMetadata = {
   authorAbout:
     "Hi, I'm Curtis, a full stack developer. I created this to help my mom create a website for all her crazy business ideas. I hope you like it!",
   authorAboutExtended:
-    "Curtis is a Canadian-born, living in beautify Vancouver, BC. \n \n In his personal life, Curtis is an avid cyclist and health nut. He enjoys making weekly meal preps and running with his dog. When he's not coding, exercising, or cooking, Curtis can be found in various mechanical keyboard enthusiast forums, scoping out his next purchase. I also like eating food, especially pizza.",
+    "Lamine is an Algerian-born, living by the beautiful mediterranean. \n \n In his personal life, Lamine is an avid swimmer, football lover and trying-to-be-good frisbee player. He enjoys long walks, making meal preps.",
   socials: {
     twitter: 'https://twitter.com/Lamiiiiiine',
     github: 'https://github.com/Lamiiine',
@@ -55,7 +55,7 @@ const siteMetadata = {
       href: '/projects',
     },
   ],
-  siteRepo: 'https://github.com/Cwarcup/',
+  siteRepo: 'https://github.com/Lamiiine/',
   offerings: [
     {
       title: 'Pizza Delivery',
