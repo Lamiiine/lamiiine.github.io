@@ -20,7 +20,7 @@ const siteMetadata = {
     facebook: 'https://www.facebook.com/curtiswarcup',
   },
   email: 'mlamine.abdellaoui@aucegypt.edu',
-  phoneNumber: '123-456-7890',
+  phoneNumber: '+213 782036582',
   contactTitle: 'Get in touch',
   contactSubtitle:
     "I am currently working as an ECM consultant. If you want to get in touch, please use the form below.",
@@ -99,7 +99,7 @@ const siteMetadata = {
   experience: {
     title: 'Things I’ve done trying to put my dent in the universe.',
     intro:
-      "I am a coder, my mon says I am good at it. I also help people find visa sponsored jobs via my job board",
+      "I am a coder, my mom says I am good at it. I also help people find visa sponsored jobs via my job board",
     education: [
       {
         schoolName: 'The American University in Cairo - Egypt',
