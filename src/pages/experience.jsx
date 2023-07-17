@@ -6,6 +6,8 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { RiLinksLine } from 'react-icons/ri'
 import siteMetadata from '@/data/siteMetadata'
 import logoApple from '@/images/logos/apple.svg'
+import its from '@/images/logos/its.jpg'
+import rocket from '@/images/logos/rocket.jpg'
 
 // TODO: If you want to include the logo of the company, I suggesting importing the svg from Remix-Design's repo: https://github.com/Remix-Design/RemixIcon/tree/master/icons/Logos
 
@@ -22,7 +24,7 @@ const experiences = [
     ],
     location: 'Algeria',
     link: { url: 'https://relocate-with-us.github.io/', label: 'relocate-with-us' },
-    logo: logoApple,
+    logo: rocket,
   },
   {
     title: 'ECM Consultant',
@@ -35,7 +37,7 @@ const experiences = [
     ],
     location: 'Algeria',
     link: { url: 'https://itsolutions.dz/', label: 'ItSolution' },
-    logo: logoApple,
+    logo: its,
   },
 ]
 
