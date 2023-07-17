@@ -13,28 +13,28 @@ import payByFonieLogo from '@/images/projects/payByFonie.svg'
 // TODO: Add your own projects here. Logo images from https://heroicons.com/
 const projectsData = [
   {
-    title: 'E-commerce Website with TypeScript, React, Redux and Firebase',
-    description: `This is a project that I built while learning React and Redux. It is a fully functional e-commerce website that allows users to sign in with their Google account, add items to their cart, and make payments with Stripe. It is built with TypeScript, React, Redux, Firebase, Stripe, and Tailwind.`,
+    title: 'Job board using HTML, Tailwind & JavaScript',
+    description: `This is a project that I built to help people find visa sponsored jobs. It is a fully functional job board that takes job seekers straight to the company's website and requires no signup or account creation. Same goes to recruiter, which I found they are frustrated with having to create multiple accounts with different ATS. It is built with JavaScrpt, HTML and Tailwind.`,
     logo: ecomLogo,
-    href: 'https://github.com/Cwarcup/ecom-firebase',
+    href: 'https://relocate-with-us.github.io/',
   },
   {
-    title: 'Is this a banana?',
-    description: `Is this a banana? No. Maybe? I don't know. Use this app to find out. I wanted to learn more about machine learning and how to use TensorFlow.js. I explored the TensorFlow.js website and found a pre-trained image classification model called MobileNet. I used this model to classify images of bananas and other objects.`,
+    title: 'Awesome visa sponsored List',
+    description: `Github has the "Awesome List" feature which showcase a list of all sorts of things: projects, programming languages, resources, and more. So, I thought of creating a list of visa sponsored jobs. I am basically scraping my own website and using a githb actions CI flow to automate the process and update the table daily.`,
     logo: bananaLogo,
-    href: 'https://github.com/Cwarcup/wtf_is_this',
+    href: 'https://github.com/Lamiiine/Awesome-daily-list-of-visa-sponsored-jobs',
   },
   {
-    title: 'Supa Snacks',
-    description: `Supa Snacks is a mini-project to learn Supabase and introduce myself to React-Query. It's a simple app that allows you to add snacks to a list, edit and delete from. Users can also change the order of the snacks in the list. It is built using TypeScript, React, React-Query, Supabase and React Router Dom.`,
+    title: 'CDC Vaccination Scraped',
+    description: `This is an educational project. I aim to show how to use Github Actions + Scraping to set CI process. It's buit using Github Actions and a cron job to scrape CDC data that returns a json file`,
     logo: supaSnacksLogo,
-    href: 'https://github.com/Cwarcup/supa-snacks',
+    href: 'https://github.com/Lamiiine/cdc-vaccination-scraped',
   },
   {
-    title: 'PayByFonie',
-    description: `PayByFonie is a play on the app PayByPhone, a parking app that allows you to pay for parking via your phone. PayByFonie is a similar app, but allows you to search a destination and view parking meter data near that location. Users can search a location using the MapBox API, view the price and time limit of parking meters near that location, and obtain the PayByPhone meter number to pay for that meter. The app was built using React, and Node.js.`,
+    title: 'AmazonTrack',
+    description: `AmazonTrack is a basic python app that attempts to scrape Amazon main site, track a certain product, and send a notification if the price goes below a certain predefined limit`,
     logo: payByFonieLogo,
-    href: 'https://github.com/Cwarcup/free-parking-mapper',
+    href: 'https://github.com/Lamiiine/amazon_track',
   },
 ]
 
