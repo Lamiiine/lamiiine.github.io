@@ -9,7 +9,7 @@ const siteMetadata = {
   author: 'Lamine Abdellaoui',
   authorHeadline: 'Sotfware Engineer, ECM consultant and I help people find visa sponsored jobs',
   authorAbout:
-    "Hi, I'm Curtis, a full stack developer. I created this to help my mom create a website for all her crazy business ideas. I hope you like it!",
+    "Hi, I'm Lamine, a full stack developer & ECM Consultant. I created this to help recruiters get a better glimpse of what I do and what projects I am working on. I hope you like it!",
   authorAboutExtended:
     "Lamine is an Algerian-born, living by the beautiful mediterranean. \n \n In his personal life, Lamine is an avid swimmer, football lover and trying-to-be-good frisbee player. He enjoys long walks, making meal preps.",
   socials: {
