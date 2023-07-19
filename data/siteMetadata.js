@@ -43,10 +43,6 @@ const siteMetadata = {
       href: '/experience',
     },
     {
-      name: 'Offerings',
-      href: '/offerings',
-    },
-    {
       name: 'Contact',
       href: '/contact',
     },
@@ -56,31 +52,6 @@ const siteMetadata = {
     },
   ],
   siteRepo: 'https://github.com/Lamiiine/',
-  offerings: [
-    {
-      title: 'Pizza Delivery',
-      description:
-        'I will teach you how to properly deliver pizza, ensuring that your customers are happy and your tips are high. Most pizza delivery drivers are not taught how to properly deliver pizza, and as a result, they are not making the most money they could be. Have you ever received a pizza that was cold, soggy, or missing toppings? Hire me to teach you how to deliver pizza properly, and you will never have to worry about that again.',
-      testimonial:
-        '“Curtis is a great pizza delivery person. He helped me to understand my strengths and weaknesses and how to improve my performance. I would highly recommend him to anyone looking to improve their performance.”',
-      testimonialAuthor: 'Elon Musk',
-      testimonialAuthorTitle: 'CEO at Dumpster Fire, Inc.',
-      imgUrl:
-        'https://images.unsplash.com/photo-1594392175511-30eca83d51c8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3270&q=80',
-      imageAttribution: 'Photo by @dan__burton on Unsplash',
-    },
-    {
-      title: 'Pizza Making',
-      description:
-        'This three-hour pizza class will offer our attendees the opportunity to craft homemade dough, prepare the pizza and cook a delicious meal to enjoy at the end of class. Attendees will get to take home extra dough, the secret recipe, and an ingredients list so they can independently recreate this pizza at home.',
-      testimonial: '',
-      testimonialAuthor: '',
-      testimonialAuthorTitle: '',
-      imgUrl:
-        'https://images.unsplash.com/photo-1532460734809-e7f8475ca917?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3237&q=80',
-      imageAttribution: 'Photo by @juanmanunez on Unsplash',
-    },
-  ],
   testimonial: {
     comment:
       '“Curtis is a great pizza delivery person. He helped me to understand my strengths and weaknesses and how to improve my performance. I would highly recommend him to anyone looking to improve their performance.”',
