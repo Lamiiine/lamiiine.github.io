@@ -2,27 +2,13 @@ import { RiRunLine, RiSignalWifi3Line } from 'react-icons/ri'
 import siteMetadata from '@/data/siteMetadata'
 
 // TODO: Add your own features here. Make sure to add the icon from Remix-Design's repo:
-const features = [
-  {
-    name: 'Pizza Delivery',
-    description:
-      'I will teach you how to properly deliver pizza, ensuring that your customers are happy and your tips are high. Most pizza delivery drivers are not taught how to properly deliver pizza, and as a result, they are not making the most money they could be.',
-    icon: RiRunLine,
-  },
-  {
-    name: 'Pizza Making',
-    description:
-      'This three-hour pizza class will offer our attendees the opportunity to craft homemade dough, prepare the pizza and cook a delicious meal to enjoy at the end of class.',
-    icon: RiSignalWifi3Line,
-  },
-]
+
 const FeatureSection = () => {
   return (
     <div className="pb-24">
       <div className="px-6 mx-auto max-w-7xl lg:px-8">
         <div className="sm:text-center">
           <h2 className="text-lg font-semibold leading-8 text-accent-600">
-            Offerings
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-primaryText-800 dark:text-primaryText-100 sm:text-4xl">
             {siteMetadata.featureSection.title}
