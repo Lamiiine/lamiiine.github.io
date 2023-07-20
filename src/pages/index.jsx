@@ -64,8 +64,6 @@ const Home = () => {
       </Container>
       <DivideLine />
       <FeatureSection />
-      <Testimonial />
-      <Faq />
       <CallToAction />
     </>
   )
