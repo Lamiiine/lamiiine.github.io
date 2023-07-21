@@ -5,6 +5,7 @@ import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import siteMetadata from '@/data/siteMetadata'
 
+import rocket from '@/images/logos/rocket.jpg'
 import ecomLogo from '@/images/projects/ecom.svg'
 import bananaLogo from '@/images/projects/bananaApp.svg'
 import supaSnacksLogo from '@/images/projects/supaSnacks.svg'
@@ -15,7 +16,7 @@ const projectsData = [
   {
     title: 'Job board using HTML, Tailwind & JavaScript',
     description: `This is a project that I built to help people find visa sponsored jobs. It is a fully functional job board that takes job seekers straight to the company's website and requires no signup or account creation. Same goes to recruiter, which I found they are frustrated with having to create multiple accounts with different ATS. It is built with JavaScrpt, HTML and Tailwind.`,
-    logo: ecomLogo,
+    logo: rocket,
     href: 'https://relocate-with-us.github.io/',
   },
   {
