@@ -9,7 +9,7 @@ const CallToAction = () => {
             Recruiter?
           </span>
           <span className="block text-accent-600 dark:text-accent-100">
-            Let's work together
+            Let&apos;s work together
           </span>
         </h2>
         <div className="flex mt-8 lg:mt-0 lg:flex-shrink-0">
