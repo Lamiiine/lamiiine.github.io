@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { Container } from '@/components/Container'
 import { TwitterIcon, GitHubIcon, LinkedInIcon } from '@/components/SocialIcons'
 import SocialLink from '@/components/SocialLink'
-import FeatureSection from '@/components/FeatureSection'
 import CallToAction from '@/components/CallToAction'
 import DivideLine from '@/components/DivideLine'
 import siteMetadata from '@/data/siteMetadata'
@@ -63,7 +62,6 @@ const Home = () => {
         </div>
       </Container>
       <DivideLine />
-      <FeatureSection />
       <CallToAction />
     </>
   )
