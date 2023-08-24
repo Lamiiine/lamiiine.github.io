@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-semibold mb-6">Password Generator</h1>
+        <form id="password-form" class="mb-8">
+            <label class="block mb-2" for="length">Password Length:</label>
+            <input class="block w-full px-4 py-2 rounded-md border focus:ring focus:ring-blue-300" type="number" id="length" min="4" max="50" value="12" required>
+
+            <div class="mt-4">
+                <label class="block mb-2">
+        <input class="mr-2" type="checkbox" id="include-symbols">
+        Include Symbols
+      </label>
+                <label class="block mb-2">
+        <input class="mr-2" type="checkbox" id="include-numbers">
+        Include Numbers
+      </label>
+                <label class="block mb-2">
+        <input class="mr-2" type="checkbox" id="include-lowercase" checked>
+        Include Lowercase Characters
+      </label>
+                <label class="block mb-2">
+        <input class="mr-2" type="checkbox" id="include-uppercase" checked>
+        Include Uppercase Characters
+      </label>
+                <label class="block mb-2">
+        <input class="mr-2" type="checkbox" id="exclude-similar">
+        Exclude Similar Characters
+      </label>
+                <label class="block mb-2">
+        <input class="mr-2" type="checkbox" id="exclude-ambiguous">
+        Exclude Ambiguous Characters
+      </label>
+            </div>
+
+            <label class="block mt-4">
+      <input class="mr-2" type="checkbox" id="generate-on-device">
+      Generate On Your Device
+    </label>
+
+            <button type="button" id="generate-button" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:ring focus:ring-blue-300">
+      Generate Password
+    </button>
+        </form>
+        <div id="password" class="text-lg font-semibold"></div>
+    </div>
+    <script>
+        const generateButton = document.getElementById("generate-button");
+        const passwordDisplay = document.getElementById("password");
+
+        generateButton.addEventListener("click", function() {
+            const length = parseInt(document.getElementById("length").value);
+            const includeSymbols = document.getElementById("include-symbols").checked;
+            const includeNumbers = document.getElementById("include-numbers").checked;
+            const includeLowercase = document.getElementById("include-lowercase").checked;
+            const includeUppercase = document.getElementById("include-uppercase").checked;
+            const excludeSimilar = document.getElementById("exclude-similar").checked;
+            const excludeAmbiguous = document.getElementById("exclude-ambiguous").checked;
+
+            const charset = [
+                ...(includeSymbols ? "!@#$%^&*()_-+=[]{}|;:,.<>?".split("") : []),
+                ...(includeNumbers ? "0123456789".split("") : []),
+                ...(includeLowercase ? "abcdefghijklmnopqrstuvwxyz".split("") : []),
+                ...(includeUppercase ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("") : []),
+            ];
+
+            if (excludeSimilar) {
+                const similarCharacters = "il1Lo0O";
+                charset = charset.filter(char => !similarCharacters.includes(char));
+            }
+
+            if (excludeAmbiguous) {
+                const ambiguousCharacters = "{}[]()/'\"`~,;:.<>".split("");
+                charset = charset.filter(char => !ambiguousCharacters.includes(char));
+            }
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset[randomIndex];
+            }
+
+            passwordDisplay.textContent = password;
+        });
+    </script>
+</body>
+
+</html>
