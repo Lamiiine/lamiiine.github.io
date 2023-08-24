@@ -57,10 +57,10 @@ const Contact = () => {
 
     emailjs
       .send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        'service_9b222k8',
         templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_USER_ID
+        'template_pz5woyj', 
+        'ZknoFsvx10FtqqjwS'
       )
       .then(
         (response) => {
