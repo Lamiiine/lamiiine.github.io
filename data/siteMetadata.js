@@ -50,6 +50,10 @@ const siteMetadata = {
       name: 'Projects',
       href: '/projects',
     },
+    {
+      name: 'pwdgenerator',
+      href: '/pwdgenerator',
+    },
   ],
   siteRepo: 'https://github.com/Lamiiine/',
   testimonial: {
