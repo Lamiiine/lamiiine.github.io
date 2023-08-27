@@ -26,6 +26,12 @@ const projectsData = [
     href: 'https://github.com/Lamiiine/Awesome-daily-list-of-visa-sponsored-jobs',
   },
   {
+    title: 'Password Generator',
+    description: `A simple password generator building using HTML, Tailwind and JS`,
+    logo: supaSnacksLogo,
+    href: 'https://github.com/Lamiiine/pwdgenerator',
+  },
+  {
     title: 'CDC Vaccination Scraped',
     description: `This is an educational project. I aim to show how to use Github Actions + Scraping to set CI process. It's buit using Github Actions and a cron job to scrape CDC data that returns a json file`,
     logo: supaSnacksLogo,
