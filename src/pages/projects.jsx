@@ -26,6 +26,12 @@ const projectsData = [
     href: 'https://github.com/Lamiiine/Awesome-daily-list-of-visa-sponsored-jobs',
   },
   {
+    title: 'Hadrat',
+    description: `A chatgpt like web app built from scratch with nextjs, typescript and huggingface`,
+    logo: supaSnacksLogo,
+    href: 'https://hadrat.vercel.app/',
+  },
+  {
     title: 'Password Generator',
     description: `A simple password generator building using HTML, Tailwind and JS`,
     logo: supaSnacksLogo,
