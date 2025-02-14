@@ -1,0 +1,980 @@
+:root {
+    --background-color: rgb(238, 239, 233);
+    --text-color: #333;
+    --nav-bg: #ffffff;
+    --nav-hover: #f0f0f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem 2rem;
+}
+
+.floating-dock {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    background: var(--nav-bg);
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.nav-item {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--nav-bg);
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    background: var(--nav-hover);
+    width: 80px;
+    height: 80px;
+}
+
+.nav-item::before {
+    content: attr(data-title);
+    position: absolute;
+    top: -2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--nav-bg);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.nav-item:hover::before {
+    opacity: 1;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.nav-item:hover .icon {
+    width: 32px;
+    height: 32px;
+}
+
+/* Sections styling */
+section {
+    margin-bottom: 4rem;
+}
+
+.hero {
+    text-align: center;
+    padding: 4rem 0;
+    perspective: 1000px;
+}
+
+.quote-container {
+    position: relative;
+    display: inline-block;
+    padding: 2rem;
+    background: transparent;
+    border-radius: 0.5rem;
+}
+
+.highlight-text {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.5rem;
+    background: var(--nav-bg);
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.highlight-text:hover {
+    background: #1a1a1a;
+    color: white;
+    animation: shakeText 0.2s infinite;
+}
+
+.sparkles-container,
+.beams-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.highlight-text:hover .sparkles-container,
+.highlight-text:hover .beams-container {
+    opacity: 1;
+}
+
+.quote-corners .corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #666;
+    border-radius: 50%;
+    opacity: 0.2;
+    transition: all 0.3s ease;
+}
+
+.quote-container:hover .corner {
+    opacity: 0;
+}
+
+.corner.top-left { top: -4px; left: -4px; }
+.corner.top-right { top: -4px; right: -4px; }
+.corner.bottom-left { bottom: -4px; left: -4px; }
+.corner.bottom-right { bottom: -4px; right: -4px; }
+
+@keyframes sparkle {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1) rotate(180deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes shakeText {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, -2px); }
+}
+
+@keyframes beam {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+.experience-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.experience-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.experience-grid:hover .experience-item:not(:hover) {
+    filter: blur(2px);
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+
+.experience-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.experience-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.company {
+    color: #666;
+    font-weight: 500;
+}
+
+.duration {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.experience-details {
+    list-style: none;
+    padding: 0;
+}
+
+.experience-details li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.experience-details li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #666;
+}
+
+.project-grid,
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.project-card,
+.post-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.view-all {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.view-all:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .floating-dock {
+        top: 1rem;
+        padding: 0.75rem;
+    }
+    
+    main {
+        padding-top: 5rem;
+    }
+}
+
+/* Add these styles for the social links section */
+.social-links {
+    margin: 4rem auto;
+    text-align: center;
+    perspective: 1000px;
+}
+
+.social-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.social-item {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.social-item::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(20px);
+    background: black;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.social-container:hover .social-item:not(:hover) {
+    opacity: 0.6;
+    filter: blur(2px);
+    transform: scale(0.9) translateZ(-20px);
+}
+
+.social-item:hover {
+    transform: scale(1.2) translateZ(20px);
+    background: black;
+    color: white;
+    box-shadow: 
+        0 5px 15px rgba(0, 0, 0, 0.2),
+        0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.social-item:hover::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px) translateZ(50px);
+}
+
+/* Education section styles */
+.education-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.education-item {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.education-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.education-year {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.education-degree {
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 0.5rem;
+}
+
+/* Blog post styles */
+.blog-post {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 6rem 2rem 2rem;
+}
+
+.post-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.post-meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.post-content {
+    line-height: 1.8;
+}
+
+.post-content h2 {
+    margin: 2rem 0 1rem;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content pre {
+    background: #f5f5f5;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.post-content ul,
+.post-content ol {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+.project-tech {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.project-tech span {
+    background: var(--background-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Update existing card hover effects */
+.project-card {
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.project-grid:hover .project-card:not(:hover) {
+    filter: blur(2px);
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+
+.project-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Add to education styles */
+.education-logo-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-container {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.institution-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+}
+
+/* Update project card styles */
+.project-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.project-logo {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.project-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+}
+
+.project-title {
+    flex-grow: 1;
+}
+
+.project-title h3 {
+    margin-bottom: 0.25rem;
+}
+
+.project-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.project-link:hover {
+    color: #000;
+}
+
+/* Add hover effects for logos */
+.logo-container img,
+.project-logo img {
+    transition: transform 0.3s ease;
+}
+
+.education-item:hover .logo-container img,
+.project-card:hover .project-logo img {
+    transform: scale(1.1);
+}
+
+/* Update responsive styles */
+@media (max-width: 640px) {
+    .education-logo-title,
+    .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo-container,
+    .project-logo {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+/* Add to your existing styles */
+.experience-logo-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.company-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+}
+
+/* Update experience header styles */
+.experience-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.experience-logo-title > div:last-child {
+    flex-grow: 1;
+}
+
+/* Update responsive styles */
+@media (max-width: 640px) {
+    .experience-logo-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Add to your blog post styles */
+.feature-list ul {
+    background: var(--nav-bg);
+    padding: 1.5rem 2rem;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.note {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.post-content code {
+    background: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.post-content pre code {
+    display: block;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+/* Projects page styles */
+.projects-hero,
+.blog-hero {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.section-subtitle {
+    color: #666;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.project-card.featured {
+    background: linear-gradient(to bottom right, #fff, #f8f9fa);
+    border: 1px solid #e9ecef;
+}
+
+.project-stats {
+    display: flex;
+    gap: 1rem;
+    margin: auto 0 1.5rem;
+    flex-wrap: wrap;
+}
+
+.project-stats span {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Blog page styles */
+.blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.blog-card {
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.blog-card.featured {
+    border: 1px solid #e9ecef;
+}
+
+.blog-card-content {
+    padding: 2rem;
+}
+
+.blog-meta {
+    display: flex;
+    gap: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.blog-card h2 {
+    margin-bottom: 1rem;
+}
+
+.blog-card h2 a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.blog-card h2 a:hover {
+    color: #3b82f6;
+}
+
+.blog-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.blog-tags span {
+    background: var(--background-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Hover effects */
+.blog-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .projects-hero h1,
+    .blog-hero h1 {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
+
+    .blog-card-content {
+        padding: 1.5rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .glare-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Add styles for active navigation item */
+.nav-item[aria-current="page"] {
+    background: var(--nav-hover);
+    color: #3b82f6;
+}
+
+.nav-item[aria-current="page"]::before {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Glare card effect */
+.glare-card {
+    --m-x: 50%;
+    --m-y: 50%;
+    --r-x: 0deg;
+    --r-y: 0deg;
+    --bg-x: 50%;
+    --bg-y: 50%;
+    --duration: 300ms;
+    --opacity: 0;
+    --radius: 24px;
+    --easing: ease;
+    --foil-size: 100%;
+
+    position: relative;
+    perspective: 600px;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    isolation: isolate;
+    transition: transform var(--duration) var(--easing);
+    will-change: transform;
+    margin-bottom: 2rem;
+}
+
+.card-content {
+    position: relative;
+    height: 100%;
+    padding: 2rem;
+    background: var(--nav-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    transform: rotateY(var(--r-x)) rotateX(var(--r-y));
+    transition: transform var(--duration) var(--easing);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.glare-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        farthest-corner circle at var(--m-x) var(--m-y),
+        rgba(255, 255, 255, 0.8) 10%,
+        rgba(255, 255, 255, 0.65) 20%,
+        rgba(255, 255, 255, 0) 90%
+    );
+    opacity: var(--opacity);
+    transition: opacity var(--duration) var(--easing);
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+    border-radius: var(--radius);
+}
+
+.glare-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        repeating-linear-gradient(
+            128deg,
+            #0e152e 0%,
+            hsl(180, 10%, 60%) 3.8%,
+            hsl(180, 10%, 60%) 4.5%,
+            hsl(180, 10%, 60%) 5.2%,
+            #0e152e 10%,
+            #0e152e 12%
+        ) var(--bg-x) var(--bg-y) / 300% no-repeat;
+    opacity: var(--opacity);
+    transition: opacity var(--duration) var(--easing);
+    mix-blend-mode: color-dodge;
+    pointer-events: none;
+    border-radius: var(--radius);
+}
+
+.glare-card:hover {
+    --opacity: 0.6;
+    --duration: 200ms;
+    --easing: linear;
+}
+
+.project-header {
+    margin-bottom: 1.5rem;
+}
+
+.project-stats {
+    margin: auto 0 1.5rem;
+}
+
+.project-tech {
+    margin-top: auto;
+}
+
+/* Update post card styles */
+.post-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.post-card .post-meta {
+    display: flex;
+    gap: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.post-card h3 {
+    margin-bottom: 1rem;
+}
+
+.post-card h3 a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-card h3 a:hover {
+    color: #3b82f6;
+}
+
+.post-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.post-tags span {
+    background: var(--background-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Update post grid for better spacing */
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: gap 0.3s ease;
+}
+
+.view-all:hover {
+    gap: 0.75rem;
+    text-decoration: none;
+} 

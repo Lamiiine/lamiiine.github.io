@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <nav class="floating-dock">
+        <a href="index.html" class="nav-item" data-title="Home">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+        </a>
+        <a href="projects.html" class="nav-item" data-title="Projects">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+            </svg>
+        </a>
+        <a href="blog.html" class="nav-item" data-title="Blog">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+        </a>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="quote-container" id="quote-container">
+                <div class="sparkles-container"></div>
+                <div class="beams-container"></div>
+                <div class="quote-corners">
+                    <span class="corner top-left"></span>
+                    <span class="corner top-right"></span>
+                    <span class="corner bottom-left"></span>
+                    <span class="corner bottom-right"></span>
+                </div>
+                <h1>
+                    "A job is not finished until 
+                    <span class="highlight-text">nobody can tell</span> 
+                    that you were ever there."
+                </h1>
+            </div>
+            <p class="hero-subtitle">DevOps Engineer & Full Stack Developer</p>
+        </section>
+
+        <section class="social-links">
+            <div class="social-container">
+                <a href="https://github.com/Lamiiine/" class="social-item" data-tooltip="GitHub" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/mlamine08/" class="social-item" data-tooltip="LinkedIn" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="https://x.com/Lamiiiiiine" class="social-item" data-tooltip="X (Twitter)" target="_blank" rel="noopener noreferrer">
+                    <svg class="social-icon" viewBox="0 0 24 24">
+                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <section class="experience">
+            <h2>Experience</h2>
+            <div class="experience-grid">
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="experience-logo-title">
+                            <div class="logo-container">
+                                <img src="assets/icons/infraxcode_logo.jpg" alt="Infraxcode Logo" class="company-logo">
+                            </div>
+                            <div>
+                                <h3>DevOps Engineer</h3>
+                                <span class="company">Infraxcode</span>
+                                <span class="duration">July 2024 - Present</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="experience-logo-title">
+                            <div class="logo-container">
+                                <img src="assets/icons/visasponsoredjobs_logo.jpg" alt="Visajobs Logo" class="company-logo">
+                            </div>
+                            <div>
+                                <h3>Founder & Full Stack Developer</h3>
+                                <span class="company">visajobs.xyz</span>
+                                <span class="duration">Jan 2023 - Present</span>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="experience-logo-title">
+                            <div class="logo-container">
+                                <img src="assets/icons/itsolutions_logo.jpg" alt="IT Solutions Logo" class="company-logo">
+                            </div>
+                            <div>
+                                <h3>IT Consultant</h3>
+                                <span class="company">IT Solutions</span>
+                                <span class="duration">Sep 2022 - July 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </section>
+
+        <section class="education">
+            <h2>Education</h2>
+            <div class="education-grid">
+                <div class="education-item">
+                    <div class="education-header">
+                        <div class="education-logo-title">
+                            <div class="logo-container">
+                                <img src="assets/icons/aucegypt_logo.jpg" alt="AUC Logo" class="institution-logo">
+                            </div>
+                            <div>
+                                <h3>The American University in Cairo</h3>
+                                <span class="education-year">2016 - 2021</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="education-degree">Bachelor in Computer Science</p>
+                    <p class="education-description">
+                        Full Scholarship Recipient | Dean's List (Top 10%) | Tomorrow's Leaders Scholar
+                    </p>
+                </div>
+                <div class="education-item">
+                    <div class="education-header">
+                        <div class="education-logo-title">
+                            <div class="logo-container">
+                                <img src="assets/icons/james_madison_university_logo.jpg" alt="JMU Logo" class="institution-logo">
+                            </div>
+                            <div>
+                                <h3>James Madison University</h3>
+                                <span class="education-year">2018 - 2019</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="education-degree">Semester Abroad</p>
+                    <p class="education-description">
+                        Merit-based exchange scholarship recipient
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-projects">
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-logo">
+                            <img src="assets/icons/visasponsoredjobs_logo.jpg" alt="Visajobs Logo">
+                        </div>
+                        <div class="project-title">
+                            <h3>visajobs.xyz</h3>
+                            <a href="https://visajobs.xyz" class="project-link" target="_blank">Visit Site →</a>
+                        </div>
+                    </div>
+                    <p>A static job board for visa-sponsored roles with 30k+ monthly visitors. Built with modern cloud-native technologies.</p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>GitHub Actions</span>
+                        <span>Cloud</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-logo">
+                            <img src="assets/icons/egyptian.jpeg" alt="Research Project Logo">
+                        </div>
+                        <div class="project-title">
+                            <h3>Ancient Egyptian Artifacts Recognition</h3>
+                            <a href="https://www.cscjournals.org/manuscript/Journals/IJIP/Volume16/Issue1/IJIP-1227.pdf" class="project-link" target="_blank">View Research →</a>
+                        </div>
+                    </div>
+                    <p>Published research on feature points extraction methodology for recognizing ancient Egyptian artifacts.</p>
+                    <div class="project-tech">
+                        <span>Computer Vision</span>
+                        <span>Research</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-logo">
+                            <img src="assets/icons/star-history-2025214.png" alt="Research Project Logo">
+                        </div>
+                        <div class="project-title">
+                            <h3> Awesome-daily-list-of-visa-sponsored-jobs</h3>
+                            <a href="https://github.com/Lamiiine/Awesome-daily-list-of-visa-sponsored-jobs" class="project-link" target="_blank">View repository →</a>
+                        </div>
+                    </div>
+                    <p>CICD to scrape and send daily list of visa-sponsored jobs to subscribers.</p>
+                    <div class="project-tech">
+                        <span>cicd</span>
+                        <span>devops</span>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <section class="recent-posts">
+            <h2>Recent Blog Posts</h2>
+            <div class="post-grid">
+                <article class="post-card">
+                    <div class="post-meta">
+                        <time datetime="2024-03-20">March 20, 2024</time>
+                        <span class="reading-time">5 min read</span>
+                    </div>
+                    <h3>
+                        <a href="blog/getting-mistral-api-key.html">How to Get a Free Mistral AI Hobbyist API Key</a>
+                    </h3>
+                    <p>A comprehensive guide to getting started with Mistral AI's free tier and building AI-powered applications.</p>
+                    <div class="post-tags">
+                        <span>AI</span>
+                        <span>Tutorial</span>
+                        <span>API</span>
+                    </div>
+                </article>
+
+            </div>
+            <a href="blog.html" class="view-all">View All Posts →</a>
+        </section>
+    </main>
+</body>
+</html> 
