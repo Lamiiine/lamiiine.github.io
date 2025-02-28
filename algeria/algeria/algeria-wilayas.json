@@ -1,0 +1,32 @@
+{
+  "type": "Topology",
+  "objects": {
+    "ALG_adm1": {
+      "type": "GeometryCollection",
+      "geometries": [
+        {
+          "type": "Polygon",
+          "properties": {
+            "ID_1": 1,
+            "NAME_1": "Adrar"
+          },
+          "arcs": [[0, 1, 2, 3]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {
+            "ID_1": 2,
+            "NAME_1": "Chlef"
+          },
+          "arcs": [[4, 5, 6, 7]]
+        }
+        // ... more wilayas would be defined here with proper coordinates
+      ]
+    }
+  },
+  "arcs": [
+    [[30, 20], [40, 20], [40, 30], [30, 30], [30, 20]],
+    [[50, 40], [60, 40], [60, 50], [50, 50], [50, 40]],
+    // ... more coordinate arrays for the arcs
+  ]
+} 
