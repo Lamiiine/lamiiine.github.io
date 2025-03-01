@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mapContainer = document.getElementById('algeria-map');
     
     let timer;
-    let timeLeft = 360;
+    let timeLeft = 600;
     let score = 0;
     let gameActive = false;
     let correctWilayas = new Set();
@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Replace the complex resetGame function with this simplified version
     function resetGame() {
         score = 0;
-        timeLeft = 360;
+        timeLeft = 600;
         correctWilayas.clear();
         
         timeDisplay.textContent = '01:00';
@@ -879,4 +879,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Call this at key points
     setTimeout(debugMapState, 1000); // Initial state
+    
 }); 
