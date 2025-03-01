@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mapContainer = document.getElementById('algeria-map');
     
     let timer;
-    let timeLeft = 180;
+    let timeLeft = 120;
     let score = 0;
     let gameActive = false;
     let correctWilayas = new Set();
@@ -27,6 +27,24 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Number of wilaya data entries:", Object.keys(wilayaData).length);
     }
     
+    // Move the getWilayaInfoFromPath function outside the SVG loading callback
+    function getWilayaInfoFromPath(path) {
+        const wilayaId = path.getAttribute('id');
+        const wilayaName = path.getAttribute('name');
+        
+        // Extract the numeric part from the ID if it follows the pattern "DZ##"
+        let wilayaNumber = null;
+        if (wilayaId && wilayaId.startsWith('DZ')) {
+            wilayaNumber = parseInt(wilayaId.substring(2), 10);
+        }
+        
+        return {
+            id: wilayaId,
+            name: wilayaName,
+            number: wilayaNumber
+        };
+    }
+    
     // Load the Algeria SVG map
     fetch('dz.svg')
         .then(response => {
@@ -41,24 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Get all wilaya paths from the SVG
             const wilayaPaths = document.querySelectorAll('#features path[id]');
-            
-            // Add this function to extract wilaya information from the path
-            function getWilayaInfoFromPath(path) {
-                const wilayaId = path.getAttribute('id');
-                const wilayaName = path.getAttribute('name');
-                
-                // Extract the numeric part from the ID if it follows the pattern "DZ##"
-                let wilayaNumber = null;
-                if (wilayaId && wilayaId.startsWith('DZ')) {
-                    wilayaNumber = parseInt(wilayaId.substring(2), 10);
-                }
-                
-                return {
-                    id: wilayaId,
-                    name: wilayaName,
-                    number: wilayaNumber
-                };
-            }
             
             // Then use this function when processing paths
             wilayaPaths.forEach(path => {
@@ -157,10 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.header h1').textContent = 'Algeria Wilaya Quiz';
             document.querySelector('.header p').textContent = 'How many wilayas can you name in 1 minute?';
             startBtn.textContent = gameActive ? 'Game in Progress' : 'Start Quiz';
-            playAgainBtn.textContent = 'Play Again';
+            playAgainBtn.textContent = 'زيد العب';
             wilayaInput.placeholder = 'Enter wilaya name...';
-            document.querySelector('.results h2').textContent = 'Quiz Complete!';
-            document.querySelector('.results p').textContent = `You identified <span id="final-score">${score}</span> out of 58 wilayas.`;
+            document.querySelector('.results h2').textContent = 'Sahaaaaa';
+            document.querySelector('.results p').textContent = ` <span id="final-score">${score}</span> men 58 wilayas.`;
             finalScoreDisplay = document.getElementById('final-score'); // Reassign after changing HTML
         }
         
@@ -360,28 +360,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function playSuccessSound() {
-        const context = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = context.createOscillator();
-        const gainNode = context.createGain();
-        
-        oscillator.type = 'triangle';
-        oscillator.frequency.setValueAtTime(1000, context.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(500, context.currentTime + 0.1);
-        
-        // Fix the gain value to avoid the error
-        gainNode.gain.setValueAtTime(0.2, context.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.3); // Changed from 0 to 0.001
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(context.destination);
-        oscillator.start();
-        oscillator.stop(context.currentTime + 0.3);
+        // Silent version - no sound will play
+        console.log("Success marked silently");
     }
     
+    // Add this function to play different sounds based on score brackets
+    function playScoreBracketSound() {
+        // Create audio element
+        const audio = new Audio();
+        
+        // Set the source based on score bracket
+        if (score <= 17) {
+            audio.src = 'sounds/harki.mp3';
+        } else if (score <= 35) {
+            audio.src = 'sounds/9iw.mp3';
+        } else {
+            audio.src = 'sounds/best.mp3';
+        }
+        
+        // Add error handling
+        audio.onerror = function() {
+            console.error('Error playing sound for score bracket:', score);
+        };
+        
+        // Play the sound
+        audio.play().catch(error => {
+            console.error('Could not play sound:', error);
+        });
+    }
+    
+    // Update the endGame function to play the appropriate sound
     function endGame() {
         clearInterval(timer);
         gameActive = false;
         wilayaInput.disabled = true;
+        
+        // Play sound based on score bracket
+        playScoreBracketSound();
         
         // Create overlay
         const overlay = document.createElement('div');
@@ -394,15 +409,51 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add content to popup
         const title = document.createElement('h2');
-        title.textContent = isArabic ? 'انتهى الاختبار!' : 'Quiz Complete!';
+        title.textContent = isArabic ? 'انتهى الاختبار!' : 'Sahaaaaaa';
         
         const message = document.createElement('p');
         message.innerHTML = isArabic 
             ? `لقد حددت <span class="final-score">${score}</span> من أصل 58 ولاية.`
-            : `You identified <span class="final-score">${score}</span> out of 58 wilayas.`;
+            : `rak jebt <span class="final-score">${score}</span> out of 58 wilayas.`;
+        
+        // Create a container for the map
+        const mapCloneContainer = document.createElement('div');
+        mapCloneContainer.className = 'result-map-container';
+        
+        // Clone the map to show in the results
+        const mapClone = document.getElementById('algeria-map').cloneNode(true);
+        mapClone.id = 'result-map';
+        mapCloneContainer.appendChild(mapClone);
+        
+        // Create social sharing buttons container
+        const shareContainer = document.createElement('div');
+        shareContainer.className = 'social-links';
+        
+        // Add share text
+        const shareText = document.createElement('p');
+        shareText.className = 'share-text';
+        shareText.textContent = isArabic ? 'شارك نتيجتك:' : 'Share your result:';
+        
+        // Create social container like in the portfolio
+        const socialContainer = document.createElement('div');
+        socialContainer.className = 'social-container';
+        
+        
+        // Twitter/X button
+        const twitterBtn = createSocialButton('twitter', 'X (Twitter)');
+        socialContainer.appendChild(twitterBtn);
+        
+        
+        // Download button - now using the download-icon.svg
+        const downloadBtn = createSocialButton('download', 'Download');
+        socialContainer.appendChild(downloadBtn);
+        
+        shareContainer.appendChild(shareText);
+        shareContainer.appendChild(socialContainer);
         
         const playAgainButton = document.createElement('button');
         playAgainButton.textContent = isArabic ? 'العب مرة أخرى' : 'Play Again';
+        playAgainButton.className = 'play-again-btn';
         playAgainButton.addEventListener('click', function() {
             // Remove popup and overlay
             popup.remove();
@@ -415,6 +466,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Append elements to popup
         popup.appendChild(title);
         popup.appendChild(message);
+        popup.appendChild(mapCloneContainer);
+        popup.appendChild(shareContainer);
         popup.appendChild(playAgainButton);
         
         // Add popup to body
@@ -422,68 +475,64 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Hide the original results div
         resultsDiv.classList.add('hidden');
+        
+        // Set up social sharing functionality
+        setupSocialSharing();
     }
     
-    function resetGame() {
-        // Reset game state
-        score = 0;
-        timeLeft = 180;
-        correctWilayas.clear();
-        
-        // Reset UI
-        timeDisplay.textContent = '03:00';
-        updateScore();
-        wilayaInput.value = '';
-        
-        // Reset map
-        document.querySelectorAll('.wilaya.correct').forEach(el => {
-            el.classList.remove('correct');
-        });
-        
-        // Hide results
-        resultsDiv.classList.add('hidden');
-        
-        // Restore overlay and blur
-        gameContainer.classList.add('blurred');
-        document.body.appendChild(startOverlay);
-        
-        // Start a new game
-        startGame();
-    }
-
-    // Add this after your other event listeners
-    window.addEventListener('resize', adjustMapSize);
-
-    // Add this function to handle map sizing
+    // Update the adjustMapSize function to be more robust and consistent
     function adjustMapSize() {
         const svgElement = document.querySelector('#algeria-map svg');
         if (svgElement) {
-            // Adjust zoom factor based on screen width and height
-            let zoomOutFactor = 1.40;
+            // Reset the viewBox before applying adjustments
+            svgElement.removeAttribute('viewBox');
+            svgElement.setAttribute('width', '100%');
+            svgElement.setAttribute('height', '100%');
             
-            if (window.innerWidth < 768) {
-                zoomOutFactor = 1.25;
-            }
+            // Ensure map is centered and scaled correctly
+            const bbox = svgElement.getBBox();
+            const padding = 10;
             
-            // Additional adjustment for height
-            if (window.innerHeight < 800) {
-                zoomOutFactor = 1.15;
-            }
-            
-            if (window.innerHeight < 700) {
-                zoomOutFactor = 1.05;
-            }
-            
-            const originalWidth = 286.086;
-            const originalHeight = 298.332;
-            const newWidth = originalWidth * zoomOutFactor;
-            const newHeight = originalHeight * zoomOutFactor;
-            const newX = -(newWidth - originalWidth) / 2;
-            const newY = -(newHeight - originalHeight) / 2;
-            
-            svgElement.setAttribute('viewBox', `${newX} ${newY} ${newWidth} ${newHeight}`);
+            svgElement.setAttribute('viewBox', 
+                `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`
+            );
+    
+            console.log("Map size adjusted with viewBox:", svgElement.getAttribute('viewBox'));
         }
     }
+    
+
+    // Replace the complex resetGame function with this simplified version
+    function resetGame() {
+        score = 0;
+        timeLeft = 120;
+        correctWilayas.clear();
+        
+        timeDisplay.textContent = '01:00';
+        updateScore();
+        wilayaInput.value = '';
+        wilayaInput.disabled = false;
+    
+        // Reset the map by removing styles
+        const wilayaPaths = document.querySelectorAll('#features path');
+        wilayaPaths.forEach(path => {
+            path.classList.remove('correct');
+            path.style.animation = '';
+        });
+    
+        // Delay map resizing to allow DOM updates
+        setTimeout(adjustMapSize, 300);
+        
+        resultsDiv.classList.add('hidden');
+    
+        startGame();
+    }
+    
+
+    // Add this after your other event listeners
+    window.addEventListener('resize', () => {
+        setTimeout(adjustMapSize, 200);
+    });
 
     // Add this function to handle wilaya clicks
     function handleWilayaClick(wilayaInfo) {
@@ -602,4 +651,232 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Helper function to create social media buttons
+    function createSocialButton(platform, name) {
+        const button = document.createElement('a');
+        button.className = 'social-item';
+        button.setAttribute('data-platform', platform);
+        button.setAttribute('data-tooltip', name);
+        
+        // Special case for download button - use inline SVG
+        if (platform === 'download') {
+            const svgContainer = document.createElement('div');
+            svgContainer.className = 'social-icon';
+            
+            // Inline SVG for download with simpler path
+            svgContainer.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"></path>
+                </svg>
+            `;
+            
+            button.appendChild(svgContainer);
+            return button;
+        }
+        
+        // For other social platforms, continue using external SVG files
+        if (platform === 'facebook' || platform === 'linkedin' || platform === 'twitter') {
+            const iconFileName = `${platform}-icon.svg`;
+            
+            fetch(iconFileName)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to load ${platform} icon: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(svgText => {
+                    const svgContainer = document.createElement('div');
+                    svgContainer.className = 'social-icon';
+                    svgContainer.innerHTML = svgText;
+                    
+                    const svgElement = svgContainer.querySelector('svg');
+                    if (svgElement) {
+                        svgElement.setAttribute('width', '24px');
+                        svgElement.setAttribute('height', '24px');
+                        svgElement.style.fill = 'currentColor';
+                    }
+                    
+                    button.appendChild(svgContainer);
+                })
+                .catch(error => {
+                    console.error(`Error loading ${platform} icon:`, error);
+                    // Fallback to simple SVG paths
+                    const icon = document.createElement('svg');
+                    icon.className = 'social-icon';
+                    icon.setAttribute('viewBox', '0 0 24 24');
+                    icon.setAttribute('width', '24');
+                    icon.setAttribute('height', '24');
+                    
+                    const path = document.createElement('path');
+                    let pathData = '';
+                    
+                    switch(platform) {
+                        case 'linkedin':
+                            pathData = 'M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z';
+                            break;
+                        case 'twitter':
+                            pathData = 'M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z';
+                            break;
+                        case 'facebook':
+                            pathData = 'M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z';
+                            break;
+                    }
+                    
+                    path.setAttribute('d', pathData);
+                    path.setAttribute('fill', 'currentColor');
+                    icon.appendChild(path);
+                    button.appendChild(icon);
+                });
+        } else if (platform === 'github') {
+            // Handle GitHub icon
+            const icon = document.createElement('svg');
+            icon.className = 'social-icon';
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('width', '24');
+            icon.setAttribute('height', '24');
+            
+            const path = document.createElement('path');
+            path.setAttribute('d', 'M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z');
+            path.setAttribute('fill', 'currentColor');
+            icon.appendChild(path);
+            button.appendChild(icon);
+        }
+        
+        return button;
+    }
+
+    // Function to set up social sharing functionality
+    function setupSocialSharing() {
+        const socialButtons = document.querySelectorAll('[data-platform]');
+        
+        socialButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const platform = this.getAttribute('data-platform');
+                if (platform === 'download') {
+                    shareResultWithImage('download');
+                } else {
+                    shareResultWithImage(platform);
+                }
+            });
+        });
+    }
+
+    // Function to share results on social media
+    function shareResult(platform) {
+        // Create the share text
+        const shareText = `I identified ${score} out of 58 wilayas in the Algeria Wilaya Quiz!`;
+        const shareUrl = window.location.href;
+        
+        // Generate the share URL based on the platform
+        let shareLink;
+        
+        switch(platform) {
+            case 'linkedin':
+                shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${encodeURIComponent(shareText)}`;
+                break;
+            case 'twitter':
+                shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+                break;
+            case 'facebook':
+                shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+                break;
+        }
+        
+        // Open a new window for sharing
+        window.open(shareLink, '_blank', 'width=600,height=400');
+    }
+
+    // Function to capture the result as an image for better sharing
+    function captureResultImage() {
+        return new Promise((resolve, reject) => {
+            const resultMap = document.getElementById('result-map');
+            
+            html2canvas(resultMap, {
+                backgroundColor: null,
+                scale: 2, // Higher quality
+                logging: false
+            }).then(canvas => {
+                const imageDataUrl = canvas.toDataURL('image/png');
+                resolve(imageDataUrl);
+            }).catch(error => {
+                console.error('Error capturing result image:', error);
+                reject(error);
+            });
+        });
+    }
+
+    // Enhanced share function with image
+    async function shareResultWithImage(platform) {
+        try {
+            // Capture the map as an image
+            const imageDataUrl = await captureResultImage();
+            
+            // Create the share text
+            const shareText = `I identified ${score} out of 58 wilayas in the Algeria Wilaya Quiz!`;
+            const shareUrl = window.location.href;
+            
+            // For platforms that support image sharing directly
+            if (platform === 'download') {
+                // Create a download link
+                const link = document.createElement('a');
+                link.href = imageDataUrl;
+                link.download = 'algeria-wilaya-quiz-result.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                return;
+            }
+            
+            // For social media platforms
+            let shareLink;
+            
+            switch(platform) {
+                case 'linkedin':
+                    shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${encodeURIComponent(shareText)}`;
+                    break;
+                case 'twitter':
+                    shareLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+                    break;
+                case 'facebook':
+                    shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+                    break;
+            }
+            
+            // Open a new window for sharing
+            window.open(shareLink, '_blank', 'width=600,height=400');
+            
+        } catch (error) {
+            console.error('Error sharing with image:', error);
+            // Fall back to regular sharing
+            shareResult(platform);
+        }
+    }
+
+    // Add this at the end of your DOMContentLoaded event handler
+    // Initial map sizing with a delay to ensure SVG is loaded
+    setTimeout(function() {
+        adjustMapSize();
+        console.log("Initial map sizing applied");
+    }, 500);
+
+    // Add this debugging function
+    function debugMapState() {
+        const svgElement = document.querySelector('#algeria-map svg');
+        if (svgElement) {
+            const viewBox = svgElement.getAttribute('viewBox');
+            console.log("Current SVG viewBox:", viewBox);
+            console.log("SVG dimensions:", {
+                width: svgElement.getBoundingClientRect().width,
+                height: svgElement.getBoundingClientRect().height
+            });
+        } else {
+            console.log("SVG element not found");
+        }
+    }
+
+    // Call this at key points
+    setTimeout(debugMapState, 1000); // Initial state
 }); 
