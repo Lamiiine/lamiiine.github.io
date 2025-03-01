@@ -209,7 +209,18 @@ const wilayaAlternatives = {
     "النعامة": "Naama",
     "عين تموشنت": "Ain-Timouchent",
     "غرداية": "Ghardaia",
-    "غليزان": "Relizane"
+    "غليزان": "Relizane",
+    // Arabic equivalents for the last 10 wilayas
+    "تيميمون": "Timimoun",
+    "برج باجي مختار": "Bordj-Badji-Mokhtar",
+    "أولاد جلال": "Ouled-Djellal",
+    "بني عباس": "Beni-Abbes",
+    "عين صالح": "In-Salah",
+    "عين قزام": "In-Guezzam",
+    "تقرت": "Touggourt",
+    "جانت": "Djanet",
+    "المغير": "El-Meghaier",
+    "المنيعة": "El-Meniaa"
 };
 
 // Update the validateWilayaMapping function to handle different ID formats
