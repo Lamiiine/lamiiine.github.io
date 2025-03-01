@@ -1,3 +1,5 @@
+let isArabic = false; // Define isArabic globally
+
 document.addEventListener('DOMContentLoaded', function() {
     const startBtn = document.getElementById('start-btn');
     const playAgainBtn = document.getElementById('play-again');
@@ -64,10 +66,13 @@ document.addEventListener('DOMContentLoaded', function() {
             wilayaPaths.forEach(path => {
                 const wilayaInfo = getWilayaInfoFromPath(path);
                 
-                // Now you can use wilayaInfo.id, wilayaInfo.name, and wilayaInfo.number
-                
-                // Add hover effect
+                // Add wilaya class for styling
                 path.classList.add('wilaya');
+                
+                // Store the wilaya name as a data attribute for easier access
+                if (wilayaInfo.name) {
+                    path.setAttribute('data-name', wilayaInfo.name);
+                }
                 
                 // Add click handler or other functionality
                 path.addEventListener('click', function() {
@@ -137,36 +142,38 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add this after the other event listeners
     const languageToggleBtn = document.getElementById('language-toggle');
-    let isArabic = false;
-
-    languageToggleBtn.addEventListener('click', function() {
-        isArabic = !isArabic;
-        document.body.classList.toggle('rtl', isArabic);
-        
-        // Update UI text based on language
-        if (isArabic) {
-            document.querySelector('.header h1').textContent = 'اختبار ولايات الجزائر';
-            document.querySelector('.header p').textContent = 'كم عدد الولايات التي يمكنك تسميتها في دقيقة واحدة؟';
-            startBtn.textContent = 'ابدأ الاختبار';
-            playAgainBtn.textContent = 'العب مرة أخرى';
-            wilayaInput.placeholder = 'أدخل اسم الولاية...';
-            document.querySelector('.results h2').textContent = 'انتهى الاختبار!';
-            document.querySelector('.results p').textContent = `لقد حددت <span id="final-score">${score}</span> من أصل 58 ولاية.`;
-            finalScoreDisplay = document.getElementById('final-score'); // Reassign after changing HTML
-        } else {
-            document.querySelector('.header h1').textContent = 'Algeria Wilaya Quiz';
-            document.querySelector('.header p').textContent = 'How many wilayas can you name in 1 minute?';
-            startBtn.textContent = gameActive ? 'Game in Progress' : 'Start Quiz';
-            playAgainBtn.textContent = 'زيد العب';
-            wilayaInput.placeholder = 'Enter wilaya name...';
-            document.querySelector('.results h2').textContent = 'Sahaaaaa';
-            document.querySelector('.results p').textContent = ` <span id="final-score">${score}</span> men 58 wilayas.`;
-            finalScoreDisplay = document.getElementById('final-score'); // Reassign after changing HTML
-        }
-        
-        // Focus on input field after language change
-        wilayaInput.focus();
-    });
+    if (languageToggleBtn) {
+        languageToggleBtn.addEventListener('click', function() {
+            isArabic = !isArabic;
+            document.body.classList.toggle('rtl', isArabic);
+            
+            // Update UI text based on language
+            if (isArabic) {
+                document.querySelector('.header h1').textContent = 'اختبار ولايات الجزائر';
+                document.querySelector('.header p').textContent = 'كم عدد الولايات التي يمكنك تسميتها في دقيقة واحدة؟';
+                startBtn.textContent = 'ابدأ الاختبار';
+                playAgainBtn.textContent = 'العب مرة أخرى';
+                wilayaInput.placeholder = 'أدخل اسم الولاية...';
+                document.querySelector('.results h2').textContent = 'انتهى الاختبار!';
+                document.querySelector('.results p').textContent = `لقد حددت <span id="final-score">${score}</span> من أصل 58 ولاية.`;
+                finalScoreDisplay = document.getElementById('final-score'); // Reassign after changing HTML
+            } else {
+                document.querySelector('.header h1').textContent = 'Algeria Wilaya Quiz';
+                document.querySelector('.header p').textContent = 'How many wilayas can you name in 1 minute?';
+                startBtn.textContent = gameActive ? 'Game in Progress' : 'Start Quiz';
+                playAgainBtn.textContent = 'زيد العب';
+                wilayaInput.placeholder = 'Enter wilaya name...';
+                document.querySelector('.results h2').textContent = 'Sahaaaaa';
+                document.querySelector('.results p').textContent = ` <span id="final-score">${score}</span> men 58 wilayas.`;
+                finalScoreDisplay = document.getElementById('final-score'); // Reassign after changing HTML
+            }
+            
+            // Focus on input field after language change
+            wilayaInput.focus();
+        });
+    } else {
+        console.warn("Language toggle button not found in the DOM");
+    }
     
     function startGame() {
         if (gameActive) return;
@@ -299,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Score updated:", score); // Debug log
     }
     
-    // Modify the checkInput function to ensure score updates are triggered
+    // Modify the checkInput function to ensure wilayas are highlighted
     function checkInput() {
         if (!gameActive) return;
         
@@ -307,54 +314,65 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // For Arabic input, normalize the text
         if (/[\u0600-\u06FF]/.test(input)) {
-            input = normalizeArabicText(input);
+            // Handle Arabic input
         }
         
-        for (const key in wilayaAlternatives) {
-            let normalizedKey = key.toLowerCase().trim();
-            
-            if (/[\u0600-\u06FF]/.test(key)) {
-                normalizedKey = normalizeArabicText(key);
+        // Skip if input is too short
+        if (input.length < 2) return;
+        
+        // Check if the input matches a wilaya name
+        let wilayaName = null;
+        
+        // First check if it's a direct match with a standardized name
+        for (const name in wilayaData) {
+            if (name.toLowerCase() === input) {
+                wilayaName = name;
+                break;
             }
+        }
+        
+        // If not found, check alternatives
+        if (!wilayaName && wilayaAlternatives[input]) {
+            wilayaName = wilayaAlternatives[input];
+        }
+        
+        // If we found a match
+        if (wilayaName) {
+            // Clear the input field regardless of whether it's a new or duplicate guess
+            wilayaInput.value = '';
             
-            if (input === normalizedKey) {
-                const wilayaName = wilayaAlternatives[key];
+            // If it hasn't been guessed yet
+            if (!correctWilayas.has(wilayaName)) {
+                // Add to our set of correct guesses
+                correctWilayas.add(wilayaName);
                 
-                if (!correctWilayas.has(wilayaName)) {
-                    correctWilayas.add(wilayaName);
-                    
-                    const svgId = getWilayaPathId(wilayaName);
-                    if (svgId) {
-                        const wilayaPath = document.getElementById(svgId);
-                        if (wilayaPath) {
-                            wilayaPath.classList.add('correct');
-                            wilayaPath.style.animation = 'none';
-                            setTimeout(() => {
-                                wilayaPath.style.animation = 'glowPulse 1s infinite alternate';
-                            }, 10);
-                        }
+                // Show the score popup
+                showScorePopup(wilayaName);
+                
+                // Update score
+                score++;
+                updateScore();
+                
+                // Mark the wilaya on the map
+                if (typeof markWilayaCorrect === 'function') {
+                    const marked = markWilayaCorrect(wilayaName);
+                    if (marked === 'duplicate') {
+                        console.log(`${wilayaName} was already marked`);
+                    } else if (!marked) {
+                        console.warn(`Failed to mark wilaya on map: ${wilayaName}`);
                     }
-                    
-                    // Play success sound
-                    playSuccessSound();
-                    
-                    // Show score popup
-                    showScorePopup(wilayaName);
-                    
-                    // Update score - simplified and more direct
-                    score++;
-                    
-                    // Update both score displays
-                    document.getElementById('score').textContent = score;
-                    document.querySelector('.score span').textContent = score;
-                    
-                    console.log("Score updated to:", score); // Debug log
-                    
-                    wilayaInput.value = '';
-                    return;
+                } else {
+                    console.error("markWilayaCorrect function not found!");
                 }
-                wilayaInput.value = '';
-                return;
+                
+                // Check if all wilayas have been found
+                if (correctWilayas.size === Object.keys(wilayaData).length) {
+                    endGame();
+                }
+            } else {
+                // If it's a duplicate, maybe show a subtle indication
+                console.log(`${wilayaName} has already been guessed`);
+                // Optional: Show a small notification that this was already guessed
             }
         }
     }
@@ -880,4 +898,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call this at key points
     setTimeout(debugMapState, 1000); // Initial state
     
+    function searchWilayas() {
+        const searchInput = document.getElementById('search-input').value.toLowerCase();
+        const wilayas = document.querySelectorAll('.wilaya');
+        let count = 0;
+
+        wilayas.forEach(wilaya => {
+            const wilayaName = wilaya.getAttribute('data-name').toLowerCase();
+            const wilayaNameAr = wilaya.getAttribute('data-name-ar').toLowerCase();
+            
+            if (wilayaName.includes(searchInput) || wilayaNameAr.includes(searchInput)) {
+                wilaya.classList.add('highlighted');
+                count++;
+            } else {
+                wilaya.classList.remove('highlighted');
+            }
+        });
+
+        document.getElementById('count').textContent = count > 0 ? `+${count}` : '';
+    }
 }); 

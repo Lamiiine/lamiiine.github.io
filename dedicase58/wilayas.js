@@ -141,18 +141,27 @@ const wilayaAlternatives = {
     "ghardaia": "Ghardaia",
     "ghardaïa": "Ghardaia",
     "relizane": "Relizane",
-    "el mghair": "El M'Ghair",
-    "el m'ghair": "El M'Ghair",
-    "el meniaa": "El Meniaa",
-    "ouled djellal": "Ouled Djellal",
-    "bordj baji mokhtar": "Bordj Baji Mokhtar",
-    "beni abbes": "Béni Abbès",
-    "béni abbès": "Béni Abbès",
+    "el mghair": "El-Meghaier",
+    "el m'ghair": "El-Meghaier",
+    "el meghaier": "El-Meghaier",
+    "el-meghaier": "El-Meghaier",
+    "el meniaa": "El-Meniaa",
+    "el-meniaa": "El-Meniaa",
+    "ouled djellal": "Ouled-Djellal",
+    "ouled-djellal": "Ouled-Djellal",
+    "bordj badji mokhtar": "Bordj-Badji-Mokhtar",
+    "bordj-badji-mokhtar": "Bordj-Badji-Mokhtar",
+    "bordj baji mokhtar": "Bordj-Badji-Mokhtar",
+    "beni abbes": "Beni-Abbes",
+    "béni abbès": "Beni-Abbes",
+    "beni-abbes": "Beni-Abbes",
     "timimoun": "Timimoun",
     "touggourt": "Touggourt",
     "djanet": "Djanet",
-    "in salah": "In Salah",
-    "in guezzam": "In Guezzam",
+    "in salah": "In-Salah",
+    "in-salah": "In-Salah",
+    "in guezzam": "In-Guezzam",
+    "in-guezzam": "In-Guezzam",
     "أدرار": "Adrar",
     "الشلف": "Chlef",
     "الأغواط": "Laghouat",
@@ -203,7 +212,7 @@ const wilayaAlternatives = {
     "غليزان": "Relizane"
 };
 
-// Add this function to check if the SVG paths match our wilaya data
+// Update the validateWilayaMapping function to handle different ID formats
 function validateWilayaMapping() {
     // Get all paths from the SVG
     const wilayaPaths = document.querySelectorAll('#features path[id]');
@@ -221,10 +230,12 @@ function validateWilayaMapping() {
     // Check if our wilayaData matches the SVG paths
     for (const wilayaName in wilayaData) {
         const wilayaNumber = wilayaData[wilayaName];
-        const wilayaId = `DZ${wilayaNumber}`;
+        // Try both formats: with and without leading zero
+        const wilayaId1 = `DZ${wilayaNumber.toString().padStart(2, '0')}`;
+        const wilayaId2 = `DZ${wilayaNumber}`;
         
-        if (!pathIdToName[wilayaId]) {
-            console.warn(`No SVG path found for wilaya: ${wilayaName} (ID: ${wilayaId})`);
+        if (!pathIdToName[wilayaId1] && !pathIdToName[wilayaId2]) {
+            console.warn(`No SVG path found for wilaya: ${wilayaName} (ID: ${wilayaId1} or ${wilayaId2})`);
         }
     }
     
@@ -235,9 +246,11 @@ function validateWilayaMapping() {
         
         for (const wilayaName in wilayaData) {
             const wilayaNumber = wilayaData[wilayaName];
-            const wilayaId = `DZ${wilayaNumber}`;
+            // Try both formats
+            const wilayaId1 = `DZ${wilayaNumber.toString().padStart(2, '0')}`;
+            const wilayaId2 = `DZ${wilayaNumber}`;
             
-            if (wilayaId === pathId) {
+            if (wilayaId1 === pathId || wilayaId2 === pathId) {
                 found = true;
                 break;
             }
@@ -254,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(validateWilayaMapping, 1500);
 });
 
-// Add a mapping between wilaya names and their SVG IDs
+// Update the wilayaSvgIds mapping to match the actual SVG structure
 const wilayaSvgIds = {
     "Adrar": "DZ01",
     "Chlef": "DZ02",
@@ -304,16 +317,17 @@ const wilayaSvgIds = {
     "Ain-Timouchent": "DZ46",
     "Ghardaia": "DZ47",
     "Relizane": "DZ48",
-    "Timimoun": "DZ49",
-    "Bordj-Badji-Mokhtar": "DZ50",
+    // Fix the problematic wilayas based on the SVG circle IDs
+    "Timimoun": "DZ54",
+    "Bordj-Badji-Mokhtar": "DZ52",
     "Ouled-Djellal": "DZ51",
-    "Beni-Abbes": "DZ52",
-    "In-Salah": "DZ53",
-    "In-Guezzam": "DZ54",
+    "Beni-Abbes": "DZ53",
+    "In-Salah": "DZ57",
+    "In-Guezzam": "DZ58",
     "Touggourt": "DZ55",
     "Djanet": "DZ56",
-    "El-Meghaier": "DZ57",
-    "El-Meniaa": "DZ58"
+    "El-Meghaier": "DZ49",
+    "El-Meniaa": "DZ50"
 };
 
 // Update the getWilayaPathId function to use this mapping
@@ -344,4 +358,151 @@ function getWilayaPathId(wilayaName) {
     }
     
     return null;
-} 
+}
+
+// Add this function to mark a wilaya as correct on the map
+function markWilayaCorrect(wilayaName) {
+    // First, get the standardized wilaya name
+    const standardName = wilayaAlternatives[wilayaName.toLowerCase()] || wilayaName;
+    
+    // Special case handling for problematic wilayas
+    let lookupName = standardName;
+    
+    // Fix the problematic mappings
+    if (standardName === "El M'Ghair" || standardName === "El Meghaier") lookupName = "El-Meghaier";
+    if (standardName === "El Meniaa") lookupName = "El-Meniaa";
+    if (standardName === "In Salah") lookupName = "In-Salah";
+    if (standardName === "In Guezzam") lookupName = "In-Guezzam";
+    if (standardName === "Bordj Badji Mokhtar") lookupName = "Bordj-Badji-Mokhtar";
+    if (standardName === "Béni Abbès" || standardName === "Beni Abbes") lookupName = "Beni-Abbes";
+    
+    // Debug the lookup
+    console.log(`Looking up wilaya: ${wilayaName} → ${standardName} → ${lookupName}`);
+    
+    // Check if this wilaya has already been marked
+    const alreadyMarked = document.querySelector(`#features path.correct[id="${wilayaSvgIds[lookupName]}"]`) ||
+                          document.querySelector(`circle.correct[id="${wilayaSvgIds[lookupName]}"]`);
+    
+    if (alreadyMarked) {
+        console.log(`Wilaya ${lookupName} has already been marked as correct`);
+        return 'duplicate';
+    }
+    
+    // Get the wilaya ID from our mapping
+    const wilayaId = wilayaSvgIds[lookupName];
+    
+    if (wilayaId) {
+        console.log(`Found ID for ${lookupName}: ${wilayaId}`);
+        
+        // Try to find the path element first
+        const path = document.getElementById(wilayaId);
+        
+        if (path) {
+            // Add the correct class to highlight it
+            path.classList.add('correct');
+            console.log(`Successfully highlighted wilaya path: ${lookupName} (ID: ${wilayaId})`);
+            return true;
+        } 
+        
+        // If path not found, try to find a circle element with this ID
+        const circle = document.querySelector(`circle[id="${wilayaId}"]`);
+        if (circle) {
+            circle.classList.add('correct');
+            console.log(`Successfully highlighted wilaya circle: ${lookupName} (ID: ${wilayaId})`);
+            return true;
+        }
+        
+        // If still not found, try to find by name attribute
+        const elementByName = document.querySelector(`[name="${lookupName}"]`) || 
+                             document.querySelector(`[name="${standardName}"]`);
+        if (elementByName) {
+            elementByName.classList.add('correct');
+            console.log(`Successfully highlighted wilaya by name: ${lookupName}`);
+            return true;
+        }
+        
+        // Try with class name
+        const elementByClass = document.querySelector(`.${lookupName}`) || 
+                              document.querySelector(`.${standardName}`);
+        if (elementByClass) {
+            elementByClass.classList.add('correct');
+            console.log(`Successfully highlighted wilaya by class: ${lookupName}`);
+            return true;
+        }
+        
+        console.warn(`Element not found for wilaya: ${lookupName} (ID: ${wilayaId})`);
+    } else {
+        console.warn(`No ID mapping found for wilaya: ${lookupName}`);
+    }
+    
+    // If we get here, we couldn't find the element using our mapping
+    // Try the original approach with wilaya numbers
+    const wilayaNumber = wilayaData[lookupName] || wilayaData[standardName];
+    
+    if (wilayaNumber) {
+        console.log(`Found wilaya number: ${wilayaNumber} for ${lookupName}`);
+        // Try different formats
+        const possibleIds = [
+            `DZ${wilayaNumber.toString().padStart(2, '0')}`,
+            `DZ${wilayaNumber}`,
+            `DZ-${wilayaNumber}`,
+            `dz${wilayaNumber}`,
+            `dz-${wilayaNumber}`,
+            `${wilayaNumber}`
+        ];
+        
+        for (const id of possibleIds) {
+            const element = document.getElementById(id) || document.querySelector(`[id="${id}"]`);
+            if (element) {
+                element.classList.add('correct');
+                console.log(`Successfully highlighted wilaya using alternative ID: ${id}`);
+                return true;
+            }
+        }
+        console.warn(`Tried all possible IDs for ${lookupName} but none worked: ${possibleIds.join(', ')}`);
+    } else {
+        console.warn(`No wilaya number found for: ${lookupName}`);
+    }
+    
+    return false;
+}
+
+// Add this function to debug the SVG structure
+function debugSvgStructure() {
+    console.log("Debugging SVG structure...");
+    
+    // Get all elements with IDs from the SVG
+    const svgElements = document.querySelectorAll('#features *[id]');
+    console.log(`Found ${svgElements.length} elements with IDs in the SVG`);
+    
+    // Create a mapping from element IDs to their types and names
+    const elementInfo = {};
+    svgElements.forEach(element => {
+        const id = element.getAttribute('id');
+        const name = element.getAttribute('name') || element.getAttribute('data-name') || element.getAttribute('class');
+        const type = element.tagName;
+        console.log(`Element: ${type}, ID: ${id}, Name/Class: ${name}`);
+        if (id) {
+            elementInfo[id] = { type, name };
+        }
+    });
+    
+    // Print all IDs for reference
+    console.log("All element IDs in the SVG:", Object.keys(elementInfo).join(", "));
+    
+    // Check our wilaya mappings against the SVG
+    console.log("Validating wilaya mappings against SVG elements...");
+    for (const [wilayaName, id] of Object.entries(wilayaSvgIds)) {
+        const element = document.getElementById(id);
+        if (element) {
+            console.log(`✓ ${wilayaName} -> ${id} (Found: ${element.tagName})`);
+        } else {
+            console.warn(`✗ ${wilayaName} -> ${id} (Not found in SVG)`);
+        }
+    }
+}
+
+// Call this function after the SVG is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(debugSvgStructure, 1000);
+}); 
