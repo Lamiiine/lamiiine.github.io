@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set the source based on score bracket
         if (score <= 17) {
             audio.src = 'sounds/harki.mp3';
-        } else if (score <= 35) {
+        } else if (score <= 30) {
             audio.src = 'sounds/9iw.mp3';
         } else {
             audio.src = 'sounds/best.mp3';
