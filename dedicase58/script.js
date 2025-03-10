@@ -15,6 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let score = 0;
     let gameActive = false;
     let correctWilayas = new Set();
+    let silentMode = false;
+
+    const soundBtn = document.getElementById("sound-btn");
+
+    soundBtn.addEventListener("click", () => {
+        silentMode = !silentMode;
+        soundBtn.textContent = silentMode ? "🔇" : "🔊";
+    });
     
     // Add this near the top of your script, after the DOM content loaded event
     console.log("wilayaAlternatives defined:", typeof wilayaAlternatives !== 'undefined');
@@ -352,6 +360,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Update score
                 score++;
                 updateScore();
+
+                playSuccessSound(wilayaName);
                 
                 // Mark the wilaya on the map
                 if (typeof markWilayaCorrect === 'function') {
@@ -377,13 +387,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function playSuccessSound() {
-        // Silent version - no sound will play
-        console.log("Success marked silently");
+    function playSuccessSound(wilayname) {
+        if (silentMode) return;
+    
+        // Play success sound
+        console.log("Playing Success sound ...");
+        const audio = new Audio('sounds/SuccessSoundEffect.mp3');
+        audio.volume = 0.3;
+        audio.play().catch(error => {
+            console.error('Could not play success sound:', error);
+        }).finally(() => {
+            // Speak the wilayname after the sound finishes
+            speakWilayname(wilayname);
+        });
+
+    }
+
+    function speakWilayname(wilayname) {
+        // TTS for wilayname
+        if (wilayname) {
+            try {
+                const utterance = new SpeechSynthesisUtterance(wilayname);
+                utterance.lang = 'fr-FR';
+                utterance.rate = 1;
+                speechSynthesis.speak(utterance);
+            } catch (error) {
+                console.error('Could not speak wilayname:', error);
+            }
+        }
     }
     
     // Add this function to play different sounds based on score brackets
     function playScoreBracketSound() {
+        if (silentMode) return;
         // Create audio element
         const audio = new Audio();
         
@@ -569,10 +605,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (wilayaPath) {
                 wilayaPath.classList.add('correct');
                 console.log(`Successfully highlighted wilaya by click: ${wilayaName} (ID: ${wilayaInfo.id})`);
-                
-                // Play a success sound
-                playSuccessSound();
-                
+
                 // Show score popup with wilaya name
                 showScorePopup(wilayaName);
                 
@@ -580,6 +613,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 score++;
                 document.getElementById('score').textContent = score;
                 updateScore();
+
+                // Play a success sound
+                playSuccessSound();
             }
         }
     }

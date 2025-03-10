@@ -24,6 +24,31 @@ body {
     align-items: center;
 }
 
+.sound-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+}
+
+.sound-toggle button {
+    font-size: 1.6rem;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: rgba(69, 123, 157, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-align: center;
+    color: #a9d6e5;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.sound-toggle button:hover {
+    background: rgba(69, 123, 157, 0.4);
+    box-shadow: 0 0 15px rgba(69, 123, 157, 0.5);
+}
+
 /* Game container - futuristic card */
 .game-container {
     width: 100%;
