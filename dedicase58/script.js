@@ -1,4 +1,5 @@
 let isArabic = false; // Define isArabic globally
+let currentGameLevel = '1'; // Default to level 1
 
 document.addEventListener('DOMContentLoaded', function() {
     const startBtn = document.getElementById('start-btn');
@@ -11,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mapContainer = document.getElementById('algeria-map');
     
     let timer;
-    let timeLeft = 600;
+    let timeLeft = 6;
     let score = 0;
     let gameActive = false;
     let correctWilayas = new Set();
@@ -175,36 +176,98 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn("Language toggle button not found in the DOM");
     }
     
+    function updateTimer() {
+        if (!gameActive) return;
+        
+        // Check if we're in Level 1 (only count down in Level 1)
+        if (currentGameLevel === '1') {
+            timeLeft--;
+            
+            // Format the time as MM:SS
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update the display
+            const timeDisplay = document.getElementById('time');
+            if (timeDisplay) {
+                timeDisplay.textContent = formattedTime;
+            }
+            
+            // Check if time is up
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                endGame();
+            }
+            
+            console.log("Timer updated: " + formattedTime); // Debug log
+        }
+    }
+    
     function startGame() {
         if (gameActive) return;
         
-        startOverlay.remove();
-        gameContainer.classList.remove('blurred');
+        // Get the selected level from the data attribute of the selected level option
+        const selectedLevelOption = document.querySelector('.level-option.selected');
+        currentGameLevel = selectedLevelOption ? selectedLevelOption.getAttribute('data-level') : '1';
+        
+        // Check if Level 2 is active - if so, don't start Level 1
+        if (currentGameLevel === '2' && level2 && level2.gameActive) {
+            return;
+        }
+        
+        // Reset score for Level 1 explicitly
+        if (currentGameLevel === '1') {
+            score = 0;
+            updateScore(); // Make sure this updates the UI immediately
+        }
         
         gameActive = true;
-        wilayaInput.disabled = false;
-        wilayaInput.focus();
         
-        startBtn.textContent = 'Quiz Running...';
-        startBtn.disabled = true;
-        startBtn.classList.add('fade-out');
+        // Reset timer for Level 1
+        if (currentGameLevel === '1') {
+            timeLeft = 6; // Reset to 10 minutes
+            const timeDisplay = document.getElementById('time');
+            if (timeDisplay) {
+                timeDisplay.textContent = '10:00';
+            }
+            
+            // Start the timer - make sure we clear any existing timer first
+            clearInterval(timer);
+            timer = setInterval(updateTimer, 1000);
+            console.log("Timer started for Level 1");
+        }
         
-        timer = setInterval(updateTimer, 1000);
-        updateScore();
-    }
-    
-    function updateTimer() {
-        timeLeft--;
+        // Hide level selection
+        const levelSelection = document.getElementById('level-selection');
+        if (levelSelection) {
+            levelSelection.style.display = 'none';
+        }
         
-        // Format time as MM:SS
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        // Show game interface - check if element exists first
+        const gameInterface = document.getElementById('game-interface');
+        if (gameInterface) {
+            gameInterface.classList.remove('hidden');
+        } else {
+            console.log("Game interface element not found");
+        }
         
-        if (timeLeft <= 0) {
-            endGame();
+        // Focus on the input field - check if element exists first
+        if (wilayaInput) {
+            wilayaInput.focus();
+        } else {
+            console.log("Wilaya input element not found");
+        }
+        
+        // Force an immediate update of the timer display for Level 1
+        if (currentGameLevel === '1') {
+            console.log("Level 1 started, timer should be running");
+            updateTimer();
         }
     }
+    
+    // Make the function globally accessible
+    window.startGame = startGame;
     
     // Add this function to normalize Arabic text
     function normalizeArabicText(text) {
@@ -310,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkInput() {
         if (!gameActive) return;
         
-        let input = wilayaInput.value.trim().toLowerCase();
+        let input = wilayaInput.value.trim();
         
         // For Arabic input, normalize the text
         if (/[\u0600-\u06FF]/.test(input)) {
@@ -320,59 +383,24 @@ document.addEventListener('DOMContentLoaded', function() {
         // Skip if input is too short
         if (input.length < 2) return;
         
-        // Check if the input matches a wilaya name
-        let wilayaName = null;
+        // Check if the input matches a wilaya name using our lookup
+        const standardName = window.wilayaAlternativesLookup[input.toLowerCase()];
         
-        // First check if it's a direct match with a standardized name
-        for (const name in wilayaData) {
-            if (name.toLowerCase() === input) {
-                wilayaName = name;
-                break;
-            }
-        }
-        
-        // If not found, check alternatives
-        if (!wilayaName && wilayaAlternatives[input]) {
-            wilayaName = wilayaAlternatives[input];
-        }
-        
-        // If we found a match
-        if (wilayaName) {
-            // Clear the input field regardless of whether it's a new or duplicate guess
+        if (standardName && !correctWilayas.has(standardName)) {
+            // Valid wilaya name that hasn't been used yet
+            correctWilayas.add(standardName);
+            score++;
+            updateScore();
+            
+            // Mark the wilaya on the map
+            markWilayaCorrect(standardName);
+            
+            // Clear the input field
             wilayaInput.value = '';
             
-            // If it hasn't been guessed yet
-            if (!correctWilayas.has(wilayaName)) {
-                // Add to our set of correct guesses
-                correctWilayas.add(wilayaName);
-                
-                // Show the score popup
-                showScorePopup(wilayaName);
-                
-                // Update score
-                score++;
-                updateScore();
-                
-                // Mark the wilaya on the map
-                if (typeof markWilayaCorrect === 'function') {
-                    const marked = markWilayaCorrect(wilayaName);
-                    if (marked === 'duplicate') {
-                        console.log(`${wilayaName} was already marked`);
-                    } else if (!marked) {
-                        console.warn(`Failed to mark wilaya on map: ${wilayaName}`);
-                    }
-                } else {
-                    console.error("markWilayaCorrect function not found!");
-                }
-                
-                // Check if all wilayas have been found
-                if (correctWilayas.size === Object.keys(wilayaData).length) {
-                    endGame();
-                }
-            } else {
-                // If it's a duplicate, maybe show a subtle indication
-                console.log(`${wilayaName} has already been guessed`);
-                // Optional: Show a small notification that this was already guessed
+            // Check if all wilayas have been found
+            if (correctWilayas.size === Object.keys(wilayaData).length) {
+                endGame();
             }
         }
     }
@@ -456,11 +484,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const socialContainer = document.createElement('div');
         socialContainer.className = 'social-container';
         
-        
         // Twitter/X button
         const twitterBtn = createSocialButton('twitter', 'X (Twitter)');
         socialContainer.appendChild(twitterBtn);
-        
         
         // Download button - now using the download-icon.svg
         const downloadBtn = createSocialButton('download', 'Download');
@@ -526,7 +552,7 @@ document.addEventListener('DOMContentLoaded', function() {
         timeLeft = 600;
         correctWilayas.clear();
         
-        timeDisplay.textContent = '01:00';
+        timeDisplay.textContent = '10:00';
         updateScore();
         wilayaInput.value = '';
         wilayaInput.disabled = false;
@@ -534,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset the map by removing styles
         const wilayaPaths = document.querySelectorAll('#features path');
         wilayaPaths.forEach(path => {
-            path.classList.remove('correct');
+            path.classList.remove('correct', 'highlighted', 'wrong');
             path.style.animation = '';
         });
     
@@ -543,7 +569,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         resultsDiv.classList.add('hidden');
     
-        startGame();
+        // Show level selection instead of immediately starting the game
+        const levelSelection = document.getElementById('level-selection');
+        if (levelSelection) {
+            levelSelection.style.display = 'flex';
+        } else {
+            startGame();
+        }
     }
     
 
@@ -917,4 +949,85 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.getElementById('count').textContent = count > 0 ? `+${count}` : '';
     }
+
+    // Add this function to your script.js file
+    function completeGameReset() {
+        // Reset all game state variables
+        score = 0;
+        timeLeft = 600;
+        correctWilayas.clear();
+        gameActive = false;
+        
+        // Reset UI elements
+        const timeDisplay = document.getElementById('time');
+        if (timeDisplay) {
+            timeDisplay.textContent = '10:00';
+        }
+        
+        const scoreDisplay = document.getElementById('score');
+        if (scoreDisplay) {
+            scoreDisplay.textContent = '0 / 58';
+        }
+        
+        // Thoroughly reset all wilayas on the map
+        const wilayaPaths = document.querySelectorAll('#features path');
+        wilayaPaths.forEach(path => {
+            path.classList.remove('correct', 'highlighted', 'wrong', 'current');
+            path.removeAttribute('style');
+        });
+        
+        // Clear any hint messages
+        const hintContainer = document.querySelector('.hint-container');
+        if (hintContainer) {
+            hintContainer.innerHTML = '';
+        }
+        
+        // Remove any game over text
+        const gameOverText = document.querySelector('.game-over-text');
+        if (gameOverText) {
+            gameOverText.remove();
+        }
+        
+        // Reset input field
+        const wilayaInput = document.getElementById('wilaya-input');
+        if (wilayaInput) {
+            wilayaInput.value = '';
+        }
+        
+        // Hide results
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv) {
+            resultsDiv.classList.add('hidden');
+        }
+        
+        // Force a redraw of the map to ensure changes take effect
+        const mapContainer = document.getElementById('algeria-map');
+        if (mapContainer) {
+            void mapContainer.offsetWidth;
+        }
+    }
+
+    // Update the startBtn event listener to use the complete reset
+    startBtn.addEventListener('click', function() {
+        if (!selectedLevel) {
+            alert('Please select a level first');
+            return;
+        }
+        
+        // Reset game state completely before starting a new game
+        completeGameReset();
+        
+        // Hide level selection
+        const levelSelection = document.getElementById('level-selection');
+        if (levelSelection) {
+            levelSelection.style.display = 'none';
+        }
+        
+        // Start the appropriate game
+        if (selectedLevel === '1') {
+            startGame(); // Ensure this is specific to level 1
+        } else if (selectedLevel === '2') {
+            level2.init(); // Ensure this is specific to level 2
+        }
+    });
 }); 

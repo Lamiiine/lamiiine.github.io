@@ -66,12 +66,29 @@
             <p>Rak Jebt  <span id="final-score">0</span> mn  58 wilayas.</p>
             <button id="play-again">زيد العب</button>
         </div>
+
+        <!-- Level selection overlay -->
+        <div id="level-selection" class="level-selection">
+            <h2>Choose Level</h2>
+            <div class="level-options">
+                <div class="level-option" data-level="1">
+                    <h3>Level 1</h3>
+                    <p>Name as many wilayas as you can in 10 minutes</p>
+                </div>
+                <div class="level-option" data-level="2">
+                    <h3>Level 2</h3>
+                    <p>Identify highlighted wilayas. 10 lives. Each correct answer gives +1 life, wrong answers cost 1 life.</p>
+                </div>
+            </div>
+            <button id="start-game-btn">Start Game</button>
+        </div>
     </div>
     
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
     <script src="wilayas.js"></script>
     <script src="script.js"></script>
+    <script src="level2.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </body>
 </html> 
