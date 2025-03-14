@@ -1,0 +1,315 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: linear-gradient(to bottom, #e6eef5, #f5f7fa);
+    color: #000;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    direction: rtl;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    padding: 20px;
+}
+
+.year-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #e0e7f1;
+    color: #5a6a85;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.title {
+    font-size: 2.2rem;
+    margin: 30px 0 15px;
+    color: #000;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #555;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.image-container {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.kahlana-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 60px;
+}
+
+.countdown-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 100px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.countdown-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #000;
+    line-height: 1;
+}
+
+.countdown-label {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 10px;
+}
+
+/* WiFi icon at the bottom */
+.wifi-icon {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+}
+
+.wifi-circle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background-color: #4caf50;
+    border-radius: 50%;
+}
+
+.wifi-wave {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid #4caf50;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0 0 100% 100%;
+}
+
+.wave1 {
+    width: 20px;
+    height: 10px;
+}
+
+.wave2 {
+    width: 30px;
+    height: 15px;
+}
+
+.wave3 {
+    width: 40px;
+    height: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .title {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .image-container {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .countdown-container {
+        flex-wrap: wrap;
+    }
+    
+    .countdown-box {
+        min-width: 80px;
+        padding: 15px;
+    }
+    
+    .countdown-value {
+        font-size: 2.5rem;
+    }
+}
+
+/* Algeria Map */
+.algeria-map-container {
+    margin: 20px auto;
+    text-align: center;
+}
+
+#algeria-map {
+    max-width: 200px;
+    height: auto;
+}
+
+/* Lamp Switch */
+.lamp-switch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.switch-label {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #f39c12;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Notification Styles */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    z-index: 1000;
+}
+
+.notification {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+    padding: 15px;
+    position: relative;
+    transform: translateX(120%);
+    transition: transform 0.5s ease;
+    overflow: hidden;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.notification-app {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.notification-time {
+    margin-right: auto;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.notification-content {
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.notification-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.notification-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} 

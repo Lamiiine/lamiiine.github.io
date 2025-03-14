@@ -61,6 +61,113 @@ const wilayaData = {
     "El-Meniaa": 58
 };
 
+// Add variations for wilaya names
+const wilayaVariations = {
+    // Common variations with diacritics, spacing, and spelling differences
+    "Adrar": ["Adrar"],
+    "Chlef": ["Chlef", "Chelef", "Chelif", "El Chlef", "Ash Shalif"],
+    "Laghouat": ["Laghouat", "Laghwat", "El Aghouat", "Al Aghwat"],
+    "Oum-El-Bouaghi": ["Oum-El-Bouaghi", "Oum El Bouaghi", "Oum El-Bouaghi", "Oum El Bouagui", "Umm al Bawāqī"],
+    "Batna": ["Batna"],
+    "Bejaia": ["Bejaia", "Béjaïa", "Bejaya", "Bougie", "Bgayet", "Vgaiet"],
+    "Biskra": ["Biskra", "Beskra"],
+    "Bechar": ["Bechar", "Béchar", "Béchar"],
+    "Blida": ["Blida", "El Blida", "Al Bulayda"],
+    "Bouira": ["Bouira", "Bouïra", "Tubirett", "Al Buwaira"],
+    "Tamanrasset": ["Tamanrasset", "Tamanghasset", "Tamenghest", "Tamanghasset"],
+    "Tebessa": ["Tebessa", "Tbessa", "Tébessa"],
+    "Tlemcen": ["Tlemcen", "Tlemsen", "Tilimsan", "Tilimsen"],
+    "Tiaret": ["Tiaret", "Tihert", "Tahert", "Tiharet"],
+    "Tizi-Ouzou": ["Tizi-Ouzou", "Tizi Ouzou", "Tizi-Wezzu", "Tizi Wezzu","Tizi"],
+    "Algiers": ["Algiers", "Alger", "Algier", "Dzayer", "El Djazair", "Al Jazair", "Algers", "Algier"],
+    "Djelfa": ["Djelfa", "Jelfa", "Al Jelfa"],
+    "Jijel": ["Jijel", "Jijelli", "Djidjelli"],
+    "Setif": ["Setif", "Sétif", "Stif", "Sitif"],
+    "Saida": ["Saida", "Saïda", "Saada"],
+    "Skikda": ["Skikda", "Skikida", "Sikda"],
+    "Sidi-Bel-Abes": ["Sidi-Bel-Abes", "Sidi Bel Abbes", "Sidi Bel-Abbes", "Sidi-Bel-Abbès", "Sidi Bel Abbès"],
+    "Annaba": ["Annaba", "Anaba", "Annabah", "Bone", "Bona"],
+    "Guelma": ["Guelma", "Gelma", "Qalima"],
+    "Constantine": ["Constantine", "Qusantina", "Qacentina"],
+    "Medea": ["Medea", "Médéa", "Lemdiya"],
+    "Mostaganem": ["Mostaganem", "Mostaghanem", "Mustaghanim"],
+    "M'Sila": ["M'Sila", "M'sila", "Msila", "Msila", "El M'sila","M sila"],
+    "Mascara": ["Mascara", "Maskara", "Maaskar"],
+    "Ouargla": ["Ouargla", "Wargla", "Warqla"],
+    "Oran": ["Oran", "Wahran", "Ouahran"],
+    "El-Bayadh": ["El-Bayadh", "El Bayadh", "El Bayad", "Bayadh"],
+    "Illizi": ["Illizi", "Ilizi", "Illizi"],
+    "Bordj-Bou-Arreridj": ["Bordj-Bou-Arreridj", "Bordj Bou Arreridj", "Bordj-Bou-Arréridj", "BBA", "Bordj"],
+    "Boumerdes": ["Boumerdes", "Boumerdès", "Boumerdas"],
+    "El-Taref": ["El-Taref", "El Taref", "El Tarf", "Tarf","Taref"],
+    "Tindouf": ["Tindouf", "Tinduf"],
+    "Tissemsilt": ["Tissemsilt", "Tissemssilt", "Tissemselt"],
+    "El-Oued": ["El-Oued", "El Oued", "El Wad", "Wadi", "Souf"],
+    "Khenchela": ["Khenchela", "Khenchla", "Khanchla"],
+    "Souk-Ahras": ["Souk-Ahras", "Souk Ahras", "Soukaras", "Soukahras"],
+    "Tipaza": ["Tipaza", "Tipasa", "Tefessedt"],
+    "Mila": ["Mila", "Milla"],
+    "Ain-Defla": ["Ain-Defla", "Ain Defla", "Aïn Defla", "Ain-Eddefla"],
+    "Naama": ["Naama", "Naâma", "Naama"],
+    "Ain-Timouchent": ["Ain-Timouchent", "Ain Timouchent", "Aïn Témouchent", "Ain Temouchent"],
+    "Ghardaia": ["Ghardaia", "Ghardaïa", "Ghardaya", "Tagherdayt"],
+    "Relizane": ["Relizane", "Relizene", "Ghilizan", "Rlizane"],
+    "Timimoun": ["Timimoun", "Timimun"],
+    "Bordj-Badji-Mokhtar": ["Bordj-Badji-Mokhtar", "Bordj Badji Mokhtar", "BBM"],
+    "Ouled-Djellal": ["Ouled-Djellal", "Ouled Djellal", "Awlad Jallal"],
+    "Beni-Abbes": ["Beni-Abbes", "Beni Abbes", "Beni-Abbès", "Beni Abbès"],
+    "In-Salah": ["In-Salah", "In Salah", "Ain Salah", "Aïn Salah"],
+    "In-Guezzam": ["In-Guezzam", "In Guezzam", "Tin Guezzam"],
+    "Touggourt": ["Touggourt", "Tuggurt", "Tugurt"],
+    "Djanet": ["Djanet", "Janet"],
+    "El-Meghaier": ["El-Meghaier", "El Meghaier", "El-Mghair", "El Mghair", "Meghaier"],
+    "El-Meniaa": ["El-Meniaa", "El Meniaa", "El-Menia", "El Menia", "Meniaa"]
+};
+
+// Function to find the wilaya code from input, including variations
+function findWilayaCode(input) {
+    // Normalize input: trim whitespace, convert to lowercase
+    const normalizedInput = input.trim().toLowerCase();
+    
+    // First check direct match with standard names
+    for (const wilaya in wilayaVariations) {
+        if (wilaya.toLowerCase() === normalizedInput) {
+            return wilaya;
+        }
+    }
+    
+    // Then check variations
+    for (const [wilaya, variations] of Object.entries(wilayaVariations)) {
+        if (variations.some(variation => variation.toLowerCase() === normalizedInput)) {
+            return wilaya;
+        }
+    }
+    
+    return null;
+}
+
+// Function to find the standard wilaya name from any variation
+function findStandardWilayaName(input) {
+    return findWilayaCode(input);
+}
+
+// Create a lookup object for faster access during gameplay
+const wilayaAlternativesLookup = {};
+
+// Populate the lookup object with all variations
+for (const [standardName, variations] of Object.entries(wilayaVariations)) {
+    // Add the standard name itself
+    wilayaAlternativesLookup[standardName.toLowerCase()] = standardName;
+    
+    // Add all variations
+    variations.forEach(variation => {
+        wilayaAlternativesLookup[variation.toLowerCase()] = standardName;
+    });
+}
+
+// Export the lookup object for use in other files
+window.wilayaAlternativesLookup = wilayaAlternativesLookup;
+
 // Alternative spellings and common variations for wilaya names
 const wilayaAlternatives = {
     "adrar": "Adrar",
