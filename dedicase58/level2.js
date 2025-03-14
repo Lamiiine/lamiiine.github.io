@@ -517,25 +517,14 @@ let level2 = {
         // Add share text
         const shareText = document.createElement('p');
         shareText.className = 'share-text';
-        shareText.textContent = 'Share your result:';
         
         // Create social container
         const socialContainer = document.createElement('div');
         socialContainer.className = 'social-container';
         
-        // Twitter/X button
-        const twitterBtn = document.createElement('button');
-        twitterBtn.className = 'social-button twitter';
-        twitterBtn.innerHTML = '<img src="assets/icons/twitter-icon.svg" alt="X (Twitter)">';
-        twitterBtn.addEventListener('click', () => this.shareOnTwitter());
-        socialContainer.appendChild(twitterBtn);
+       
         
         // Download button
-        const downloadBtn = document.createElement('button');
-        downloadBtn.className = 'social-button download';
-        downloadBtn.innerHTML = '<img src="assets/icons/download-icon.svg" alt="Download">';
-        downloadBtn.addEventListener('click', () => this.downloadResult());
-        socialContainer.appendChild(downloadBtn);
         
         shareContainer.appendChild(shareText);
         shareContainer.appendChild(socialContainer);
