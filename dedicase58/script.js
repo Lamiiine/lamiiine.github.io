@@ -484,9 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const socialContainer = document.createElement('div');
         socialContainer.className = 'social-container';
         
-        // Twitter/X button
-        const twitterBtn = createSocialButton('twitter', 'X (Twitter)');
-        socialContainer.appendChild(twitterBtn);
+       
         
         // Download button - now using the download-icon.svg
         const downloadBtn = createSocialButton('download', 'Download');
