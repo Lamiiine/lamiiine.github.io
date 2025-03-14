@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mapContainer = document.getElementById('algeria-map');
     
     let timer;
-    let timeLeft = 6;
+    let timeLeft = 600;
     let score = 0;
     let gameActive = false;
     let correctWilayas = new Set();
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Reset timer for Level 1
         if (currentGameLevel === '1') {
-            timeLeft = 6; // Reset to 10 minutes
+            timeLeft = 600; // Reset to 10 minutes
             const timeDisplay = document.getElementById('time');
             if (timeDisplay) {
                 timeDisplay.textContent = '10:00';
