@@ -1,0 +1,338 @@
+/* Pulse animation for station markers */
+.station-marker {
+    position: relative;
+}
+
+.station-marker::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    margin-top: -12px;
+    border-radius: 50%;
+    background-color: var(--ping-color, #0071e3);
+    opacity: 0.5;
+    z-index: -1;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+    }
+    70% {
+        transform: scale(2);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* Custom marker styles */
+.station-icon {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.station-icon:hover {
+    transform: scale(1.2);
+}
+
+.station-icon:active {
+    transform: scale(0.9);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* Apple-style scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Map Controls Styling */
+.leaflet-control-zoom {
+    border-radius: 10px !important;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.leaflet-control-zoom a {
+    background-color: white !important;
+    color: #0071e3 !important;
+    border: none !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background-color: #f5f5f7 !important;
+}
+
+/* Custom button for current location */
+.locate-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.locate-button:hover {
+    background-color: #f5f5f7;
+}
+
+/* Add this to your CSS file */
+#player-card {
+    z-index: 1000; /* Ensures card appears above map */
+    pointer-events: auto; /* Makes sure clicks are captured */
+}
+
+/* Map container should allow overflow for fixed elements */
+#map {
+    z-index: 0; /* Lower z-index than the card */
+}
+
+/* Loading indicator */
+.loading-indicator {
+    z-index: 1000;
+}
+
+/* Station count badge */
+.station-count {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.station-count i {
+    color: #0071e3;
+}
+
+/* Improve marker visibility */
+.station-marker-container {
+    margin-top: -10px !important;
+    margin-left: -10px !important;
+}
+
+/* Fun animations and styling */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes sparkle {
+    0% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0); }
+}
+
+/* Random station button effects */
+#random-station-btn {
+    transition: all 0.3s;
+}
+
+#random-station-btn:hover {
+    transform: scale(1.05);
+}
+
+#random-station-btn:active {
+    transform: scale(0.95);
+}
+
+/* Station selection animation */
+.station-selected {
+    animation: bounce 0.5s ease-in-out;
+    z-index: 1000 !important;
+}
+
+/* Confetti styles */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #FF3B30;
+    opacity: 0.8;
+    animation: confetti-fall 4s linear, confetti-shake 2s ease-in-out;
+}
+
+@keyframes confetti-fall {
+    0% { top: -10px; }
+    100% { top: 100vh; }
+}
+
+@keyframes confetti-shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(100px); }
+    50% { transform: translateX(-100px); }
+    75% { transform: translateX(50px); }
+    100% { transform: translateX(0); }
+}
+
+/* Enhanced player card with fun animations */
+#player-card {
+    transition: all 0.3s ease-out;
+    transform-origin: bottom center;
+}
+
+#player-card.show {
+    animation: pop-up 0.5s forwards;
+}
+
+@keyframes pop-up {
+    0% { transform: translateY(50px) translateX(-50%) scale(0.8); opacity: 0; }
+    70% { transform: translateY(-10px) translateX(-50%) scale(1.05); opacity: 1; }
+    100% { transform: translateY(0) translateX(-50%) scale(1); opacity: 1; }
+}
+
+/* Floating station logo */
+#station-logo {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Progress animation */
+#progress-bar {
+    background: linear-gradient(90deg, #0071e3, #5856D6, #FF3B30);
+    background-size: 200% 100%;
+    animation: gradient-shift 3s linear infinite;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* Map controls enhancements */
+.leaflet-control-zoom a, .locate-button {
+    transition: all 0.2s ease !important;
+}
+
+.leaflet-control-zoom a:hover, .locate-button:hover {
+    transform: scale(1.1) !important;
+}
+
+/* Dynamic station markers */
+.station-marker {
+    transition: all 0.3s ease;
+}
+
+.station-marker:hover {
+    transform: scale(1.2);
+}
+
+/* Loading spinner enhancement */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Add to your CSS file */
+.station-marker-click {
+    transform: scale(1.5);
+    opacity: 0.8;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Add these mobile-friendly styles */
+@media (max-width: 768px) {
+    /* Improve player card on small screens */
+    #player-card {
+        width: 90% !important;
+        max-width: 320px;
+    }
+    
+    /* Make header more compact on mobile */
+    header {
+        padding: 0.75rem !important;
+    }
+    
+    header h1 {
+        font-size: 1.2rem !important;
+    }
+    
+    /* Adjust station icons for touch */
+    .station-icon {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 14px !important;
+    }
+    
+    /* Make station count badge cleaner on mobile */
+    .station-count {
+        padding: 6px 10px !important;
+        bottom: 10px !important;
+        left: 10px !important;
+    }
+    
+    /* Adjust surprise me button for mobile */
+    #random-station-btn {
+        padding: 10px 16px !important;
+        bottom: 80px !important;
+        right: 10px !important;
+    }
+    
+    /* Improve controls for touch */
+    .leaflet-control-zoom a, .locate-button {
+        width: 36px !important;
+        height: 36px !important;
+    }
+}
+
+/* Add touch-friendly tap zones */
+.station-marker::before {
+    width: 32px;
+    height: 32px;
+    margin-left: -16px;
+    margin-top: -16px;
+} 
