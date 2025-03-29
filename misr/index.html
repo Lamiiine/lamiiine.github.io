@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egypt Governorates Quiz 🌌</title>
+    
+    <!-- Open Graph Meta Tags for social media sharing -->
+    <meta property="og:title" content="Egypt Governorates Quiz">
+    <meta property="og:description" content="How many of Egypt's governorates can you name? Challenge yourself with this interactive quiz!">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="og.jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Egypt Governorates Quiz Game">
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Egypt Governorates Quiz">
+    <meta name="twitter:description" content="How many of Egypt's governorates can you name? Challenge yourself with this interactive quiz!">
+    <meta name="twitter:image" content="og.jpeg">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a9d6e5' stroke-width='2'><path d='M12 2L2 22h20L12 2z'/></svg>">
+</head>
+<body>
+    <div class="container">
+        <div class="game-container">
+            <!-- Top info bar -->
+            <div class="top-bar">
+                <div class="timer">
+                    <span id="time">Lives: 5</span>
+                </div>
+                <div class="score">
+                    <span id="score">0</span> / 27
+                </div>
+            </div>
+            
+            <!-- Map container -->
+            <div class="map-container">
+                <div id="egypt-map">Start</div>
+            </div>
+            
+            <!-- Input area below map -->
+            <div class="input-area">
+                <input type="text" id="wilaya-input" placeholder="Enter governorate name..." autocomplete="off">
+            </div>
+        </div>
+        
+        <div id="results" class="results hidden">
+            <h2>Game Complete!</h2>
+            <p>You identified <span id="final-score">0</span> of 27 governorates.</p>
+            
+            <!-- Result map showing correct governorates -->
+            <div class="result-map-container">
+                <div id="result-map"></div>
+                <div class="result-legend">
+                    <div class="legend-item">
+                        <span class="legend-color correct-color"></span>
+                        <span>Correct</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color missed-color"></span>
+                        <span>Missed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="play-again">Play Again</button>
+        </div>
+    </div>
+    
+    <script src="governorates.js"></script>
+    <script src="level2.js"></script>
+</body>
+</html> 
