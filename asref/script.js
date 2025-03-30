@@ -276,3 +276,22 @@ moneyDisplay.textContent = `DZD ${money.toLocaleString()}`;
 // Initial setup of the receipt empty state
 document.getElementById("receiptTotal").innerHTML = "";
 document.getElementById("receiptTimestamp").innerHTML = ""; 
+
+// Add an intersection observer to detect when the money section becomes sticky
+const moneySection = document.querySelector('.money-section');
+const profileSection = document.querySelector('.profile-section');
+
+if (moneySection && profileSection) {
+    const observer = new IntersectionObserver(
+        ([e]) => {
+            if (e.intersectionRatio < 1) {
+                moneySection.classList.add('is-sticky');
+            } else {
+                moneySection.classList.remove('is-sticky');
+            }
+        }, 
+        { threshold: [1], rootMargin: '-1px 0px 0px 0px' }
+    );
+    
+    observer.observe(moneySection);
+} 

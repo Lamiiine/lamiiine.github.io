@@ -30,10 +30,18 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="./assets/rebrab.jpeg" alt="Profile" class="profile-img">
-            <h1 class="title"> خالصة من عندي  </h1>
-            <div id="moneyDisplay" class="money-display">DZD 434,205,000,000</div>
+        <header class="header">
+            <div class="profile-section">
+                <img src="./assets/rebrab.jpeg" alt="Profile" class="profile-img">
+                <h1 class="title"> خالصة من عندي  </h1>
+            </div>
+        </header>
+        
+        <!-- Sticky wrapper for money display that sticks at the top when scrolling -->
+        <div class="money-sticky">
+            <div class="money-section">
+                <div id="moneyDisplay" class="money-display">DZD 434,205,000,000</div>
+            </div>
         </div>
 
         <div class="grid" id="productsGrid">
@@ -62,5 +70,27 @@
     </div>
 
     <script src="script.js" defer></script>
+    
+    <!-- Ensure sticky behavior works -->
+    <script>
+        // Make sure the observer runs after page is fully loaded
+        window.addEventListener('load', function() {
+            const moneySection = document.querySelector('.money-section');
+            if (moneySection) {
+                const observer = new IntersectionObserver(
+                    ([e]) => {
+                        if (e.intersectionRatio < 1) {
+                            moneySection.classList.add('is-sticky');
+                        } else {
+                            moneySection.classList.remove('is-sticky');
+                        }
+                    },
+                    { threshold: [1], rootMargin: '-1px 0px 0px 0px' }
+                );
+                
+                observer.observe(moneySection);
+            }
+        });
+    </script>
 </body>
 </html>

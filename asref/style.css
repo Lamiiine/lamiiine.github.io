@@ -7,23 +7,139 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
+    padding-top: 0;
 }
 
 .container {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0 1rem 2rem 1rem;
 }
 
 .header {
     text-align: center;
+    margin-bottom: 0.5rem;
+    background: #f5f5f5;
+    position: relative;
+    overflow: visible;
+}
+
+.sticky-wrapper {
+    position: relative;
+    width: 100%;
     margin-bottom: 2rem;
+    z-index: 1000;
+}
+
+.profile-section {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.money-section {
+    position: -webkit-sticky; /* For Safari */
     position: sticky;
     top: 0;
     z-index: 1000;
+    padding: 0.25rem;
     background: #f5f5f5;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+.money-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: #f5f5f5;
+    padding-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+/* Center the money section content within available width */
+.money-section .money-display {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+/* For mobile, make header more compact */
+@media (max-width: 768px) {
+    body {
+        padding-top: 0; /* Remove mobile padding */
+    }
+    
+    .container {
+        padding: 0 0.5rem 2rem 0.5rem;
+        max-width: 100%;
+    }
+    
+    .header {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sticky-wrapper {
+        margin-bottom: 1rem;
+    }
+    
+    .profile-section {
+        padding: 0.5rem;
+    }
+    
+    .money-section {
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .profile-img {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .money-display {
+        padding: 0.75rem;
+        font-size: 1.8rem;
+        margin: 0;
+        border-radius: 0.25rem;
+    }
+    
+    /* Adjust grid and cards for better mobile experience */
+    .grid {
+        gap: 0.75rem;
+        padding-top: 0.5rem;
+        padding-bottom: 1rem;
+    }
+    
+    .card {
+        height: auto;
+        min-height: 380px;
+        padding: 1rem;
+    }
+    
+    .product-img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .controls {
+        gap: 0.25rem;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .input-number {
+        width: 60px;
+        padding: 0.4rem;
+    }
 }
 
 .profile-img {
@@ -55,11 +171,28 @@ body {
     padding: 1rem;
     font-size: 2.5rem;
     font-weight: bold;
-    margin: 1rem 0;
-    border-radius: 0.5rem;
-    transition: transform 0.3s ease-out, background-color 0.5s ease;
+    margin: 0;
+    border-radius: 0.25rem;
+    transition: transform 0.3s ease-out, background-color 0.5s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: block;
+}
+
+/* Add subtle shadow when money display is sticky */
+.money-section:not(:first-child) {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for when money section is sticky */
+.money-section.is-sticky {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.money-section.is-sticky .money-display {
+    border-radius: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Money animation classes */
@@ -96,6 +229,7 @@ body {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 1.5rem;
+    padding-top: 1rem;
 }
 
 @media (min-width: 576px) {
@@ -208,6 +342,25 @@ body {
     margin-right: auto;
 }
 
+/* Mobile receipt styling */
+@media (max-width: 768px) {
+    .receipt {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .receipt-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .receipt-header span, 
+    .receipt-item span {
+        font-size: 0.9rem;
+    }
+}
+
 .receipt-title {
     font-size: 1.75rem;
     font-weight: bold;
@@ -315,9 +468,16 @@ body {
 }
 
 .receipt-timestamp {
-    text-align: center;
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    color: #999;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: right;
+    padding-top: 0.5rem;
     font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .receipt-timestamp {
+        font-size: 0.8rem;
+        padding-top: 0.3rem;
+    }
 } 
