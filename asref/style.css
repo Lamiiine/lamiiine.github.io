@@ -57,7 +57,39 @@ body {
     font-weight: bold;
     margin: 1rem 0;
     border-radius: 0.5rem;
-    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out, background-color 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Money animation classes */
+.money-increase {
+    background-color: #047857;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+}
+
+.money-decrease {
+    background-color: #be123c;
+    box-shadow: 0 0 15px rgba(190, 18, 60, 0.6);
+}
+
+.money-bounce {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.money-indicator-up {
+    color: #10ffbc;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+}
+
+.money-indicator-down {
+    color: #ff8a8a;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
 }
 
 .grid {

@@ -20,7 +20,7 @@ const products = [
     { name: "جهاز بلايستيشن 5", price: 134000, img: "./assets/ps5.jpg", alt: "playstation_5" },
     { name: "قشابية تقليدية", price: 150000, img: "./assets/kachabiya.jpg", alt: "kachabiya" },
     { name: "آيفون 16 برو ماكس", price: 450000, img: "./assets/iphone16.jpg", alt: "iphone_16" },
-    { name: " حجة", price: 800000, img: "./assets/haj.jpg", alt: "hajj" },
+    { name: " حج", price: 800000, img: "./assets/haj.jpg", alt: "hajj" },
     { name: "سيارة ماروتي", price: 1000000, img: "./assets/maruti.jpeg", alt: "maruti_car" },
     { name: "مهر تلمساني", price: 1000000, img: "./assets/chedda.jpg", alt: "mahr" },
     { name: "جت سكي ياماها", price: 1072000, img: "./assets/jet-ski.jpg", alt: "jet_ski" },
@@ -101,21 +101,76 @@ productsGrid.addEventListener("click", function(event) {
 // Function to animate money display
 function animateMoneyDisplay() {
     const oldMoney = parseInt(moneyDisplay.textContent.replace(/[^0-9]/g, ""));
-    // Ensure oldMoney is a number, default to current money if parsing fails
     const startMoney = isNaN(oldMoney) ? money : oldMoney;
     const step = (money - startMoney) / 20;
     let current = startMoney;
     let count = 0;
+    
+    // Determine if money is increasing or decreasing
+    const isIncreasing = money > startMoney;
+    
+    // Add visual class based on whether money is increasing or decreasing
+    moneyDisplay.classList.add(isIncreasing ? 'money-increase' : 'money-decrease');
+    
+    // Add a bounce effect
+    moneyDisplay.classList.add('money-bounce');
+    
+    // Create and add indicator element
+    const indicator = document.createElement('span');
+    indicator.className = isIncreasing ? 'money-indicator-up' : 'money-indicator-down';
+    indicator.textContent = isIncreasing ? '↑' : '↓';
+    indicator.style.position = 'absolute';
+    indicator.style.right = '10px';
+    indicator.style.fontSize = '2rem';
+    indicator.style.opacity = '0';
+    indicator.style.transition = 'opacity 0.3s, transform 0.5s';
+    moneyDisplay.style.position = 'relative';
+    moneyDisplay.appendChild(indicator);
+    
+    // Show the indicator with animation
+    setTimeout(() => {
+        indicator.style.opacity = '1';
+        indicator.style.transform = isIncreasing ? 'translateY(-10px)' : 'translateY(10px)';
+    }, 50);
 
     const interval = setInterval(() => {
         count++;
         current += step;
-        moneyDisplay.textContent = `DZD ${Math.floor(current).toLocaleString()}`;
-        if (count >= 20) { // Use >= to ensure it stops
-            clearInterval(interval);
-            moneyDisplay.textContent = `DZD ${money.toLocaleString()}`;
+        
+        // Store the indicator before updating text
+        if (indicator.parentNode === moneyDisplay) {
+            moneyDisplay.removeChild(indicator);
         }
-    }, 25); // Faster animation
+        
+        // Update the text content
+        moneyDisplay.textContent = `DZD ${Math.floor(current).toLocaleString()}`;
+        
+        // Add the indicator back
+        moneyDisplay.appendChild(indicator);
+        
+        if (count >= 20) {
+            clearInterval(interval);
+            
+            // Store the indicator before final update
+            if (indicator.parentNode === moneyDisplay) {
+                moneyDisplay.removeChild(indicator);
+            }
+            
+            // Make sure we end with the exact value
+            moneyDisplay.textContent = `DZD ${money.toLocaleString()}`;
+            
+            // Add the indicator back for final display
+            moneyDisplay.appendChild(indicator);
+            
+            // Remove classes and indicator after animation completes
+            setTimeout(() => {
+                moneyDisplay.classList.remove('money-increase', 'money-decrease', 'money-bounce');
+                if (indicator && indicator.parentNode) {
+                    indicator.parentNode.removeChild(indicator);
+                }
+            }, 500);
+        }
+    }, 25);
 }
 
 // Function to update the receipt
