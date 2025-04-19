@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Algeria Startup Map</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Open Graph / Social Media Tags -->
+    <meta property="og:title" content="Algeria Startup Map">
+    <meta property="og:description" content="Discover innovative startups across Algeria and their job opportunities">
+    <meta property="og:image" content="https://example.com/og-image.jpg">
+    <meta property="og:url" content="https://example.com/startup-map">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1><span class="highlight">Algeria</span> Startup Ecosystem</h1>
+                <p>Discover innovative startups and opportunities across Algeria</p>
+            </div>
+            <div class="loading-indicator">
+                <div class="progress-container">
+                    <div class="progress-bar" id="loading-progress"></div>
+                </div>
+                <div class="counter">
+                    <span id="loaded-count">0</span>/<span id="total-count">0</span> startups
+                </div>
+            </div>
+        </header>
+        
+        <div id="map-container">
+            <div id="startup-map"></div>
+            <div id="startup-card" class="hidden">
+                <div class="card-header">
+                    <img src="" alt="" id="startup-logo" class="startup-logo">
+                    <div class="close-btn"><i class="fas fa-times"></i></div>
+                </div>
+                <div class="card-body">
+                    <h3 id="startup-name"></h3>
+                    <p id="startup-description"></p>
+                    <div class="startup-details">
+                        <div class="detail"><i class="fas fa-calendar-alt"></i> <span id="startup-founded"></span></div>
+                        <div class="detail"><i class="fas fa-map-marker-alt"></i> <span id="startup-location"></span></div>
+                        <div class="detail"><i class="fas fa-tag"></i> <span id="startup-category"></span></div>
+                    </div>
+                    <div class="social-links" id="social-links">
+                        <!-- Social links will be populated dynamically -->
+                    </div>
+                    <h4>Open Positions</h4>
+                    <div class="jobs-container">
+                        <div id="jobs-list">
+                            <!-- Jobs will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <h3>Categories</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-marker fintech"></div>
+                    <span>Fintech</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker healthtech"></div>
+                    <span>Healthtech</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker edtech"></div>
+                    <span>Edtech</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker ecommerce"></div>
+                    <span>E-commerce</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker other"></div>
+                    <span>Other</span>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 Algeria Startup Map | Data last updated: <span id="last-updated">March 2025</span></p>
+        </footer>
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="startups-data.js"></script>
+    <script src="map.js"></script>
+</body>
+</html> 
