@@ -1,7 +1,7 @@
 // Set the date for the next BAC exam internet shutdown
 function getNextExamDate() {
     // Set the BAC exam date to June 15, 2025 at 08:00 AM
-    return new Date(2025, 5, 15, 8, 0, 0);
+    return new Date(2026, 5, 15, 8, 0, 0);
 }
 
 function updateCountdown() {
