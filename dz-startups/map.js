@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const markerElement = document.createElement('div');
         markerElement.className = `startup-marker ${startup.category}`;
         
-        // Check if startup has founder with real avatar (not placeholder), otherwise use company logo
-        if (startup.founder && startup.founder.avatar && !startup.founder.avatar.includes('via.placeholder')) {
+        // Check if startup has founder with avatar, otherwise use company logo
+        if (startup.founder && startup.founder.avatar) {
             // Create founder avatar
             const avatarImg = document.createElement('img');
             avatarImg.src = startup.founder.avatar;
@@ -93,11 +93,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (startup.founder && founderInfo) {
             founderInfo.style.display = 'block';
             const founderAvatar = document.getElementById('founder-avatar');
+            const founderName = document.getElementById('founder-name');
             
             if (founderAvatar) {
                 founderAvatar.src = startup.founder.avatar;
-                founderAvatar.alt = startup.founder.name || 'Founder';
-                founderAvatar.title = startup.founder.name || 'Founder'; // Show name on hover
+                founderAvatar.alt = startup.founder.name;
+            }
+            if (founderName) {
+                founderName.textContent = startup.founder.name;
             }
         } else if (founderInfo) {
             founderInfo.style.display = 'none';
