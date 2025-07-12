@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Leaflet map centered on Algeria with a zoom level that shows the whole country
+    // Initialize Leaflet map centered on Algiers metropolitan area where most startups are located
     const map = L.map('startup-map', {
-        center: [28.0339, 1.6596], // Center of Algeria
-        zoom: 5, // Lower zoom level to show the whole country
-        minZoom: 4,
+        center: [36.73, 3.08], // Center on Algiers startup cluster
+        zoom: 11, // Higher zoom level to focus on the metropolitan area
+        minZoom: 8, // Allow some zoom out but keep focus on the region
         maxZoom: 18,
         zoomControl: false // We'll add zoom control in a custom position
     });
@@ -37,18 +37,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const markerElement = document.createElement('div');
         markerElement.className = `startup-marker ${startup.category}`;
         
-        // Create and set the logo image
-        const logoImg = document.createElement('img');
-        logoImg.src = startup.logo;
-        logoImg.alt = startup.name;
-        markerElement.appendChild(logoImg);
+        // Check if startup has founder with real avatar (not placeholder), otherwise use company logo
+        if (startup.founder && startup.founder.avatar && !startup.founder.avatar.includes('via.placeholder')) {
+            // Create founder avatar
+            const avatarImg = document.createElement('img');
+            avatarImg.src = startup.founder.avatar;
+            avatarImg.alt = startup.founder.name;
+            avatarImg.className = 'founder-avatar';
+            markerElement.appendChild(avatarImg);
+            
+            // Add founder name tooltip
+            markerElement.title = `${startup.founder.name} - ${startup.name}`;
+        } else {
+            // Fallback to company logo
+            const logoImg = document.createElement('img');
+            logoImg.src = startup.logo;
+            logoImg.alt = startup.name;
+            logoImg.className = 'company-logo';
+            markerElement.appendChild(logoImg);
+            markerElement.title = startup.name;
+        }
         
         // Create the marker icon
         const icon = L.divIcon({
             className: 'custom-div-icon',
             html: markerElement,
-            iconSize: [40, 40],
-            iconAnchor: [20, 20]
+            iconSize: [50, 50],
+            iconAnchor: [25, 25]
         });
         
         return icon;
@@ -72,6 +87,21 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('startup-location').textContent = startup.location;
         document.getElementById('startup-category').textContent = 
             startup.category.charAt(0).toUpperCase() + startup.category.slice(1);
+        
+        // Add founder information if available
+        const founderInfo = document.getElementById('founder-info');
+        if (startup.founder && founderInfo) {
+            founderInfo.style.display = 'block';
+            const founderAvatar = document.getElementById('founder-avatar');
+            
+            if (founderAvatar) {
+                founderAvatar.src = startup.founder.avatar;
+                founderAvatar.alt = startup.founder.name || 'Founder';
+                founderAvatar.title = startup.founder.name || 'Founder'; // Show name on hover
+            }
+        } else if (founderInfo) {
+            founderInfo.style.display = 'none';
+        }
         
         // Set website link
         const visitWebsiteElem = document.getElementById('visit-website');
