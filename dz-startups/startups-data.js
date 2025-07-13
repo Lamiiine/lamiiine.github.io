@@ -146,7 +146,7 @@ const startups = [
     {
         id: 9,
         name: "Snai3i | صنايعي",
-        description: "Platform connecting skilled craftsmen and service providers with customers in Algeria.",
+        description: "University for kids",
         logo: "assets/snai3i_logo.jpg",
         founded: "2020",
         category: "education",
@@ -234,12 +234,12 @@ const startups = [
     {
         id: 14,
         name: "Ayor.ai",
-        description: "Artificial intelligence and machine learning solutions for businesses.",
+        description: "AI-powered e-commerce solutions for simplified online sales.",
         logo: "assets/ayor-ai_logo.jpg",
-        founded: "2021",
+        founded: "2024",
         category: "ecommerce",
         location: "Algiers",
-        coords: [36.7010019, 3.1955852],
+        coords: [28.0948734,1.6656943],
         website: "https://www.ayor.ai/",
         social: {
             linkedin: "https://www.linkedin.com/company/ayor-ai/"
@@ -283,7 +283,7 @@ const startups = [
         ]
     },
     {
-        id: 29,
+        id: 17,
         name: "Techmology",
         description: "Technology consulting and software development services.",
         logo: "assets/techmology_logo.jpg",
@@ -296,6 +296,58 @@ const startups = [
         social: {
             facebook: "https://web.facebook.com/techmlg",
             linkedin: "https://www.linkedin.com/company/techmology/"
+        },
+        jobs: [
+            
+        ]
+    },
+    {
+        id: 18,
+        name: "CiRTA iT",
+        description: "IT services and solutions provider.",
+        logo: "assets/cirtait_logo.jpg",
+        founded: "2005",
+        category: "technology",
+        location: "Constantine",
+        coords: [36.2587981,6.5994697],
+        website: "https://www.cirta-it.com/",
+        social: {
+            linkedin: "https://www.linkedin.com/company/cirtait/"
+        },
+        jobs: [
+            
+        ]
+    },
+    {
+        id: 19,
+        name: "SlickPay",
+        description: "Payment processing and e-commerce solutions for businesses.",
+        logo: "assets/slick_pay_logo.jpg",
+        founded: "2022",
+        category: "fintech",
+        location: "Algiers",
+        coords: [36.7628132,2.9882884],
+        website: "https://www.slick-pay.com/",
+        social: {
+            linkedin: "https://www.linkedin.com/company/slick-pay/"
+        },
+        jobs: [
+            
+        ]
+    },
+    {
+        id: 20,
+        name: "Sihhatech",
+        description: "Online appointment scheduling platform for medical services.",
+        logo: "assets/sihhatech_logo.jpg",
+        founded: "2017",
+        category: "technology",
+        location: "Algiers",
+        coords: [36.7555115,3.4487816],
+        website: "https://sihhatech.com/",
+        social: {
+            linkedin: "https://www.linkedin.com/company/sihhatech-algerie/",
+            facebook: "https://web.facebook.com/sihhatech/"
         },
         jobs: [
             

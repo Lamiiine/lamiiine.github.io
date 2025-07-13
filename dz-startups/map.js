@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const map = L.map('startup-map', {
         center: [36.73, 3.08], // Center on Algiers startup cluster
         zoom: 11, // Higher zoom level to focus on the metropolitan area
-        minZoom: 8, // Allow some zoom out but keep focus on the region
-        maxZoom: 18,
+        minZoom: 4, // Allow some zoom out but keep focus on the region
+        maxZoom: 1000,
         zoomControl: false // We'll add zoom control in a custom position
     });
     
