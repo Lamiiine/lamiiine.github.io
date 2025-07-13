@@ -149,15 +149,16 @@ document.addEventListener('DOMContentLoaded', function() {
             socialLinksContainer.appendChild(socialLink);
         }
         
-        // Add the website link to another location if needed
-        // For example, add it to the social links section:
-        const websiteLink = document.createElement('a');
-        websiteLink.href = startup.website;
-        websiteLink.target = '_blank';
-        websiteLink.rel = 'noopener noreferrer';
-        websiteLink.className = 'social-icon website';
-        websiteLink.innerHTML = '<i class="fas fa-globe"></i>';
-        socialLinksContainer.appendChild(websiteLink);
+        // Only add website link if the startup actually has a website
+        if (startup.website && startup.website !== '#' && startup.website !== '') {
+            const websiteLink = document.createElement('a');
+            websiteLink.href = startup.website;
+            websiteLink.target = '_blank';
+            websiteLink.rel = 'noopener noreferrer';
+            websiteLink.className = 'social-icon website';
+            websiteLink.innerHTML = '<i class="fas fa-globe"></i>';
+            socialLinksContainer.appendChild(websiteLink);
+        }
         
         // Clear and populate jobs list
         const jobsListContainer = document.getElementById('jobs-list');

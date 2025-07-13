@@ -182,7 +182,7 @@ const startups = [
     {
         id: 11,
         name: "instaclean dz",
-        description: "On-demand cleaning services platform connecting customers with professional cleaners.",
+        description: "On-demand car cleaning services platform connecting customers with professional cleaners.",
         logo: "assets/instaclean_logo.jpg",
         founded: "2020",
         category: "services",
