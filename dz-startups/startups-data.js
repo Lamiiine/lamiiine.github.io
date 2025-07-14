@@ -352,5 +352,23 @@ const startups = [
         jobs: [
             
         ]
+    },
+    //3ersi.com
+    {
+        id: 21,
+        name: "3ersi.com",
+        description: "Algeria's wedding planning platform",
+        logo: "assets/3ersi_logo.jpg",
+        founded: "2019",
+        category: "services",
+        location: "Algiers",
+        coords: [36.7574026,3.0488406],
+        website: "https://3ersi.com/",
+        social: {
+            instagram: "https://www.instagram.com/3ersi_dz/",
+        },
+        jobs: [
+            
+        ]
     }
 ];
