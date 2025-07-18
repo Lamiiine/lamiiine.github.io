@@ -79,8 +79,23 @@
         
         
         
+        <!-- Cookie Consent Banner -->
+        <div id="cookie-consent-banner" class="cookie-consent-banner">
+            <div class="cookie-consent-content">
+                <div class="cookie-consent-text">
+                    <p><strong>🍪 We use cookies</strong></p>
+                    <p>We use PostHog analytics to improve your experience. This includes session recordings to understand how you use our site. No personal data is collected.</p>
+                </div>
+                <div class="cookie-consent-buttons">
+                    <button id="accept-cookies" class="cookie-btn accept">Accept All</button>
+                    <button id="reject-cookies" class="cookie-btn reject">Reject</button>
+                    <a href="privacy-policy.html" class="cookie-link">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+        
         <footer>
-            <p>© 2025 Algeria Startup Map | Data last updated: <span id="last-updated">March 2025</span></p>
+            <p>© 2025 Algeria Startup Map | Data last updated: <span id="last-updated">March 2025</span> | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
         </footer>
     </div>
     
@@ -90,13 +105,143 @@
     <!-- Custom Scripts -->
     <script src="startups-data.js"></script>
     <script src="map.js"></script>
+    
+    <!-- Cookie Consent & Analytics Script -->
     <script>
-        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-        posthog.init('phc_iS5dXZ6fEr1C9GfKnjdYFhKPsT8Agy5VsrKTkbZYRcP', {
-            api_host: 'https://us.i.posthog.com',
-            defaults: '2025-05-24',
-            person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-        })
+        // Cookie consent management
+        class CookieConsent {
+            constructor() {
+                this.consentKey = 'algeria_startups_consent';
+                this.analyticsConsentKey = 'algeria_startups_analytics_consent';
+                this.init();
+            }
+
+            init() {
+                // Check if user already made a choice
+                const consent = localStorage.getItem(this.consentKey);
+                const analyticsConsent = localStorage.getItem(this.analyticsConsentKey);
+                
+                if (consent === null) {
+                    // Show banner if no consent recorded
+                    this.showBanner();
+                } else if (analyticsConsent === 'true') {
+                    // Initialize analytics if previously consented
+                    this.initializeAnalytics();
+                }
+                
+                this.setupEventListeners();
+            }
+
+            showBanner() {
+                const banner = document.getElementById('cookie-consent-banner');
+                if (banner) {
+                    // Show banner with animation
+                    setTimeout(() => {
+                        banner.classList.add('show');
+                    }, 1000);
+                }
+            }
+
+            hideBanner() {
+                const banner = document.getElementById('cookie-consent-banner');
+                if (banner) {
+                    banner.classList.remove('show');
+                    setTimeout(() => {
+                        banner.classList.add('consent-hidden');
+                    }, 300);
+                }
+            }
+
+            setupEventListeners() {
+                // Accept button
+                const acceptBtn = document.getElementById('accept-cookies');
+                if (acceptBtn) {
+                    acceptBtn.addEventListener('click', () => {
+                        this.setConsent(true);
+                    });
+                }
+
+                // Reject button
+                const rejectBtn = document.getElementById('reject-cookies');
+                if (rejectBtn) {
+                    rejectBtn.addEventListener('click', () => {
+                        this.setConsent(false);
+                    });
+                }
+            }
+
+            setConsent(hasConsented) {
+                // Store consent decisions
+                localStorage.setItem(this.consentKey, 'true');
+                localStorage.setItem(this.analyticsConsentKey, hasConsented ? 'true' : 'false');
+                
+                // Hide banner
+                this.hideBanner();
+                
+                if (hasConsented) {
+                    // Initialize analytics if consented
+                    this.initializeAnalytics();
+                } else {
+                    // Ensure analytics are disabled
+                    this.disableAnalytics();
+                }
+            }
+
+            initializeAnalytics() {
+                // Load PostHog script
+                !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+                
+                // Initialize PostHog with privacy-conscious settings
+                posthog.init('phc_iS5dXZ6fEr1C9GfKnjdYFhKPsT8Agy5VsrKTkbZYRcP', {
+                    api_host: 'https://us.i.posthog.com',
+                    person_profiles: 'identified_only',
+                    // Privacy settings
+                    capture_pageview: true,
+                    capture_pageleave: true,
+                    disable_session_recording: false,
+                    // Respect user's privacy
+                    respect_dnt: true,
+                    property_blacklist: ['$initial_referrer', '$referrer'],
+                    // Optional: Disable autocapture of sensitive elements
+                    autocapture: {
+                        css_selector_blacklist: ['[data-private]', '.private']
+                    }
+                });
+
+                // Track consent acceptance
+                posthog.capture('cookies_accepted', {
+                    consent_timestamp: new Date().toISOString(),
+                    consent_method: 'banner'
+                });
+
+                console.log('Analytics initialized with user consent');
+            }
+
+            disableAnalytics() {
+                // Disable PostHog if it was loaded
+                if (window.posthog) {
+                    posthog.opt_out_capturing();
+                    console.log('Analytics disabled per user preference');
+                }
+            }
+
+            // Method to check current consent status
+            hasAnalyticsConsent() {
+                return localStorage.getItem(this.analyticsConsentKey) === 'true';
+            }
+
+            // Method to clear consent (for testing or user request)
+            clearConsent() {
+                localStorage.removeItem(this.consentKey);
+                localStorage.removeItem(this.analyticsConsentKey);
+                window.location.reload();
+            }
+        }
+
+        // Initialize consent management when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            window.cookieConsent = new CookieConsent();
+        });
     </script>
 </body>
 </html> 
