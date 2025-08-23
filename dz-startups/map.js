@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Leaflet map centered on Algiers metropolitan area where most startups are located
+    // Initialize Leaflet map
     const map = L.map('startup-map', {
-        center: [36.73, 3.08], // Center on Algiers startup cluster
-        zoom: 11, // Higher zoom level to focus on the metropolitan area
-        minZoom: 4, // Allow some zoom out but keep focus on the region
+        center: [36.73, 3.08],
+        zoom: 11,
+        minZoom: 4,
         maxZoom: 1000,
-        zoomControl: false // We'll add zoom control in a custom position
+        zoomControl: false
     });
     
     // Add zoom control to top-right
@@ -13,43 +13,79 @@ document.addEventListener('DOMContentLoaded', function() {
         position: 'topright'
     }).addTo(map);
     
-    // Add tile layer (Mapbox Streets - replace with your Mapbox access token or use OpenStreetMap)
+    // Add tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     
-    // Variables to store startup and card elements
+    // Variables
     const startupCard = document.getElementById('startup-card');
     const closeBtn = document.querySelector('.close-btn');
-    const loadedCountEl = document.getElementById('loaded-count');
-    const totalCountEl = document.getElementById('total-count');
-    const progressBar = document.getElementById('loading-progress');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const addStartupForm = document.getElementById('add-startup-form');
     
-    // Set total count in the counter
-    totalCountEl.textContent = startups.length;
+    let markers = [];
+    let currentFilter = 'all';
     
-    // Sort startups by founded date (oldest first)
-    startups.sort((a, b) => parseInt(a.founded) - parseInt(b.founded));
+    // Mobile sidebar toggle
+    mobileToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+    });
     
-    // Function to create marker icon
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && 
+            !sidebar.contains(e.target) && 
+            !mobileToggle.contains(e.target) && 
+            sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+        }
+    });
+    
+    // Category filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Apply filter
+            const category = this.dataset.category;
+            currentFilter = category;
+            applyFilter(category);
+        });
+    });
+    
+    // Apply filter to markers
+    function applyFilter(category) {
+        markers.forEach(markerData => {
+            const markerElement = markerData.marker.getElement().querySelector('.startup-marker');
+            
+            if (category === 'all' || markerData.startup.category === category) {
+                markerElement.classList.remove('hidden');
+                markerData.marker.addTo(map);
+            } else {
+                markerElement.classList.add('hidden');
+                // Don't remove from map, just hide visually
+            }
+        });
+    }
+    
+    // Create marker icon
     function createStartupMarker(startup) {
-        // Create a custom marker HTML element
         const markerElement = document.createElement('div');
         markerElement.className = `startup-marker ${startup.category}`;
         
-        // Check if startup has founder with avatar, otherwise use company logo
         if (startup.founder && startup.founder.avatar) {
-            // Create founder avatar
             const avatarImg = document.createElement('img');
             avatarImg.src = startup.founder.avatar;
             avatarImg.alt = startup.founder.name;
             avatarImg.className = 'founder-avatar';
             markerElement.appendChild(avatarImg);
-            
-            // Add founder name tooltip
             markerElement.title = `${startup.founder.name} - ${startup.name}`;
         } else {
-            // Fallback to company logo
             const logoImg = document.createElement('img');
             logoImg.src = startup.logo;
             logoImg.alt = startup.name;
@@ -58,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
             markerElement.title = startup.name;
         }
         
-        // Create the marker icon
         const icon = L.divIcon({
             className: 'custom-div-icon',
             html: markerElement,
@@ -69,16 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return icon;
     }
     
-    // Function to update progress
-    function updateProgress(loaded) {
-        loadedCountEl.textContent = loaded;
-        const percentage = (loaded / startups.length) * 100;
-        progressBar.style.width = `${percentage}%`;
-    }
-    
-    // Function to populate startup card
+    // Populate startup card
     function populateStartupCard(startup) {
-        // Set logo and company info
         document.getElementById('startup-logo').src = startup.logo;
         document.getElementById('startup-logo').alt = startup.name;
         document.getElementById('startup-name').textContent = startup.name;
@@ -88,31 +115,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('startup-category').textContent = 
             startup.category.charAt(0).toUpperCase() + startup.category.slice(1);
         
-        // Add founder information if available
+        // Add founder information
         const founderInfo = document.getElementById('founder-info');
         if (startup.founder && founderInfo) {
             founderInfo.style.display = 'block';
             const founderAvatar = document.getElementById('founder-avatar');
-            const founderName = document.getElementById('founder-name');
-            
             if (founderAvatar) {
                 founderAvatar.src = startup.founder.avatar;
                 founderAvatar.alt = startup.founder.name;
-            }
-            if (founderName) {
-                founderName.textContent = startup.founder.name;
             }
         } else if (founderInfo) {
             founderInfo.style.display = 'none';
         }
         
-        // Set website link
-        const visitWebsiteElem = document.getElementById('visit-website');
-        if (visitWebsiteElem) {
-            visitWebsiteElem.href = startup.website;
-        }
-        
-        // Clear and populate social links
+        // Social links
         const socialLinksContainer = document.getElementById('social-links');
         socialLinksContainer.innerHTML = '';
         
@@ -123,33 +139,21 @@ document.addEventListener('DOMContentLoaded', function() {
             socialLink.rel = 'noopener noreferrer';
             socialLink.className = `social-icon ${platform}`;
             
-            // Add appropriate icon based on platform
             let icon;
             switch(platform) {
-                case 'twitter':
-                    icon = 'fa-twitter';
-                    break;
-                case 'facebook':
-                    icon = 'fa-facebook-f';
-                    break;
-                case 'linkedin':
-                    icon = 'fa-linkedin-in';
-                    break;
-                case 'instagram':
-                    icon = 'fa-instagram';
-                    break;
-                case 'youtube':
-                    icon = 'fa-youtube';
-                    break;
-                default:
-                    icon = 'fa-globe';
+                case 'twitter': icon = 'fa-twitter'; break;
+                case 'facebook': icon = 'fa-facebook-f'; break;
+                case 'linkedin': icon = 'fa-linkedin-in'; break;
+                case 'instagram': icon = 'fa-instagram'; break;
+                case 'youtube': icon = 'fa-youtube'; break;
+                default: icon = 'fa-globe';
             }
             
             socialLink.innerHTML = `<i class="fab ${icon}"></i>`;
             socialLinksContainer.appendChild(socialLink);
         }
         
-        // Only add website link if the startup actually has a website
+        // Website link
         if (startup.website && startup.website !== '#' && startup.website !== '') {
             const websiteLink = document.createElement('a');
             websiteLink.href = startup.website;
@@ -160,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
             socialLinksContainer.appendChild(websiteLink);
         }
         
-        // Clear and populate jobs list
+        // Jobs list
         const jobsListContainer = document.getElementById('jobs-list');
         jobsListContainer.innerHTML = '';
         
@@ -185,145 +189,132 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Function to position card near marker
+    // Position card near marker
     function positionCardNearMarker(marker) {
         const markerPoint = map.latLngToContainerPoint(marker.getLatLng());
         const mapContainer = document.getElementById('map-container');
         const mapRect = mapContainer.getBoundingClientRect();
         
-        // Get map dimensions
         const mapWidth = mapRect.width;
         const mapHeight = mapRect.height;
-        
-        // Card dimensions (with some buffer)
         const cardWidth = 340;
         const cardHeight = 500;
         
-        // Calculate position to ensure card stays within map bounds
-        // and appears near the marker
         let left, top;
         
-        // Check horizontal placement
         if (markerPoint.x > mapWidth / 2) {
-            // Marker is on the right side, place card to the left
             left = Math.max(10, markerPoint.x - cardWidth - 20);
         } else {
-            // Marker is on the left side, place card to the right
             left = Math.min(mapWidth - cardWidth - 10, markerPoint.x + 20);
         }
         
-        // Check vertical placement
         if (markerPoint.y > mapHeight / 2) {
-            // Marker is on the bottom half, place card above
             top = Math.max(10, markerPoint.y - cardHeight - 10);
         } else {
-            // Marker is on the top half, place card below
             top = Math.min(mapHeight - cardHeight - 10, markerPoint.y + 20);
         }
         
-        // Set the card position
         startupCard.style.left = `${left}px`;
         startupCard.style.top = `${top}px`;
     }
     
-    // Function to show startup card
+    // Show startup card
     function showStartupCard(startup, marker) {
-        // Populate card with startup data
         populateStartupCard(startup);
-        
-        // Position card near marker
         positionCardNearMarker(marker);
         
-        // Show the card with animation
         startupCard.classList.remove('hidden');
-        // Delay to ensure transition works
         setTimeout(() => {
             startupCard.classList.add('visible');
         }, 10);
     }
     
-    // Function to hide startup card
+    // Hide startup card
     function hideStartupCard() {
         startupCard.classList.remove('visible');
         setTimeout(() => {
             startupCard.classList.add('hidden');
-        }, 300); // Match this time with CSS transition duration
+        }, 300);
     }
     
-    // Close button event listener
+    // Close button event
     closeBtn.addEventListener('click', hideStartupCard);
     
-    // Function to load markers with sequential animation
+    // Load markers
     async function loadMarkersSequentially() {
-        const markers = [];
-        let loadedCount = 0;
+        // Sort startups by founded date
+        startups.sort((a, b) => parseInt(a.founded) - parseInt(b.founded));
         
-        // Initial slow pace for the first 3 startups
-        let initialDelay = 800;
-        // Fast pace for remaining startups
-        let fastDelay = 150;
+        let initialDelay = 200;
+        let fastDelay = 100;
         
         for (let i = 0; i < startups.length; i++) {
             const startup = startups[i];
             
-            // Create marker with custom icon
             const marker = L.marker(startup.coords, {
                 icon: createStartupMarker(startup)
             }).addTo(map);
             
-            // Add click event to show info card
             marker.on('click', function() {
                 showStartupCard(startup, marker);
             });
             
-            markers.push(marker);
+            markers.push({ marker, startup });
             
-            // Update the DOM marker element to apply animation
             const markerElement = marker.getElement().querySelector('.startup-marker');
             
-            // Wait for the appropriate delay before revealing the marker
             await new Promise(resolve => {
                 setTimeout(() => {
-                    // Add loaded class to animate marker
                     markerElement.classList.add('loaded');
-                    
-                    // Update progress
-                    loadedCount++;
-                    updateProgress(loadedCount);
-                    
                     resolve();
-                }, i < 3 ? initialDelay : fastDelay);
+                }, i < 5 ? initialDelay : fastDelay);
             });
         }
-        
-        // No need to fit bounds here since we're already showing the whole country
-        // Just leave this commented for reference
-        /*
-        if (markers.length > 0) {
-            const group = new L.featureGroup(markers);
-            map.fitBounds(group.getBounds().pad(0.1));
-        }
-        */
     }
     
-    // Start loading markers after a short delay to ensure map is ready
+    // Add startup form submission
+    addStartupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const startupData = {
+            name: formData.get('startupName'),
+            wilaya: formData.get('wilaya'),
+            linkedin: formData.get('linkedin'),
+            address: formData.get('address')
+        };
+        
+        // Here you would typically send this data to a server
+        alert(`Thank you for suggesting ${startupData.name}! We'll review and add it to the map.`);
+        
+        // Reset form
+        this.reset();
+        
+        // Close sidebar on mobile
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('open');
+        }
+    });
+    
+    // Start loading markers
     setTimeout(() => {
         loadMarkersSequentially();
     }, 500);
     
-    // Close card when clicking outside of it on the map
+    // Close card when clicking on map
     map.on('click', function() {
         hideStartupCard();
     });
     
-    // Prevent map clicks from propagating through the card
+    // Prevent map clicks from propagating through card
     startupCard.addEventListener('click', function(e) {
         e.stopPropagation();
     });
     
-    // Update copyright year dynamically
-    document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-US', { 
-        month: 'long', 
-        year: 'numeric' 
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            sidebar.classList.remove('open');
+        }
     });
 }); 

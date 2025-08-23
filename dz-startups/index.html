@@ -27,78 +27,127 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <h1><span class="highlight">Algeria</span> Startup Ecosystem</h1>
-                <p>Discover innovative startups and opportunities across Algeria</p>
-            </div>
-            <div class="loading-indicator">
-                <div class="progress-container">
-                    <div class="progress-bar" id="loading-progress"></div>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-toggle" id="mobile-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-content">
+                <!-- Header -->
+                <div class="sidebar-header">
+                    <h1>Algeria Startup Ecosystem</h1>
+                    <p>Discover innovative startups and opportunities across Algeria</p>
                 </div>
-                <div class="counter">
-                    <span id="loaded-count">0</span>/<span id="total-count">0</span> startups
-                </div>
-            </div>
-        </header>
-        
-        <div id="map-container">
-            <div id="startup-map"></div>
-            <div id="startup-card" class="hidden">
-                <div class="card-header">
-                    <img src="" alt="" id="startup-logo" class="startup-logo">
-                    <div class="close-btn"><i class="fas fa-times"></i></div>
-                </div>
-                <div class="card-body">
-                    <h3 id="startup-name"></h3>
-                    <p id="startup-description"></p>
-                    <div class="startup-details">
-                        <div class="detail"><i class="fas fa-calendar-alt"></i> <span id="startup-founded"></span></div>
-                        <div class="detail"><i class="fas fa-map-marker-alt"></i> <span id="startup-location"></span></div>
-                        <div class="detail"><i class="fas fa-tag"></i> <span id="startup-category"></span></div>
+
+                <!-- Suggest More Section -->
+                <div class="suggest-section">
+                    <h3>Suggest more?</h3>
+                    <p>Select category</p>
+                    
+                    <!-- Category Filters -->
+                    <div class="category-filters">
+                        <button class="filter-btn active" data-category="all">All</button>
+                        <button class="filter-btn" data-category="fintech">Banking</button>
+                        <button class="filter-btn" data-category="fintech">Fintech</button>
+                        <button class="filter-btn" data-category="healthtech">HealthTech</button>
+                        <button class="filter-btn" data-category="edtech">EdTech</button>
+                        <button class="filter-btn" data-category="ecommerce">E-commerce</button>
                     </div>
-                    <div id="founder-info" class="founder-info" style="display: none;">
-                        <h4>Founder</h4>
-                        <div class="founder-avatar-container">
-                            <img src="" alt="" id="founder-avatar" class="founder-avatar-img">
+                </div>
+
+                <!-- Add Startup Form -->
+                <form class="add-startup-form" id="add-startup-form">
+                    <div class="form-group">
+                        <label for="startup-name">Startup Name*</label>
+                        <input type="text" id="startup-name" name="startupName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wilaya">Wilaya</label>
+                        <select id="wilaya" name="wilaya">
+                            <option value="">Select Wilaya</option>
+                            <option value="Algiers">Algiers</option>
+                            <option value="Oran">Oran</option>
+                            <option value="Constantine">Constantine</option>
+                            <option value="Annaba">Annaba</option>
+                            <option value="Blida">Blida</option>
+                            <option value="Batna">Batna</option>
+                            <option value="Setif">Setif</option>
+                            <option value="Sidi Bel Abbes">Sidi Bel Abbes</option>
+                            <option value="Tlemcen">Tlemcen</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn</label>
+                        <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/company/...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address">
+                    </div>
+
+                    <button type="submit" class="add-btn">Add</button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Map Container -->
+        <main class="main-content">
+            <div id="map-container">
+                <div id="startup-map"></div>
+                
+                <!-- Startup Card -->
+                <div id="startup-card" class="hidden">
+                    <div class="card-header">
+                        <img src="" alt="" id="startup-logo" class="startup-logo">
+                        <div class="close-btn"><i class="fas fa-times"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <h3 id="startup-name"></h3>
+                        <p id="startup-description"></p>
+                        <div class="startup-details">
+                            <div class="detail"><i class="fas fa-calendar-alt"></i> <span id="startup-founded"></span></div>
+                            <div class="detail"><i class="fas fa-map-marker-alt"></i> <span id="startup-location"></span></div>
+                            <div class="detail"><i class="fas fa-tag"></i> <span id="startup-category"></span></div>
+                        </div>
+                        <div id="founder-info" class="founder-info" style="display: none;">
+                            <h4>Founder</h4>
+                            <div class="founder-avatar-container">
+                                <img src="" alt="" id="founder-avatar" class="founder-avatar-img">
+                            </div>
+                        </div>
+                        <div class="social-links" id="social-links"></div>
+                        <h4>Open Positions</h4>
+                        <div class="jobs-container">
+                            <div id="jobs-list"></div>
                         </div>
                     </div>
-                    <div class="social-links" id="social-links">
-                        <!-- Social links will be populated dynamically -->
-                    </div>
-                    <h4>Open Positions</h4>
-                    <div class="jobs-container">
-                        <div id="jobs-list">
-                            <!-- Jobs will be populated dynamically -->
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
-        
-        
-        
-        <!-- Cookie Consent Banner -->
-        <div id="cookie-consent-banner" class="cookie-consent-banner">
-            <div class="cookie-consent-content">
-                <div class="cookie-consent-text">
-                    <p><strong>🍪 We use cookies</strong></p>
-                    <p>We use PostHog analytics to improve your experience. This includes session recordings to understand how you use our site. No personal data is collected.</p>
-                </div>
-                <div class="cookie-consent-buttons">
-                    <button id="accept-cookies" class="cookie-btn accept">Accept All</button>
-                    <button id="reject-cookies" class="cookie-btn reject">Reject</button>
-                    <a href="privacy-policy.html" class="cookie-link">Privacy Policy</a>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>© 2025 Algeria Startup Map | Data last updated: <span id="last-updated">March 2025</span> | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
-        </footer>
+        </main>
     </div>
-    
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent-banner" class="cookie-consent-banner">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-text">
+                <p><strong>🍪 We use cookies</strong></p>
+                <p>We use PostHog analytics to improve your experience. This includes session recordings to understand how you use our site. No personal data is collected.</p>
+            </div>
+            <div class="cookie-consent-buttons">
+                <button id="accept-cookies" class="cookie-btn accept">Accept All</button>
+                <button id="reject-cookies" class="cookie-btn reject">Reject</button>
+                <a href="privacy-policy.html" class="cookie-link">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
@@ -108,7 +157,7 @@
     
     <!-- Cookie Consent & Analytics Script -->
     <script>
-        // Cookie consent management
+        // Cookie consent management (same as before)
         class CookieConsent {
             constructor() {
                 this.consentKey = 'algeria_startups_consent';
@@ -117,15 +166,12 @@
             }
 
             init() {
-                // Check if user already made a choice
                 const consent = localStorage.getItem(this.consentKey);
                 const analyticsConsent = localStorage.getItem(this.analyticsConsentKey);
                 
                 if (consent === null) {
-                    // Show banner if no consent recorded
                     this.showBanner();
                 } else if (analyticsConsent === 'true') {
-                    // Initialize analytics if previously consented
                     this.initializeAnalytics();
                 }
                 
@@ -135,7 +181,6 @@
             showBanner() {
                 const banner = document.getElementById('cookie-consent-banner');
                 if (banner) {
-                    // Show banner with animation
                     setTimeout(() => {
                         banner.classList.add('show');
                     }, 1000);
@@ -153,7 +198,6 @@
             }
 
             setupEventListeners() {
-                // Accept button
                 const acceptBtn = document.getElementById('accept-cookies');
                 if (acceptBtn) {
                     acceptBtn.addEventListener('click', () => {
@@ -161,7 +205,6 @@
                     });
                 }
 
-                // Reject button
                 const rejectBtn = document.getElementById('reject-cookies');
                 if (rejectBtn) {
                     rejectBtn.addEventListener('click', () => {
@@ -171,44 +214,34 @@
             }
 
             setConsent(hasConsented) {
-                // Store consent decisions
                 localStorage.setItem(this.consentKey, 'true');
                 localStorage.setItem(this.analyticsConsentKey, hasConsented ? 'true' : 'false');
                 
-                // Hide banner
                 this.hideBanner();
                 
                 if (hasConsented) {
-                    // Initialize analytics if consented
                     this.initializeAnalytics();
                 } else {
-                    // Ensure analytics are disabled
                     this.disableAnalytics();
                 }
             }
 
             initializeAnalytics() {
-                // Load PostHog script
                 !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
                 
-                // Initialize PostHog with privacy-conscious settings
                 posthog.init('phc_iS5dXZ6fEr1C9GfKnjdYFhKPsT8Agy5VsrKTkbZYRcP', {
                     api_host: 'https://us.i.posthog.com',
                     person_profiles: 'identified_only',
-                    // Privacy settings
                     capture_pageview: true,
                     capture_pageleave: true,
                     disable_session_recording: false,
-                    // Respect user's privacy
                     respect_dnt: true,
                     property_blacklist: ['$initial_referrer', '$referrer'],
-                    // Optional: Disable autocapture of sensitive elements
                     autocapture: {
                         css_selector_blacklist: ['[data-private]', '.private']
                     }
                 });
 
-                // Track consent acceptance
                 posthog.capture('cookies_accepted', {
                     consent_timestamp: new Date().toISOString(),
                     consent_method: 'banner'
@@ -218,19 +251,16 @@
             }
 
             disableAnalytics() {
-                // Disable PostHog if it was loaded
                 if (window.posthog) {
                     posthog.opt_out_capturing();
                     console.log('Analytics disabled per user preference');
                 }
             }
 
-            // Method to check current consent status
             hasAnalyticsConsent() {
                 return localStorage.getItem(this.analyticsConsentKey) === 'true';
             }
 
-            // Method to clear consent (for testing or user request)
             clearConsent() {
                 localStorage.removeItem(this.consentKey);
                 localStorage.removeItem(this.analyticsConsentKey);
@@ -238,7 +268,6 @@
             }
         }
 
-        // Initialize consent management when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             window.cookieConsent = new CookieConsent();
         });

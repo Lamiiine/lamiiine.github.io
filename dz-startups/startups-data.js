@@ -149,7 +149,7 @@ const startups = [
         description: "University for kids",
         logo: "assets/snai3i_logo.jpg",
         founded: "2020",
-        category: "education",
+        category: "edtech",
         location: "Algiers",
         coords: [36.7430714, 3.0794023],
         website: "https://www.snai3i.org/",
