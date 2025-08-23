@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualizer - Algeria Edition - les Aures School</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .control-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        select, button, input {
+            padding: 10px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .algorithm-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .visualization-area {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            min-height: 300px;
+        }
+        
+        .array-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 5px;
+            margin-bottom: 30px;
+            height: 200px;
+        }
+        
+        .array-element {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.5s ease;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .array-element.comparing {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            transform: translateY(-10px);
+        }
+        
+        .array-element.swapping {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            transform: scale(1.1);
+        }
+        
+        .array-element.sorted {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+        
+        .array-element.found {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(255, 234, 167, 0.8);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .challenge-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .challenge-question {
+            background: #e8f2ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .challenge-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .option {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .challenge-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .challenge-feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .challenge-feedback.wrong {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e1e5e9;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .highlight {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .controls > * {
+                width: 100%;
+            }
+            
+            .array-container {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇩🇿 Algorithm Visualizer - Algeria Edition - Les Aures School</h1>
+            <p>Learn sorting and searching algorithms with Algerian data</p>
+        </div>
+
+        <div class="control-panel">
+            <div class="controls">
+                <select id="algorithmSelect">
+                    <option value="bubble">Bubble Sort</option>
+                    <option value="merge">Merge Sort</option>
+                    <option value="linear">Linear Search</option>
+                    <option value="binary">Binary Search</option>
+                </select>
+                
+                <select id="datasetSelect">
+                    <option value="wilayas">Algerian Wilayas (by population)</option>
+                    <option value="cities">Major Cities</option>
+                    <option value="universities">Universities</option>
+                    <option value="mountains">Mountain Heights</option>
+                </select>
+                
+                <button id="startBtn">Start Algorithm</button>
+                <button id="stepBtn">Step Forward</button>
+                <button id="resetBtn">Reset</button>
+                
+                <div class="search-container" id="searchContainer" style="display: none;">
+                    <label>Search for:</label>
+                    <input type="text" id="searchInput" placeholder="Enter item to search">
+                </div>
+            </div>
+            
+            <div class="algorithm-info" id="algorithmInfo">
+                <h3>Bubble Sort</h3>
+                <p><strong>How it works:</strong> Compares adjacent elements and swaps them if they're in wrong order. Repeats until no swaps needed.</p>
+                <p><strong>Time Complexity:</strong> O(n²) worst case, O(n) best case | <strong>Space:</strong> O(1)</p>
+            </div>
+        </div>
+
+        <div class="visualization-area">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            
+            <div class="array-container" id="arrayContainer">
+                <!-- Array elements will be inserted here -->
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="comparisons">0</div>
+                    <div>Comparisons</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="swaps">0</div>
+                    <div>Swaps/Steps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="timeElapsed">0</div>
+                    <div>Time (ms)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="currentStep">0</div>
+                    <div>Current Step</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="challenge-section" id="challengeSection">
+            <h2>🎯 Teaching Challenge</h2>
+            <div class="challenge-question" id="challengeQuestion">
+                <h3>Question 1: Algorithm Understanding</h3>
+                <p>Which algorithm would be most efficient for finding a specific wilaya in a <strong>sorted</strong> list of all 48 Algerian wilayas?</p>
+            </div>
+            
+            <div class="challenge-options" id="challengeOptions">
+                <div class="option" data-answer="wrong">Linear Search - checks each item one by one</div>
+                <div class="option" data-answer="correct">Binary Search - divides the search space in half each time</div>
+                <div class="option" data-answer="wrong">Bubble Sort - this is for sorting, not searching</div>
+                <div class="option" data-answer="wrong">No algorithm needed - just guess randomly</div>
+            </div>
+            
+            <div class="challenge-feedback" id="challengeFeedback">
+                <strong>Correct!</strong> Binary search is O(log n) compared to linear search O(n). For 48 wilayas, binary search needs maximum 6 comparisons, while linear might need up to 48!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Algerian datasets
+        const datasets = {
+            wilayas: [
+                {name: 'Algiers', value: 3154792},
+                {name: 'Oran', value: 1584607}, 
+                {name: 'Constantine', value: 943112},
+                {name: 'Annaba', value: 640050},
+                {name: 'Blida', value: 1167593},
+                {name: 'Batna', value: 1128030},
+                {name: 'Djelfa', value: 1164154},
+                {name: 'Sétif', value: 1496150},
+                {name: 'Sidi Bel Abbès', value: 610710},
+                {name: 'Biskra', value: 730262}
+            ],
+            cities: [
+                {name: 'Algiers', value: 2364230},
+                {name: 'Oran', value: 803329},
+                {name: 'Constantine', value: 450097},
+                {name: 'Annaba', value: 464740},
+                {name: 'Blida', value: 180260},
+                {name: 'Batna', value: 290645},
+                {name: 'Djelfa', value: 154265},
+                {name: 'Sétif', value: 288461}
+            ],
+            universities: [
+                {name: 'Univ. of Algiers 1', value: 1909},
+                {name: 'Univ. of Constantine', value: 1969},
+                {name: 'Univ. of Oran', value: 1965},
+                {name: 'Univ. of Annaba', value: 1975},
+                {name: 'Univ. of Batna', value: 1977},
+                {name: 'Univ. of Sétif', value: 1978},
+                {name: 'Univ. of Tlemcen', value: 1974}
+            ],
+            mountains: [
+                {name: 'Tahat', value: 3003},
+                {name: 'Atakor', value: 2918},
+                {name: 'Chélia', value: 2328},
+                {name: 'Djurdjura', value: 2308},
+                {name: 'Aissa Mimoun', value: 2236},
+                {name: 'Mahmel', value: 2321},
+                {name: 'Tikjda', value: 1278}
+            ]
+        };
+
+        // Teaching challenges for different algorithms
+        const challenges = {
+            bubble: [
+                {
+                    question: "Why does Bubble Sort get its name?",
+                    options: [
+                        "It creates bubbles in the data",
+                        "Small elements 'bubble' to the beginning like air bubbles rising",
+                        "It was invented by someone named Bubble",
+                        "It makes a bubbling sound when running"
+                    ],
+                    correct: 1,
+                    explanation: "Correct! Small elements gradually 'bubble up' to their correct position, just like air bubbles rise to the surface of water."
+                },
+                {
+                    question: "In the worst case, how many comparisons does Bubble Sort make for sorting 10 Algerian cities?",
+                    options: ["10", "45", "100", "20"],
+                    correct: 1,
+                    explanation: "Correct! For n elements, bubble sort makes (n-1) + (n-2) + ... + 1 = n(n-1)/2 comparisons. For 10 items: 10×9/2 = 45."
+                }
+            ],
+            merge: [
+                {
+                    question: "What is the key principle behind Merge Sort?",
+                    options: [
+                        "Compare adjacent elements",
+                        "Divide and conquer - split array into halves, sort them, then merge",
+                        "Find the smallest element repeatedly",
+                        "Swap elements randomly"
+                    ],
+                    correct: 1,
+                    explanation: "Correct! Merge sort uses divide and conquer: recursively split the array into halves until you have single elements, then merge them back in sorted order."
+                }
+            ],
+            linear: [
+                {
+                    question: "When searching for 'Constantine' in an unsorted list of Algerian cities, what's the worst-case scenario for Linear Search?",
+                    options: [
+                        "Constantine is the first item",
+                        "Constantine is in the middle",
+                        "Constantine is the last item or not in the list",
+                        "The list is sorted"
+                    ],
+                    correct: 2,
+                    explanation: "Correct! Linear search checks each element one by one. In worst case, you need to check every single element, which happens when the item is last or not present."
+                }
+            ],
+            binary: [
+                {
+                    question: "Why does Binary Search require the data to be sorted first?",
+                    options: [
+                        "It looks prettier when sorted",
+                        "To eliminate half the search space at each step by comparing with middle element",
+                        "Computers work faster with sorted data",
+                        "It's a rule that must be followed"
+                    ],
+                    correct: 1,
+                    explanation: "Correct! Binary search compares the target with the middle element. If they're not equal, it eliminates the half that can't contain the target. This only works if data is sorted!"
+                }
+            ]
+        };
+
+        // Global state
+        let currentData = [];
+        let originalData = [];
+        let currentAlgorithm = 'bubble';
+        let isRunning = false;
+        let currentStep = 0;
+        let stats = {comparisons: 0, swaps: 0, startTime: 0};
+        let currentChallenge = 0;
+        let searchTarget = '';
+
+        // DOM elements
+        const algorithmSelect = document.getElementById('algorithmSelect');
+        const datasetSelect = document.getElementById('datasetSelect');
+        const startBtn = document.getElementById('startBtn');
+        const stepBtn = document.getElementById('stepBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const arrayContainer = document.getElementById('arrayContainer');
+        const algorithmInfo = document.getElementById('algorithmInfo');
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = document.getElementById('searchInput');
+
+        // Initialize
+        function init() {
+            console.log('Initializing algorithm visualizer...');
+            loadDataset();
+            updateAlgorithmInfo();
+            loadChallenge();
+            
+            algorithmSelect.addEventListener('change', handleAlgorithmChange);
+            datasetSelect.addEventListener('change', loadDataset);
+            startBtn.addEventListener('click', startAlgorithm);
+            stepBtn.addEventListener('click', stepForward);
+            resetBtn.addEventListener('click', resetVisualization);
+            
+            // Challenge event listeners
+            document.getElementById('challengeOptions').addEventListener('click', handleChallengeAnswer);
+        }
+
+        function loadDataset() {
+            const selectedDataset = datasetSelect.value;
+            originalData = [...datasets[selectedDataset]];
+            currentData = [...originalData];
+            
+            // Shuffle data for sorting algorithms
+            if (['bubble', 'merge'].includes(currentAlgorithm)) {
+                shuffleArray(currentData);
+            }
+            
+            renderArray();
+            resetStats();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function handleAlgorithmChange() {
+            currentAlgorithm = algorithmSelect.value;
+            updateAlgorithmInfo();
+            loadDataset();
+            loadChallenge();
+            
+            // Show/hide search input
+            if (['linear', 'binary'].includes(currentAlgorithm)) {
+                searchContainer.style.display = 'flex';
+                if (currentAlgorithm === 'binary') {
+                    // Sort data for binary search
+                    currentData.sort((a, b) => a.name.localeCompare(b.name));
+                    renderArray();
+                }
+            } else {
+                searchContainer.style.display = 'none';
+            }
+        }
+
+        function updateAlgorithmInfo() {
+            const info = {
+                bubble: {
+                    name: "Bubble Sort",
+                    description: "Compares adjacent elements and swaps them if they're in wrong order. Repeats until no swaps needed.",
+                    complexity: "O(n²) worst case, O(n) best case | Space: O(1)"
+                },
+                merge: {
+                    name: "Merge Sort", 
+                    description: "Divides array into halves recursively, sorts each half, then merges them back together.",
+                    complexity: "O(n log n) always | Space: O(n)"
+                },
+                linear: {
+                    name: "Linear Search",
+                    description: "Checks each element one by one from start to end until target is found or list ends.",
+                    complexity: "O(n) worst case | Space: O(1)"
+                },
+                binary: {
+                    name: "Binary Search",
+                    description: "Compares target with middle element, eliminates half the search space each time. Requires sorted data.",
+                    complexity: "O(log n) | Space: O(1)"
+                }
+            };
+            
+            const current = info[currentAlgorithm];
+            algorithmInfo.innerHTML = `
+                <h3>${current.name}</h3>
+                <p><strong>How it works:</strong> ${current.description}</p>
+                <p><strong>Time Complexity:</strong> ${current.complexity}</p>
+            `;
+        }
+
+        function renderArray() {
+            arrayContainer.innerHTML = '';
+            
+            currentData.forEach((item, index) => {
+                const element = document.createElement('div');
+                element.className = 'array-element';
+                element.innerHTML = `
+                    <div style="font-size: 12px; font-weight: bold;">${item.name}</div>
+                    <div style="font-size: 11px; color: #666;">${item.value.toLocaleString()}</div>
+                `;
+                element.style.height = Math.max(50, (item.value / Math.max(...currentData.map(d => d.value))) * 150) + 'px';
+                arrayContainer.appendChild(element);
+            });
+        }
+
+        function startAlgorithm() {
+            console.log('Start algorithm clicked');
+            if (['linear', 'binary'].includes(currentAlgorithm)) {
+                searchTarget = searchInput.value.trim();
+                if (!searchTarget) {
+                    alert('Please enter a search term!');
+                    return;
+                }
+            }
+            
+            isRunning = true;
+            currentStep = 0;
+            stats = {comparisons: 0, swaps: 0, startTime: Date.now()};
+            
+            startBtn.disabled = true;
+            stepBtn.disabled = false;
+            
+            updateStats();
+        }
+
+        function stepForward() {
+            console.log('Step forward clicked');
+            if (!isRunning) return;
+            
+            if (currentAlgorithm === 'bubble') {
+                stepBubbleSort();
+            } else if (currentAlgorithm === 'linear') {
+                stepLinearSearch();
+            } else if (currentAlgorithm === 'binary') {
+                stepBinarySearch();
+            }
+            
+            currentStep++;
+            updateStats();
+        }
+
+        let bubblePasses = 0;
+        let bubbleIndex = 0;
+        
+        function stepBubbleSort() {
+            if (bubbleIndex < currentData.length - 1 - bubblePasses) {
+                // Clear previous highlighting
+                document.querySelectorAll('.array-element').forEach(el => el.classList.remove('comparing', 'swapping'));
+                
+                // Highlight comparing elements
+                const elements = document.querySelectorAll('.array-element');
+                elements[bubbleIndex].classList.add('comparing');
+                elements[bubbleIndex + 1].classList.add('comparing');
+                
+                stats.comparisons++;
+                
+                // Compare and swap if needed
+                if (currentData[bubbleIndex].value > currentData[bubbleIndex + 1].value) {
+                    // Swap
+                    [currentData[bubbleIndex], currentData[bubbleIndex + 1]] = [currentData[bubbleIndex + 1], currentData[bubbleIndex]];
+                    elements[bubbleIndex].classList.add('swapping');
+                    elements[bubbleIndex + 1].classList.add('swapping');
+                    stats.swaps++;
+                    
+                    setTimeout(() => {
+                        renderArray();
+                    }, 300);
+                }
+                
+                bubbleIndex++;
+            } else {
+                // Mark sorted elements
+                const elements = document.querySelectorAll('.array-element');
+                elements[currentData.length - 1 - bubblePasses].classList.add('sorted');
+                
+                bubblePasses++;
+                bubbleIndex = 0;
+                
+                if (bubblePasses >= currentData.length - 1) {
+                    // Sorting complete
+                    document.querySelectorAll('.array-element').forEach(el => el.classList.add('sorted'));
+                    completeAlgorithm();
+                }
+            }
+        }
+
+        let searchIndex = 0;
+        
+        function stepLinearSearch() {
+            if (searchIndex < currentData.length) {
+                // Clear previous highlighting
+                document.querySelectorAll('.array-element').forEach(el => el.classList.remove('comparing', 'found'));
+                
+                // Highlight current element
+                const elements = document.querySelectorAll('.array-element');
+                elements[searchIndex].classList.add('comparing');
+                
+                stats.comparisons++;
+                
+                // Check if found
+                if (currentData[searchIndex].name.toLowerCase().includes(searchTarget.toLowerCase())) {
+                    elements[searchIndex].classList.remove('comparing');
+                    elements[searchIndex].classList.add('found');
+                    completeAlgorithm();
+                    return;
+                }
+                
+                searchIndex++;
+            } else {
+                // Not found
+                alert(`"${searchTarget}" not found in the dataset!`);
+                completeAlgorithm();
+            }
+        }
+
+        let binaryLeft = 0;
+        let binaryRight = 0;
+        let binaryInitialized = false;
+        
+        function stepBinarySearch() {
+            if (!binaryInitialized) {
+                binaryRight = currentData.length - 1;
+                binaryInitialized = true;
+            }
+            
+            if (binaryLeft <= binaryRight) {
+                // Clear previous highlighting
+                document.querySelectorAll('.array-element').forEach(el => el.classList.remove('comparing', 'found'));
+                
+                const mid = Math.floor((binaryLeft + binaryRight) / 2);
+                const elements = document.querySelectorAll('.array-element');
+                elements[mid].classList.add('comparing');
+                
+                stats.comparisons++;
+                
+                const comparison = currentData[mid].name.toLowerCase().localeCompare(searchTarget.toLowerCase());
+                
+                if (comparison === 0) {
+                    // Found!
+                    elements[mid].classList.remove('comparing');
+                    elements[mid].classList.add('found');
+                    completeAlgorithm();
+                    return;
+                } else if (comparison < 0) {
+                    binaryLeft = mid + 1;
+                } else {
+                    binaryRight = mid - 1;
+                }
+            } else {
+                // Not found
+                alert(`"${searchTarget}" not found in the dataset!`);
+                completeAlgorithm();
+            }
+        }
+
+        function completeAlgorithm() {
+            isRunning = false;
+            startBtn.disabled = false;
+            stepBtn.disabled = true;
+            updateProgress(100);
+        }
+
+        function resetVisualization() {
+            console.log('Reset clicked');
+            isRunning = false;
+            currentStep = 0;
+            bubblePasses = 0;
+            bubbleIndex = 0;
+            searchIndex = 0;
+            binaryLeft = 0;
+            binaryRight = 0;
+            binaryInitialized = false;
+            
+            startBtn.disabled = false;
+            stepBtn.disabled = true;
+            
+            loadDataset();
+        }
+
+        function updateStats() {
+            document.getElementById('comparisons').textContent = stats.comparisons;
+            document.getElementById('swaps').textContent = stats.swaps;
+            document.getElementById('timeElapsed').textContent = Date.now() - stats.startTime;
+            document.getElementById('currentStep').textContent = currentStep;
+            
+            // Update progress bar
+            let progress = 0;
+            if (currentAlgorithm === 'bubble') {
+                const totalSteps = (currentData.length * (currentData.length - 1)) / 2;
+                progress = (currentStep / totalSteps) * 100;
+            } else if (['linear', 'binary'].includes(currentAlgorithm)) {
+                progress = (currentStep / currentData.length) * 100;
+            }
+            updateProgress(Math.min(progress, 100));
+        }
+
+        function updateProgress(percentage) {
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        function resetStats() {
+            stats = {comparisons: 0, swaps: 0, startTime: 0};
+            updateStats();
+            updateProgress(0);
+        }
+
+        function loadChallenge() {
+            const challengeData = challenges[currentAlgorithm];
+            if (!challengeData) return;
+            
+            const challenge = challengeData[currentChallenge % challengeData.length];
+            
+            document.getElementById('challengeQuestion').innerHTML = `
+                <h3>Question ${(currentChallenge % challengeData.length) + 1}: Algorithm Understanding</h3>
+                <p>${challenge.question}</p>
+            `;
+            
+            const optionsContainer = document.getElementById('challengeOptions');
+            optionsContainer.innerHTML = '';
+            
+            challenge.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = option;
+                optionDiv.dataset.answer = index === challenge.correct ? 'correct' : 'wrong';
+                optionDiv.dataset.explanation = challenge.explanation;
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Hide feedback
+            document.getElementById('challengeFeedback').style.display = 'none';
+            document.getElementById('challengeFeedback').className = 'challenge-feedback';
+        }
+
+        function handleChallengeAnswer(event) {
+            if (!event.target.classList.contains('option')) return;
+            
+            const selectedOption = event.target;
+            const allOptions = document.querySelectorAll('.option');
+            const feedback = document.getElementById('challengeFeedback');
+            
+            // Remove previous styling
+            allOptions.forEach(option => {
+                option.classList.remove('correct', 'wrong');
+            });
+            
+            // Show correct answer and user selection
+            allOptions.forEach(option => {
+                if (option.dataset.answer === 'correct') {
+                    option.classList.add('correct');
+                } else if (option === selectedOption && option.dataset.answer === 'wrong') {
+                    option.classList.add('wrong');
+                }
+            });
+            
+            // Show feedback
+            const isCorrect = selectedOption.dataset.answer === 'correct';
+            feedback.className = `challenge-feedback ${isCorrect ? 'correct' : 'wrong'}`;
+            feedback.innerHTML = `
+                <strong>${isCorrect ? 'Correct!' : 'Incorrect.'}</strong> 
+                ${selectedOption.dataset.explanation || (isCorrect ? 'Well done!' : 'Try again next time.')}
+            `;
+            feedback.style.display = 'block';
+            
+            // Move to next challenge after delay
+            setTimeout(() => {
+                currentChallenge++;
+                loadChallenge();
+            }, 3000);
+        }
+
+        // Initialize the application when DOM is ready
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
