@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Systems Study Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .game-area {
+            padding: 30px;
+        }
+        .start-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .start-screen h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .topic-select {
+            margin: 30px 0;
+        }
+        .topic-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            color: #667eea;
+            transition: all 0.3s;
+        }
+        .topic-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .question-area {
+            display: none;
+        }
+        .question-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .question-text {
+            font-size: 1.3em;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .answers {
+            margin: 20px 0;
+        }
+        .answer-button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            text-align: left;
+            transition: all 0.3s;
+        }
+        .answer-button:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+        .answer-button.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .answer-button.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .answer-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .feedback {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+        .explanation {
+            margin-top: 10px;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        .next-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            display: none;
+            transition: all 0.3s;
+        }
+        .next-button:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+        .results {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .results h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .score-display {
+            font-size: 4em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .restart-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .restart-button:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+        .progress-bar {
+            height: 5px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Multi-Agent Systems Study Game</h1>
+            <p>Master the MAS course with detailed questions</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">Score</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Correct</div>
+                <div class="stat-value" id="correct">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Total</div>
+                <div class="stat-value" id="total">0</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="start-screen" id="startScreen">
+                <h2>Choose Your Topic</h2>
+                <div class="topic-select">
+                    <button class="topic-button" onclick="startGame('all')">🎯 All Topics (Random)</button>
+                    <button class="topic-button" onclick="startGame('intro')">📚 Introduction to MAS</button>
+                    <button class="topic-button" onclick="startGame('architectures')">🏗️ Agent Architectures</button>
+                    <button class="topic-button" onclick="startGame('gametheory')">🎮 Game Theory</button>
+                    <button class="topic-button" onclick="startGame('communication')">💬 Communication</button>
+                    <button class="topic-button" onclick="startGame('abms')">🔬 Agent-Based Simulation</button>
+                    <button class="topic-button" onclick="startGame('planning')">📋 Planning</button>
+                    <button class="topic-button" onclick="startGame('coordination')">🤝 Coordination & DPS</button>
+                    <button class="topic-button" onclick="startGame('socialchoice')">🗳️ Social Choice Theory</button>
+                </div>
+            </div>
+
+            <div class="question-area" id="questionArea">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="question-header">
+                    <span class="question-number" id="questionNumber"></span>
+                    <span style="float: right; color: #6c757d;" id="topicLabel"></span>
+                </div>
+                <div class="question-text" id="questionText"></div>
+                <div class="answers" id="answersArea"></div>
+                <div class="feedback" id="feedback">
+                    <div id="feedbackText"></div>
+                    <div class="explanation" id="explanation"></div>
+                </div>
+                <button class="next-button" id="nextButton" onclick="nextQuestion()">Next Question →</button>
+            </div>
+
+            <div class="results" id="results">
+                <h2>Quiz Complete! 🎉</h2>
+                <div class="score-display" id="finalScore"></div>
+                <p id="resultMessage" style="font-size: 1.2em; color: #6c757d; margin: 20px 0;"></p>
+                <button class="restart-button" onclick="location.reload()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = {
+            intro: [
+                {
+                    question: "According to Wooldridge (1995), what is the definition of an agent?",
+                    answers: [
+                        "A program that runs autonomously on a server",
+                        "A computer system situated in an environment, capable of autonomous action to meet delegated objectives",
+                        "An intelligent software that can communicate with humans",
+                        "A robot with sensors and effectors"
+                    ],
+                    correct: 1,
+                    explanation: "Wooldridge (1995) defines an agent as 'a computer system that is situated in some environment, and that is capable of autonomous action in this environment in order to meet its delegated objectives.'"
+                },
+                {
+                    question: "According to Castelfranchi, when is an agent X autonomous with respect to another agent Y for a goal P?",
+                    answers: [
+                        "When X can perform P faster than Y",
+                        "When X can locally decide whether to adopt P or not",
+                        "When X does not communicate with Y",
+                        "When X has more resources than Y"
+                    ],
+                    correct: 1,
+                    explanation: "Castelfranchi states that an agent X is autonomous wrt Y for P if X can locally decide whether to adopt P or not. Autonomous agent = agent with its own decision process."
+                },
+                {
+                    question: "What are the FOUR key properties of intelligent agents according to the course?",
+                    answers: [
+                        "Speed, Accuracy, Memory, Processing",
+                        "Autonomy, Reactivity, Proactivity, Social ability",
+                        "Perception, Action, Learning, Communication",
+                        "Beliefs, Desires, Intentions, Plans"
+                    ],
+                    correct: 1,
+                    explanation: "The four key properties are: Autonomy (control over actions and internal state), Reactivity (perceives and reacts to changes), Proactivity (takes initiative, sets goals), and Social ability (interacts with other agents)."
+                },
+                {
+                    question: "What is the difference between an accessible and an inaccessible environment?",
+                    answers: [
+                        "Accessible means the agent can physically reach it",
+                        "Accessible means all aspects relevant to decision making are available to sensors",
+                        "Accessible means the environment is deterministic",
+                        "Accessible means other agents can enter"
+                    ],
+                    correct: 1,
+                    explanation: "An accessible environment means all aspects relevant to decision making are accessible to the agent's sensors, so no need to maintain internal state. Inaccessible means incomplete information about environment state."
+                },
+                {
+                    question: "In an episodic environment, what is the relationship between episodes?",
+                    answers: [
+                        "Each episode depends on all previous episodes",
+                        "Episodes are independent of each other",
+                        "Episodes must be completed in a specific order",
+                        "Episodes share the same goal"
+                    ],
+                    correct: 1,
+                    explanation: "In an episodic environment, one episode = perception + action, and episodes are independent. This means agents don't need to think ahead and can make reactive decisions based only on the current episode."
+                },
+                {
+                    question: "What is Expected Utility and how is it calculated?",
+                    answers: [
+                        "The average of all possible utilities",
+                        "The sum of probabilities Pi times utilities Ui for all possible effects",
+                        "The maximum utility multiplied by its probability",
+                        "The utility divided by the number of actions"
+                    ],
+                    correct: 1,
+                    explanation: "Expected utility ExpU(A) = Σi Pi * Ui, where Pi is the probability of effect i and Ui is its utility. A rational agent should prefer the action with highest expected utility."
+                }
+            ],
+            architectures: [
+                {
+                    question: "What are the TWO main steps of practical reasoning in BDI agents?",
+                    answers: [
+                        "Sensing and Acting",
+                        "Deliberation (decide what to achieve) and Means-end reasoning (decide how to achieve it)",
+                        "Planning and Execution",
+                        "Perception and Response"
+                    ],
+                    correct: 1,
+                    explanation: "Practical reasoning consists of: (1) Deliberation - deciding what state of affairs to achieve (outputs intentions), and (2) Means-end reasoning - deciding how to achieve it (outputs plans)."
+                },
+                {
+                    question: "What are the THREE commitment strategies for intention reconsideration in BDI agents?",
+                    answers: [
+                        "Fast, Medium, Slow",
+                        "Blind commitment, Single-minded commitment, Open-minded commitment",
+                        "Conservative, Moderate, Aggressive",
+                        "Reactive, Proactive, Interactive"
+                    ],
+                    correct: 1,
+                    explanation: "The three strategies are: (1) Blind commitment - only reconsider when all plans fail or after success; (2) Single-minded - also reconsider when intention becomes impossible; (3) Open-minded - uses meta-level controller to decide whether to reconsider."
+                },
+                {
+                    question: "In the BDI architecture, what is the key difference between Desires and Intentions?",
+                    answers: [
+                        "Desires are stronger than Intentions",
+                        "Intentions are consistent and persistent, while Desires can be inconsistent and unrealistic",
+                        "Desires are about actions, Intentions are about states",
+                        "There is no difference"
+                    ],
+                    correct: 1,
+                    explanation: "Desires can be inconsistent, incompatible, or unrealistic and must be filtered. Intentions are the result of filtering desires - they are consistent, feasible, and persistent (committed to for 'a while')."
+                },
+                {
+                    question: "What is the main limitation of the Subsumption Architecture?",
+                    answers: [
+                        "It is too complex to implement",
+                        "Environment must be accessible and it is not flexible to changing conditions",
+                        "It requires too much computational power",
+                        "It cannot handle multiple agents"
+                    ],
+                    correct: 1,
+                    explanation: "Main limitations: Environment must be accessible (only considers local info), not flexible (if conditions change, need new rules), no learning (difficult), and hard to build complex agents."
+                },
+                {
+                    question: "In the Subsumption Architecture, how do higher and lower level Competence Modules interact?",
+                    answers: [
+                        "They operate in sequence",
+                        "Lower layers have higher priority and can inhibit higher layers",
+                        "Higher layers always override lower layers",
+                        "They vote on which action to take"
+                    ],
+                    correct: 1,
+                    explanation: "Lower layers handle basic primitive tasks and have higher priority - they can inhibit higher layers. Higher layers handle more complex patterns. Lower CMs use suppressors (modify inputs) and inhibitors (inhibit outputs) to control higher CMs."
+                },
+                {
+                    question: "What are the pros and cons of BDI architectures compared to reactive architectures?",
+                    answers: [
+                        "BDI is faster but less flexible",
+                        "BDI is grounded in philosophy, flexible, robust but more complex and computationally slower",
+                        "BDI works only in static environments",
+                        "BDI cannot handle emotions"
+                    ],
+                    correct: 1,
+                    explanation: "BDI pros: grounded in philosophy/logic, high abstraction, explains WHY, extensible, flexible, robust with failure recovery. Cons: more complex, computationally slower than reactive architectures."
+                },
+                {
+                    question: "In a hybrid architecture, what is the difference between horizontal and vertical layering?",
+                    answers: [
+                        "Horizontal processes data left to right, vertical top to bottom",
+                        "Horizontal: each layer connects to sensors/effectors and central control merges suggestions. Vertical: max one layer handles sensors/effectors",
+                        "Horizontal is for reactive, vertical is for deliberative",
+                        "Horizontal is faster, vertical is more accurate"
+                    ],
+                    correct: 1,
+                    explanation: "Horizontal: each layer directly connected to sensors and effectors, each behaves like an agent producing action suggestions, central control merges them (creates bottleneck). Vertical: sensors/effectors handled by max one layer each, layers communicate with neighbors (not tolerant to layer failures)."
+                },
+                {
+                    question: "What are the main components of the PRS (Procedural Reasoning System) architecture?",
+                    answers: [
+                        "Sensors, Processors, Actuators, Memory",
+                        "Knowledge base (beliefs), Goals (desires), Knowledge Areas (plans), Intentions, Interpreter",
+                        "Perception, Reasoning, Action, Learning",
+                        "Input, Processing, Output, Feedback"
+                    ],
+                    correct: 1,
+                    explanation: "PRS components: Knowledge base (beliefs about world), Goals (desires to be achieved), Knowledge Areas (plans to achieve goals in specific situations), Intentions (plans selected for execution), Interpreter (inference mechanism)."
+                }
+            ],
+            gametheory: [
+                {
+                    question: "What is a Nash Equilibrium?",
+                    answers: [
+                        "When all players get the same payoff",
+                        "When no player can improve their payoff by unilaterally changing strategy",
+                        "When the sum of payoffs is maximized",
+                        "When all players cooperate"
+                    ],
+                    correct: 1,
+                    explanation: "Nash equilibrium is a set of strategies where no player has an interest to deviate alone - each strategy is the best reply to the other. It's an 'absence of regret' situation. Nash theorem: any finite game has at least one Nash equilibrium with mixed strategies."
+                },
+                {
+                    question: "In the Prisoner's Dilemma, what is the relationship between values T, R, P, S?",
+                    answers: [
+                        "T > R > P > S (Temptation > Reward > Punishment > Sucker)",
+                        "R > T > P > S",
+                        "T > P > R > S",
+                        "All values are equal"
+                    ],
+                    correct: 0,
+                    explanation: "The Prisoner's Dilemma requires T > R > P > S where T=Temptation (unilateral betrayal), R=Reward (mutual cooperation), P=Punishment (mutual betrayal), S=Sucker (unilateral cooperation). This creates the dilemma where individual rationality leads to mutual defection despite mutual cooperation being better."
+                },
+                {
+                    question: "What is Pareto Optimality?",
+                    answers: [
+                        "When all agents receive equal payoffs",
+                        "An outcome where no other outcome makes everyone at least as well off and at least one player strictly better off",
+                        "The outcome with the highest total payoff",
+                        "When the Nash Equilibrium is reached"
+                    ],
+                    correct: 1,
+                    explanation: "A Pareto optimal outcome cannot be improved without hurting at least one player. It's the best solution for the group. However, Nash equilibrium is not always Pareto optimal (as in Prisoner's Dilemma)."
+                },
+                {
+                    question: "In Axelrod's Iterated Prisoner's Dilemma tournament, which strategy won?",
+                    answers: [
+                        "Always Defect (ALLD)",
+                        "Tit for Tat (first cooperate, then replicate opponent's previous move)",
+                        "Random",
+                        "Always Cooperate"
+                    ],
+                    correct: 1,
+                    explanation: "Tit for Tat by Anatol Rapoport won both tournaments. It cooperates first, then punishes betrayal but forgives. This represents optimal behavior in permanent conflict: cooperate a priori, punish betrayal, forgive if partner returns to cooperation."
+                },
+                {
+                    question: "What is the fundamental problem illustrated by the Tragedy of the Commons?",
+                    answers: [
+                        "Resources are always scarce",
+                        "Individual self-interest leads to depletion/spoiling of shared resources",
+                        "Public ownership is inefficient",
+                        "Commons should be privatized"
+                    ],
+                    correct: 1,
+                    explanation: "In commons, benefits are individual but costs are shared by all. Interest of taking from commons always exceeds cost to pay for using them. This leads to free rider problem where users act in self-interest, overusing/depleting the resource. Solutions: top-down rules, privatization, or local management (Ostrom)."
+                },
+                {
+                    question: "Why is cooperation rational in the infinitely iterated Prisoner's Dilemma but not in a known finite iteration?",
+                    answers: [
+                        "Because players get tired in finite games",
+                        "Because in infinite iteration future encounters matter, but in finite iteration backward induction leads to defection in last round",
+                        "Because the payoffs change over time",
+                        "Because players can communicate in infinite games"
+                    ],
+                    correct: 1,
+                    explanation: "In infinitely iterated PD, future encounters always matter so cooperation is rational. In known finite iteration, backward induction applies: in last round, rational to defect (no future), so knowing this, defect in second-to-last, etc., leading to defection in all rounds."
+                },
+                {
+                    question: "What does game theory assume about rationality?",
+                    answers: [
+                        "Agents act randomly",
+                        "Each player tries to maximize their individual utility (economic rationality)",
+                        "Players always cooperate",
+                        "Players minimize their opponent's utility"
+                    ],
+                    correct: 1,
+                    explanation: "Game theory assumes economic rationality: agents make decisions to maximize their expected utility/gains, try to anticipate other's strategy, in a game defined by common rules setting expected gains and losses."
+                }
+            ],
+            communication: [
+                {
+                    question: "What are the FIVE elements of Shannon & Weaver's transmission model of communication?",
+                    answers: [
+                        "Speaker, Listener, Message, Context, Feedback",
+                        "Information source, Transmitter, Channel, Receiver, Destination",
+                        "Sender, Encoder, Medium, Decoder, Receiver",
+                        "Agent, Message, Protocol, Response, Acknowledgment"
+                    ],
+                    correct: 1,
+                    explanation: "The five elements are: (1) Information source (produces message), (2) Transmitter (encodes message into signal), (3) Channel (adapted to transmit signals), (4) Receiver (decodes message from signal), (5) Destination (gets message)."
+                },
+                {
+                    question: "What is the difference between intentional and incidental communication?",
+                    answers: [
+                        "Intentional is verbal, incidental is non-verbal",
+                        "Intentional has fixed meaning with sender's intent, incidental has receiver-dependent meaning with no intentional sender meaning",
+                        "Intentional is between agents, incidental is via environment",
+                        "Intentional is digital, incidental is analog"
+                    ],
+                    correct: 1,
+                    explanation: "Intentional communication: fixed meaning, shared semantics needed, sender intends the meaning. Incidental communication: receiver-dependent meaning, message is a signal with no intentional sender meaning, receiver interprets/gives meaning."
+                },
+                {
+                    question: "According to Austin's Speech Act Theory, what are the THREE levels of analysis?",
+                    answers: [
+                        "Syntax, Semantics, Pragmatics",
+                        "Locutionary act (utterance), Illocutionary act (intent), Perlocutionary act (result)",
+                        "Encoding, Transmission, Decoding",
+                        "Message, Meaning, Effect"
+                    ],
+                    correct: 1,
+                    explanation: "Speech acts analyzed on 3 levels: (1) Locutionary act - actual performance (phonetic, syntactic, semantic aspects) = utterance; (2) Illocutionary act - intended meaning = intent; (3) Perlocutionary act - actual effect, whether intended or not = result."
+                },
+                {
+                    question: "What are Searle's FIVE categories of illocutionary acts?",
+                    answers: [
+                        "Questions, Commands, Statements, Requests, Promises",
+                        "Assertives, Commissives, Directives, Declaratives, Expressives",
+                        "Inform, Request, Promise, Query, Confirm",
+                        "Perception, Analysis, Disambiguation, Incorporation, Response"
+                    ],
+                    correct: 1,
+                    explanation: "Searle's 5 categories: (1) Assertives - commit to truth of proposition; (2) Commissives - commit to future action; (3) Directives - cause hearer to take action; (4) Declaratives - change reality; (5) Expressives - express attitudes/emotions."
+                },
+                {
+                    question: "What are the THREE dimensions on which trust is based according to the course?",
+                    answers: [
+                        "Experience, Reputation, Intuition",
+                        "Sincerity (won't lie), Competence (can do/knows what it says), Benevolence (willing to help)",
+                        "Reliability, Security, Availability",
+                        "Honesty, Ability, Integrity"
+                    ],
+                    correct: 1,
+                    explanation: "Trust based on: (1) Sincerity - will not lie, intends to do what it promises, believes what it says; (2) Competence - can do what it promises, knows what it says; (3) Benevolence - is willing to help."
+                },
+                {
+                    question: "What is the difference between trust and reputation?",
+                    answers: [
+                        "Trust is public, reputation is private",
+                        "Trust is an individual belief based on direct experience, reputation is common knowledge without direct experience",
+                        "Trust is emotional, reputation is rational",
+                        "Trust is short-term, reputation is long-term"
+                    ],
+                    correct: 1,
+                    explanation: "Trust: belief of an individual about another's capability, based on past actions through direct experience (A trusts B about X). Reputation: common knowledge about an individual without direct experience, image a group has of an individual (in group G, A has good/bad reputation)."
+                },
+                {
+                    question: "In mentalist ACL semantics (FIPA-ACL), what are the preconditions and effects of inform(i,j,p)?",
+                    answers: [
+                        "i must have p, j will execute p",
+                        "Preconditions: i believes p is true, i believes j is interested. Effects: j believes p (if trust in i's sincerity and competence)",
+                        "i sends p, j receives p",
+                        "i knows p, j learns p"
+                    ],
+                    correct: 1,
+                    explanation: "Inform(i,j,p) - Preconditions: i believes p is true, i believes j is interested in p. Effects (rational effect): j believes p (if j trusts i's sincerity - i actually believes p, and competence - if i believes p then p might be true). Also: j believes that i believes p, j believes that i wants j to believe p."
+                },
+                {
+                    question: "What is the Contract-Net protocol and what are its 5 stages?",
+                    answers: [
+                        "A negotiation protocol with offer, counter-offer, acceptance, execution, payment",
+                        "Task allocation in 5 stages: Recognition, Announcement, Bidding, Awarding, Expediting",
+                        "A communication protocol with request, process, respond, acknowledge, close",
+                        "A coordination method with planning, delegation, execution, monitoring, completion"
+                    ],
+                    correct: 1,
+                    explanation: "Contract-Net is a task allocation protocol with 5 stages: (1) Recognition - agent recognizes need for help; (2) Announcement - sends task specification; (3) Bidding - capable/willing agents bid; (4) Awarding - manager chooses among bids, communicates result; (5) Expediting - may involve sub-contracts."
+                }
+            ],
+            abms: [
+                {
+                    question: "What is the key difference between Agent-Based Modeling and classical mathematical modeling?",
+                    answers: [
+                        "ABMS is faster to compute",
+                        "ABMS simulates interactions between heterogeneous agents to observe macro-level emergence, classical uses equations for homogeneous behavior",
+                        "ABMS is always more accurate",
+                        "ABMS requires less data"
+                    ],
+                    correct: 1,
+                    explanation: "ABMS: simulates interactions between (heterogeneous) agents, system-level patterns emerge from micro-level interactions, finer-grained. Classical: equations express relations between system components, homogeneous behavior, aggregated macroscopic level, faster for large populations."
+                },
+                {
+                    question: "According to Axelrod, what are the 7 goals of simulation?",
+                    answers: [
+                        "Speed, Accuracy, Efficiency, Reliability, Scalability, Security, Maintainability",
+                        "Prediction, Task performance, Training, Entertainment, Education, Proof, Discovery",
+                        "Modeling, Testing, Analysis, Validation, Deployment, Monitoring, Optimization",
+                        "Data collection, Processing, Analysis, Visualization, Reporting, Documentation, Archiving"
+                    ],
+                    correct: 1,
+                    explanation: "Axelrod's 7 goals: (1) Prediction - predict outputs from inputs; (2) Task performance - AI mimicking humans; (3) Training - practice in simulated environment; (4) Entertainment - imaginary worlds; (5) Education - learn by practicing; (6) Proof - prove existence or conjectures; (7) Discovery - discover new knowledge from simple models."
+                },
+                {
+                    question: "What is Conway's Game of Life and what did it prove?",
+                    answers: [
+                        "A board game about evolution",
+                        "A cellular automaton with simple rules (dead cell with 3 neighbors becomes alive, live cell with 2-3 neighbors stays alive) that proved population cannot grow infinitely",
+                        "A genetic algorithm",
+                        "A simulation of biological reproduction"
+                    ],
+                    correct: 1,
+                    explanation: "Conway's Game of Life is a cellular automaton on a grid. Rules: (1) Dead cell with exactly 3 live neighbors becomes alive; (2) Live cell with 2 or 3 neighbors stays alive, otherwise dies. It proved that a population cannot grow infinitely large."
+                },
+                {
+                    question: "What was Schelling's hypothesis in his segregation model and what threshold did he use?",
+                    answers: [
+                        "People prefer to live only with same color, threshold 100%",
+                        "A weak preference (threshold ~33% same color neighbors) can lead to total segregation",
+                        "Segregation requires strong discrimination, threshold 80%",
+                        "Random movement leads to integration"
+                    ],
+                    correct: 1,
+                    explanation: "Schelling's hypothesis: weak preference to have neighbors of same color can lead to total segregation. Model: stay if ≥1/3 (>3/8) neighbors are same color, move to random free acceptable place if less. This micro-level rule leads to macro-level segregation."
+                },
+                {
+                    question: "What is R0 in epidemiology and what was its value for COVID-19 vs flu?",
+                    answers: [
+                        "Mortality rate, COVID 5%, flu 1%",
+                        "Initial reproduction rate: one infected contaminates how many others. COVID R0=2-3, flu R0=1.5",
+                        "Recovery rate",
+                        "Infection probability"
+                    ],
+                    correct: 1,
+                    explanation: "R0 = initial reproduction rate = number of people one infected person contaminates. COVID-19 had R0 between 2-3, compared to flu R0~1.5, making COVID much more contagious. Models can be calibrated by finding inter-individual transmission probability consistent with observed R0."
+                },
+                {
+                    question: "In the COVID CovPrehension project, why was isolating only symptomatic infected people insufficient?",
+                    answers: [
+                        "Because symptoms develop too slowly",
+                        "Because asymptomatic carriers can spread the virus, creating invisible chains of contamination",
+                        "Because isolation was not enforced",
+                        "Because the virus mutates"
+                    ],
+                    correct: 1,
+                    explanation: "Isolating only symptomatic infected is insufficient because: (1) Asymptomatic carriers exist in unknown proportion; (2) There's an incubation period before symptoms; (3) Tests have false negatives; (4) Protection/vaccines not 100%. Chains of contamination difficult to understand due to asymptomatic carriers. Must supplement with screening campaigns."
+                },
+                {
+                    question: "What are the main requirements for agents used in crisis management simulations according to the course?",
+                    answers: [
+                        "Fast and efficient",
+                        "Realistic cognitive agents capable of complex decision-making, influenced by emotions/biases, interacting with others",
+                        "Following strict protocols",
+                        "Equipped with sensors"
+                    ],
+                    correct: 1,
+                    explanation: "Requirements: (1) Realistic cognitive agents; (2) Not only reactive to stimuli; (3) Capable of complex decision-making in uncertain world; (4) Influenced by emotions, human factors, biases; (5) Interacting with other individuals and groups (family, community). Over-simplification limits validity."
+                },
+                {
+                    question: "What are the THREE rules that BOIDS follow to create flocking behavior?",
+                    answers: [
+                        "Move forward, avoid predators, find food",
+                        "Separation (avoid crowding), Alignment (match heading), Cohesion (move toward average position)",
+                        "Follow leader, maintain formation, synchronize speed",
+                        "Random walk, collision avoidance, goal seeking"
+                    ],
+                    correct: 1,
+                    explanation: "BOIDS follow 3 simple rules in their local neighborhood: (1) Separation - steer to avoid crowding local flockmates; (2) Alignment - steer towards average heading of local flockmates; (3) Cohesion - steer to move towards average position of local flockmates. Complex flocking emerges from these simple rules."
+                }
+            ],
+            planning: [
+                {
+                    question: "What are the key assumptions of the Classical Planning Problem?",
+                    answers: [
+                        "Multiple agents, stochastic actions, dynamic environment",
+                        "Single agent, deterministic instantaneous sequential actions, static environment, unique known initial state",
+                        "Distributed control, uncertain goals, partial observability",
+                        "Learning agents, adaptive behavior, real-time constraints"
+                    ],
+                    correct: 1,
+                    explanation: "Classical Planning Problem assumes: (1) Unique initial state, known unambiguously; (2) Durationless/instantaneous actions; (3) Static environment, no other agents; (4) Deterministic actions (accurate prediction of next state); (5) Only one action at a time (no concurrency). Goal: generate goal-oriented behavior."
+                },
+                {
+                    question: "What are the THREE basic elements of Situation Calculus?",
+                    answers: [
+                        "States, Transitions, Goals",
+                        "Actions, Fluents (state descriptions), Situations (history of actions)",
+                        "Preconditions, Effects, Plans",
+                        "Beliefs, Desires, Intentions"
+                    ],
+                    correct: 1,
+                    explanation: "Situation Calculus basic elements: (1) Actions that can be performed in the world; (2) Fluents that describe the state of the world; (3) Situations = history of action occurrences = sequence of actions. S0 = initial situation, S' = Do(action,S) = situation after performing action in S."
+                },
+                {
+                    question: "What is the Frame Problem in planning and how are Successor State Axioms used to solve it?",
+                    answers: [
+                        "The frame problem is finding the optimal path. SSA provide heuristics.",
+                        "Effect axioms can't derive non-effects of actions. SSA specify when fluent holds after action: either action initiates it, or it held before and action doesn't terminate it",
+                        "The frame problem is about representation. SSA compress knowledge.",
+                        "The frame problem is computational complexity. SSA speed up search."
+                    ],
+                    correct: 1,
+                    explanation: "Frame Problem: effect axioms can reason about effects but not about what does NOT change (non-effects). After picking object: is it broken? Has robot moved? SSA solution: Holds(f,do(a,s)) iff (action a initiates f) OR (f held before AND a doesn't terminate f). This solves frame problem by explicitly stating persistence."
+                },
+                {
+                    question: "What is STRIPS and what are the THREE lists used to represent operators?",
+                    answers: [
+                        "A robot programming language with move, sense, actuate lists",
+                        "Stanford Research Institute Problem Solver: operators have Preconditions (applicability), Removal list (negative effects), Add list (positive effects)",
+                        "A search algorithm with open, closed, and frontier lists",
+                        "A planning system with goals, states, and actions lists"
+                    ],
+                    correct: 1,
+                    explanation: "STRIPS (Stanford Research Institute Problem Solver) implements means-end analysis. Operators represented with 3 lists: (1) Preconditions - applicability of operator; (2) Removal list - negative effects (predicates removed from state); (3) Add list - positive effects (predicates added to state). Uses regressive planning from goal, generates linear plans."
+                },
+                {
+                    question: "What is the Sussman Anomaly and why is it a problem for linear planning?",
+                    answers: [
+                        "A computational complexity issue",
+                        "When goal is a conjunction of subgoals, considering them sequentially can lead to unnecessary steps and suboptimal plans",
+                        "When actions have uncertain effects",
+                        "When multiple agents interfere"
+                    ],
+                    correct: 1,
+                    explanation: "Sussman Anomaly: when goal situation is a conjunction (e.g., On(b,c) AND On(a,b)), decomposing into subgoals considered sequentially can lead to unnecessary steps (put shoe, remove shoe, put sock, put shoe). Linear planning generates suboptimal plans. Solution: non-linear planning considers all goals simultaneously."
+                },
+                {
+                    question: "What are the advantages and disadvantages of linear vs non-linear planning?",
+                    answers: [
+                        "Linear is always better",
+                        "Linear: reduced search space, sound, but incomplete and may be suboptimal. Non-linear: solves Sussman anomaly, more compact/flexible, but more complex",
+                        "Linear is for single agent, non-linear is for multi-agent",
+                        "Linear is faster, non-linear is more accurate"
+                    ],
+                    correct: 1,
+                    explanation: "Linear - Advantages: reduced search space (goals one at a time), sound (only correct plans), good if goals independent. Disadvantages: incomplete (doesn't find all solutions), may be suboptimal (Sussman anomaly). Non-linear - solves Sussman anomaly, considers all goals simultaneously, more compact without unnecessary constraints, more flexible/adapts at runtime, can be used for parallel execution, but more complex algorithms."
+                },
+                {
+                    question: "What are the key differences between single-agent and multi-agent planning?",
+                    answers: [
+                        "Multi-agent is just multiple copies of single-agent",
+                        "Multi-agent: dynamic environment, actions by other agents, need to model commitments, concurrent actions, requires communication",
+                        "Multi-agent is always distributed",
+                        "Multi-agent requires game theory"
+                    ],
+                    correct: 1,
+                    explanation: "Single-agent: static deterministic environment, can anticipate future, planner only considers its own actions, no commitment modeling needed, sequential actions, no communication needed. Multi-agent: dynamic environment (multiple agents act), must consider others' actions, need to model commitments, concurrent/simultaneous actions possible, communication adds complexity, cooperative plans, task sharing."
+                },
+                {
+                    question: "What is the difference between progressive (forward chaining) and regressive (backward chaining) planning?",
+                    answers: [
+                        "Progressive is top-down, regressive is bottom-up",
+                        "Progressive: from initial state, apply actions whose preconditions hold (high branching). Regressive: from goal, find actions that add it (lower branching)",
+                        "Progressive is for goal-based, regressive is for utility-based",
+                        "Progressive is deterministic, regressive is stochastic"
+                    ],
+                    correct: 1,
+                    explanation: "Progressive (forward): starts from initial state, applies actions whose preconditions are true to obtain new states. Difficulty: potentially high branching factor. Regressive (backward): starts from goal state, finds actions that can add the goal, adds their unsatisfied preconditions as new goals. Advantage: lower branching factor (fewer applicable operators leading to final state). Difficulty: when goal is conjunction, which to consider first?"
+                }
+            ],
+            coordination: [
+                {
+                    question: "What is the definition of coordination according to Malone?",
+                    answers: [
+                        "Working together toward a common goal",
+                        "Additional information processing performed when multiple connected agents pursue goals that a single agent would not perform",
+                        "Synchronizing actions between agents",
+                        "Communicating to avoid conflicts"
+                    ],
+                    correct: 1,
+                    explanation: "Malone defines coordination as 'additional information processing performed when multiple, connected agents pursue goals that a single agent pursuing the same goals would not perform'. Wooldridge: 'managing dependencies between agents'. Purpose: increase effectiveness when number of agents increases."
+                },
+                {
+                    question: "According to the interaction situations table, when does 'Coordinated Collaboration' occur?",
+                    answers: [
+                        "When goals are compatible and resources/skills are sufficient",
+                        "When goals are compatible but both resources AND skills are insufficient",
+                        "When goals are incompatible but resources are sufficient",
+                        "When agents are independent"
+                    ],
+                    correct: 1,
+                    explanation: "Interaction situations depend on Goals (compatible/incompatible), Resources (sufficient/insufficient), Skills (sufficient/insufficient). Coordinated Collaboration occurs when: goals are compatible, resources are insufficient, AND skills are insufficient. Other cases: Independence (compatible, both sufficient), Simple Collaboration (compatible, only skills insufficient), etc."
+                },
+                {
+                    question: "What are the FOUR steps of Distributed Problem Solving?",
+                    answers: [
+                        "Plan, Execute, Monitor, Adapt",
+                        "Decompose problem into sub-problems, Allocate to agents, Agents solve individually, Combine/merge solutions",
+                        "Sense, Decide, Act, Learn",
+                        "Communicate, Coordinate, Cooperate, Complete"
+                    ],
+                    correct: 1,
+                    explanation: "DPS 4 steps: (1) Decompose problem into smaller sub-problems easier to solve; (2) Allocate sub-problems/tasks to agents, taking individual skills into account; (3) Agents solve sub-problems individually/locally; (4) Combine/merge/synthesize solutions (solve conflicts, synchronize). Advantages: sub-problems easier, can use existing algorithms, concurrency."
+                },
+                {
+                    question: "What is the difference between benevolent and self-interested agents in terms of coordination?",
+                    answers: [
+                        "Benevolent agents communicate more",
+                        "Benevolent agents help each other when asked (compatible goals, simplifies design). Self-interested act for own interests (incompatible goals, requires game theory)",
+                        "Benevolent agents are slower",
+                        "Self-interested agents are more intelligent"
+                    ],
+                    correct: 1,
+                    explanation: "Benevolent agents: designed to help each other whenever asked, compatible goals, 'our best interest is their best interest', simplifies design enormously → Cooperative Distributed Problem Solving (CDPS). Self-interested: general case, represent interests of individuals/organizations, possibly egoist, incompatible goals, potential conflict, may require strategic behavior/game theory, complicates design enormously."
+                },
+                {
+                    question: "In Dependence Theory (DBC), when does agent i depend on agent j for goal g?",
+                    answers: [
+                        "When i trusts j",
+                        "When i has g as goal, i is not autonomous for g (no feasible plan), but there exists a plan achieving g using j's actions",
+                        "When i communicates with j",
+                        "When i and j share the same goal"
+                    ],
+                    correct: 1,
+                    explanation: "Agent i depends on j for goal g wrt plans P if: (1) i has g in its set of goals; (2) i is not autonomous for g (no feasible plan achieving g); (3) But there exists a plan pk in P achieving g such that at least one action in pk is in j's action set (but not in i's). Types: OR-dependence (any member sufficient), AND-dependence (all members necessary)."
+                },
+                {
+                    question: "What are the different dependence situations in DBC and which is best for coalition formation?",
+                    answers: [
+                        "All dependence situations are equivalent",
+                        "IND < UD < LBRD < MBRD < LBMD < MBMD (Mutually Believed Mutual Dependence is best)",
+                        "UD is always best",
+                        "Independence is best"
+                    ],
+                    correct: 1,
+                    explanation: "Dependence situations (worst to best): Independence (IND) < Unilateral Dependence (UD) < Locally Believed Reciprocal Dependence (LBRD) < Mutually Believed Reciprocal Dependence (MBRD) < Locally Believed Mutual Dependence (LBMD) < Mutually Believed Mutual Dependence (MBMD). Better: mutual > reciprocal (no reciprocation problem); mutually believed > locally believed (no convincing problem)."
+                },
+                {
+                    question: "What is the difference between centralized and decentralized coordination?",
+                    answers: [
+                        "Centralized is always better",
+                        "Centralized: easier implementation, more control, less communication, but single point of failure. Decentralized: parallel, robust, opportunistic, but less control, rarely optimal, complex",
+                        "Centralized is for small systems, decentralized for large systems",
+                        "Centralized requires less computation"
+                    ],
+                    correct: 1,
+                    explanation: "Centralized: easier implementation, more control, less communication, no concurrency issues; BUT central point of failure/bottleneck, difficult in dynamic environment. Decentralized: parallel computation, robust to failures, opportunistic, realistic, delegation; BUT less control, rarely optimal, complexity of concurrency, communication cost. Generally: hybrid systems."
+                },
+                {
+                    question: "In DBC coalition formation, what are the THREE steps an agent follows?",
+                    answers: [
+                        "Request, Negotiate, Execute",
+                        "Choose goal to achieve, Choose plan to execute, Check goal situation (if autonomous execute alone, if dependent use dependence situations to choose partner)",
+                        "Communicate, Coordinate, Cooperate",
+                        "Perceive, Reason, Act"
+                    ],
+                    correct: 1,
+                    explanation: "DBC 3-step process: (1) Agent chooses a goal to achieve (most important achievable goal with feasible plan); (2) Agent chooses a plan to execute (less costly feasible plan where all actions are feasible by some agent); (3) Agent checks goal situation: if AUTonomous, executes plan alone; if DEPendent, uses dependence situations to choose partner and form coalition."
+                }
+            ],
+            socialchoice: [
+                {
+                    question: "What are the THREE main subfields of Social Choice Theory?",
+                    answers: [
+                        "Economics, Politics, Ethics",
+                        "Fair allocation of resources, Voting theory, Judgement aggregation",
+                        "Distribution, Election, Arbitration",
+                        "Fairness, Efficiency, Stability"
+                    ],
+                    correct: 1,
+                    explanation: "Social Choice Theory has 3 subfields: (1) Fair allocation of resources - find socially optimal allocation of limited resources given individual preferences; (2) Voting theory - pick socially optimal/preferred candidate given individual preferences (grades, orders); (3) Judgement aggregation - infer collective judgement from individual judgements on statements."
+                },
+                {
+                    question: "What is the difference between envy-free and proportional allocations?",
+                    answers: [
+                        "They are the same concept",
+                        "Envy-free: each agent values their share ≥ any other share. Proportional: each gets ≥1/n of total value (by their own valuation)",
+                        "Envy-free is objective, proportional is subjective",
+                        "Envy-free requires equal shares, proportional allows inequality"
+                    ],
+                    correct: 1,
+                    explanation: "Envy-free: ui(A(i)) ≥ ui(A(j)) for all i,j - no agent values another's share more than their own (no envy). Proportional: ui(A(i)) ≥ ui(X)/n for all i - each gets at least their due share 1/n according to own valuation. Also: super-proportional (strictly >1/n, only if different valuations); equitable (all equally happy: ui(A(i)) = uj(A(j)))."
+                },
+                {
+                    question: "What are the THREE main collective utility functions (social welfare functions) mentioned?",
+                    answers: [
+                        "Minimum, Maximum, Average",
+                        "Utilitarian (maximize sum), Egalitarian (maximize minimum), Nash product (maximize product)",
+                        "Fair, Efficient, Stable",
+                        "Democratic, Dictatorial, Random"
+                    ],
+                    correct: 1,
+                    explanation: "Three collective utility functions: (1) Utilitarian (max-sum rule) - maximize sum of all utilities (efficient but may not be fair); (2) Egalitarian (max-min rule) - maximize minimum utility (fair, helps worst-off); (3) Nash product - maximize product of individual utilities. Proportional-Fair rule provides compromise between efficient and fair."
+                },
+                {
+                    question: "What is the Borda voting rule and how does it work?",
+                    answers: [
+                        "Winner is ranked first by most voters",
+                        "Each voter gives m-1 points to 1st choice, m-2 to 2nd, etc. Winner has most total points",
+                        "Two rounds: plurality then runoff",
+                        "Each voter approves/disapproves each candidate"
+                    ],
+                    correct: 1,
+                    explanation: "Borda rule: each voter gives m-1 points to alternative ranked 1st, m-2 to 2nd, ..., 0 to last. Alternative with most points wins. It's a Positional Scoring Rule with scoring vector <m-1, m-2, ..., 0>. Other PSRs: Plurality <1,0,...,0>, Antiplurality <1,...,1,0>, k-approval <1,...,1,0,...,0> (sum=k)."
+                },
+                {
+                    question: "What is a Condorcet winner and why might it not exist?",
+                    answers: [
+                        "The candidate with most votes",
+                        "An alternative that beats every other in pairwise majority contests. May not exist due to Condorcet paradox (cyclic preferences)",
+                        "The candidate ranked first by median voter",
+                        "The candidate that maximizes utility"
+                    ],
+                    correct: 1,
+                    explanation: "Condorcet winner: alternative that beats every other alternative in pairwise majority contests (whenever exists, it's unique). Condorcet principle: rule should elect only Condorcet winner when one exists. Condorcet paradox: there may be no Condorcet winner (cyclic preferences: A beats B, B beats C, C beats A). No positional scoring rule for ≥3 alternatives satisfies Condorcet principle."
+                },
+                {
+                    question: "What is the 'No Show Paradox' in voting?",
+                    answers: [
+                        "When voters don't appear to vote",
+                        "When it may be better to abstain than to vote for your favourite candidate",
+                        "When the winner is absent",
+                        "When votes are not counted"
+                    ],
+                    correct: 1,
+                    explanation: "No Show Paradox: under plurality with runoff (and thus STV - Single Transferable Vote), it may be better to abstain than to vote for your favourite candidate. This is counter-intuitive as voting for your preference can lead to worse outcome than not voting at all. One of many paradoxes showing difficulty of designing 'perfect' voting rules."
+                },
+                {
+                    question: "What is the Doctrinal Paradox in judgement aggregation?",
+                    answers: [
+                        "When judges disagree on everything",
+                        "When majority on premises (p,q) then inferring conclusion (r) yields different result than majority on conclusion directly",
+                        "When logic is inconsistent",
+                        "When votes are counted incorrectly"
+                    ],
+                    correct: 1,
+                    explanation: "Doctrinal Paradox: given rule r ⟺ p ∧ q, taking majority decisions on premises (p and q) then inferring conclusion (r) yields different result from taking majority decision on conclusion (r) directly. Example: 3 judges - majority believes p=true, majority believes q=true (so r should be true), but majority directly believes r=false. Paradox due to integrity constraint between propositions."
+                },
+                {
+                    question: "What is Arrow's Impossibility Theorem about?",
+                    answers: [
+                        "Voting is always unfair",
+                        "No rank-order electoral system can always satisfy all fairness criteria - impossible to design 'perfect' electoral method",
+                        "Democracy is impossible",
+                        "Majority rule is best"
+                    ],
+                    correct: 1,
+                    explanation: "Kenneth Arrow (1951): No rank-order electoral system can be designed that always satisfies all fairness criteria. It's impossible to design a 'perfect' electoral method. This is fundamental result in computational social choice showing inherent trade-offs in any voting system. Must choose which properties to prioritize: fairness, truth, computational complexity, etc."
+                }
+            ]
+        };
+
+        let currentTopic = 'all';
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+        let totalCount = 0;
+        let answered = false;
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function startGame(topic) {
+            currentTopic = topic;
+            currentQuestionIndex = 0;
+            score = 0;
+            correctCount = 0;
+            totalCount = 0;
+            
+            if (topic === 'all') {
+                currentQuestions = [];
+                for (let key in questions) {
+                    currentQuestions = currentQuestions.concat(questions[key]);
+                }
+                currentQuestions = shuffleArray(currentQuestions).slice(0, 20);
+            } else {
+                currentQuestions = shuffleArray(questions[topic]);
+            }
+            
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('questionArea').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            updateStats();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestionIndex >= currentQuestions.length) {
+                showResults();
+                return;
+            }
+
+            answered = false;
+            const question = currentQuestions[currentQuestionIndex];
+            
+            document.getElementById('questionNumber').textContent = 
+                `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+            
+            const topicNames = {
+                intro: 'Introduction',
+                architectures: 'Architectures',
+                gametheory: 'Game Theory',
+                communication: 'Communication',
+                abms: 'ABMS',
+                planning: 'Planning',
+                coordination: 'Coordination',
+                socialchoice: 'Social Choice'
+            };
+            
+            document.getElementById('topicLabel').textContent = 
+                currentTopic === 'all' ? 'Mixed Topics' : topicNames[currentTopic];
+            
+            document.getElementById('questionText').textContent = question.question;
+            
+            const answersArea = document.getElementById('answersArea');
+            answersArea.innerHTML = '';
+            
+            question.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-button';
+                button.textContent = answer;
+                button.onclick = () => checkAnswer(index);
+                answersArea.appendChild(button);
+            });
+            
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('nextButton').style.display = 'none';
+            
+            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (answered) return;
+            answered = true;
+            totalCount++;
+            
+            const question = currentQuestions[currentQuestionIndex];
+            const buttons = document.querySelectorAll('.answer-button');
+            const feedback = document.getElementById('feedback');
+            const feedbackText = document.getElementById('feedbackText');
+            const explanation = document.getElementById('explanation');
+            
+            buttons.forEach(button => button.disabled = true);
+            
+            if (selectedIndex === question.correct) {
+                score += 10;
+                correctCount++;
+                buttons[selectedIndex].classList.add('correct');
+                feedback.className = 'feedback correct';
+                feedbackText.innerHTML = '✓ Correct! Well done!';
+            } else {
+                buttons[selectedIndex].classList.add('incorrect');
+                buttons[question.correct].classList.add('correct');
+                feedback.className = 'feedback incorrect';
+                feedbackText.innerHTML = '✗ Incorrect. The correct answer is highlighted.';
+            }
+            
+            explanation.textContent = question.explanation;
+            feedback.style.display = 'block';
+            document.getElementById('nextButton').style.display = 'block';
+            
+            updateStats();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            showQuestion();
+        }
+
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('correct').textContent = correctCount;
+            document.getElementById('total').textContent = totalCount;
+        }
+
+        function showResults() {
+            document.getElementById('questionArea').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            const percentage = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
+            document.getElementById('finalScore').textContent = `${percentage}%`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🌟 Outstanding! You\'ve mastered the material!';
+            } else if (percentage >= 75) {
+                message = '🎯 Great job! You have a solid understanding!';
+            } else if (percentage >= 60) {
+                message = '👍 Good work! Keep studying to improve!';
+            } else {
+                message = '📚 Keep practicing! Review the lectures again!';
+            }
+            
+            document.getElementById('resultMessage').textContent = 
+                `${message}\n\nYou got ${correctCount} out of ${totalCount} questions correct.`;
+        }
+    </script>
+</body>
+</html>
+
