@@ -1,4 +1,6 @@
 :root {
+/* Shared layout: intentionally static (no animation rules) for simpler merges and maintenance. */
+
     --bg: #f4f6fb;
     --surface: #ffffff;
     --surface-soft: #f8faff;
