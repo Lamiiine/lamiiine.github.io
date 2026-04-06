@@ -3,213 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - Portfolio</title>
+    <title>Projects - Lamine</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/main.js" defer></script>
 </head>
 <body>
-    <nav class="floating-dock">
-        <a href="index.html" class="nav-item" data-title="Home">
-            <svg class="icon" viewBox="0 0 24 24">
-                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-            </svg>
-        </a>
-        <a href="projects.html" class="nav-item" data-title="Projects">
-            <svg class="icon" viewBox="0 0 24 24">
-                <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
-            </svg>
-        </a>
-        <a href="blog.html" class="nav-item" data-title="Blog">
-            <svg class="icon" viewBox="0 0 24 24">
-                <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
-            </svg>
-        </a>
-    </nav>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="site-title">Lamine</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="index.html">About</a>
+                <a href="projects.html" class="active">Projects</a>
+                <a href="blog.html">Blog</a>
+            </nav>
+        </div>
+    </header>
 
-    <main>
-        <section class="projects-hero">
+    <main class="container">
+        <section class="page-intro hero-card">
+            <p class="eyebrow">Built in public</p>
             <h1>Projects</h1>
-            <p class="section-subtitle">A collection of my work and open-source contributions</p>
+            <p>Products and experiments I shipped across growth, community, and engineering.</p>
         </section>
 
-        <section class="projects-grid">
-            <!-- Visajobs Project -->
-            <div class="glare-card">
-                <div class="card-content">
-                    <div class="project-header">
-                        <div class="project-logo">
-                            <img src="assets/icons/visasponsoredjobs_logo.jpg" alt="Visajobs Logo">
-                        </div>
-                        <div class="project-title">
-                            <h3>visajobs.xyz</h3>
-                            <a href="https://visajobs.xyz" class="project-link" target="_blank">Visit Site →</a>
-                        </div>
+        <section class="project-grid">
+            <article class="project-card">
+                <div class="project-header">
+                    <div class="project-logo">
+                        <img src="assets/icons/visasponsoredjobs_logo.jpg" alt="Visajobs Logo">
                     </div>
-                    <p>A static job board for visa-sponsored roles with 30k+ monthly visitors.</p>
-                    <div class="project-stats">
-                        <span>30k+ Monthly Visitors</span>
-                        <span>360+ GitHub Stars</span>
-                    </div>
-                    <div class="project-tech">
-                        <span>Python</span>
-                        <span>GitHub Actions</span>
-                        <span>Cloud</span>
+                    <div class="project-title">
+                        <h3>visajobs.xyz</h3>
+                        <a href="https://visajobs.xyz" class="project-link" target="_blank" rel="noopener noreferrer">Visit Site</a>
                     </div>
                 </div>
-            </div>
+                <p>A visa-sponsored jobs platform grown through programmatic SEO and community distribution.</p>
+                <div class="project-tech"><span>Python</span><span>GitHub Actions</span><span>Cloud</span></div>
+            </article>
 
-            <!-- dedicase58 Project -->
-            <div class="glare-card">
-                <div class="card-content">
-                    <div class="project-header">
-                        <div class="project-logo">
-                            <img src="assets/icons/dedicase58.png" alt="dedicase58 Logo">
-                        </div>
-                        <div class="project-title">
-                            <h3>dedicase58</h3>
-                            <a href="https://lamiiine.github.io/dedicase58/" class="project-link" target="_blank">View Project →</a>
-                        </div>
-                    </div>
-                    <p>An innovative case management system for legal professionals.</p>
-                    <div class="project-stats">
-                        <span>Legal Tech</span>
-                        <span>Case Management</span>
-                    </div>
-                    <div class="project-tech">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
-                    </div>
+            <article class="project-card">
+                <div class="project-header">
+                    <div class="project-logo"><img src="assets/icons/dedicase58.png" alt="dedicase58 Logo"></div>
+                    <div class="project-title"><h3>dedicase58</h3><a href="https://lamiiine.github.io/dedicase58/" class="project-link" target="_blank" rel="noopener noreferrer">View Project</a></div>
                 </div>
-            </div>
+                <p>An innovative case-management system for legal professionals.</p>
+                <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+            </article>
 
-            <!-- dzRadio Project -->
-            <div class="glare-card">
-                <div class="card-content">
-                    <div class="project-header">
-                        <div class="project-logo">
-                            <img src="assets/icons/dzRadio.png" alt="dzRadio Logo">
-                        </div>
-                        <div class="project-title">
-                            <h3>dzRadio</h3>
-                            <a href="https://lamiiine.github.io/dzRadio/" class="project-link" target="_blank">Listen Now →</a>
-                        </div>
-                    </div>
-                    <p>A streaming platform for Algerian radio stations with personalized recommendations.</p>
-                    <div class="project-stats">
-                        <span>Cultural Heritage</span>
-                    </div>
-                    <div class="project-tech">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
-                    </div>
+            <article class="project-card">
+                <div class="project-header">
+                    <div class="project-logo"><img src="assets/icons/dzRadio.png" alt="dzRadio Logo"></div>
+                    <div class="project-title"><h3>dzRadio</h3><a href="https://lamiiine.github.io/dzRadio/" class="project-link" target="_blank" rel="noopener noreferrer">Listen Now</a></div>
                 </div>
-            </div>
+                <p>A streaming platform for Algerian radio stations.</p>
+                <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+            </article>
 
-            <!-- Research Project -->
-            <div class="glare-card">
-                <div class="card-content">
-                    <div class="project-header">
-                        <div class="project-logo">
-                            <img src="assets/icons/egyptian.jpeg" alt="Research Project Logo">
-                        </div>
-                        <div class="project-title">
-                            <h3>Ancient Egyptian Artifacts Recognition</h3>
-                            <a href="https://www.cscjournals.org/manuscript/Journals/IJIP/Volume16/Issue1/IJIP-1227.pdf" class="project-link" target="_blank">View Research →</a>
-                        </div>
-                    </div>
-                    <p>Published research on feature points extraction methodology for recognizing ancient Egyptian artifacts.</p>
-                    <div class="project-stats">
-                        <span>Published Research</span>
-                        <span>Computer Vision</span>
-                    </div>
-                    <div class="project-tech">
-                        <span>Computer Vision</span>
-                        <span>Python</span>
-                        <span>Research</span>
-                        <span>Machine Learning</span>
-                    </div>
+            <article class="project-card">
+                <div class="project-header">
+                    <div class="project-logo"><img src="assets/icons/egyptian.jpeg" alt="Research Project Logo"></div>
+                    <div class="project-title"><h3>Ancient Egyptian Artifacts Recognition</h3><a href="https://www.cscjournals.org/manuscript/Journals/IJIP/Volume16/Issue1/IJIP-1227.pdf" class="project-link" target="_blank" rel="noopener noreferrer">View Research</a></div>
                 </div>
-            </div>
+                <p>Published research on feature-point extraction methodology.</p>
+                <div class="project-tech"><span>Computer Vision</span><span>Python</span><span>Research</span></div>
+            </article>
 
-            <!-- misr Project -->
-            <div class="glare-card">
-                <div class="card-content">
-                    <div class="project-header">
-                        <div class="project-logo">
-                            <img src="assets/icons/misr.png" alt="misr Logo">
-                        </div>
-                        <div class="project-title">
-                            <h3>misr</h3>
-                            <a href="https://lamiiine.github.io/misr/" class="project-link" target="_blank">Explore Project →</a>
-                        </div>
-                    </div>
-                    <p>A digital preservation project dedicated to archiving Egyptian cultural heritage.</p>
-                    <div class="project-stats">
-                        <span>Cultural Preservation</span>
-                        <span>Digital Archive</span>
-                    </div>
-                    <div class="project-tech">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
-                    </div>
+            <article class="project-card">
+                <div class="project-header">
+                    <div class="project-logo"><img src="assets/icons/misr.png" alt="misr Logo"></div>
+                    <div class="project-title"><h3>misr</h3><a href="https://lamiiine.github.io/misr/" class="project-link" target="_blank" rel="noopener noreferrer">Explore Project</a></div>
                 </div>
-            </div>
+                <p>A digital archive project for Egyptian cultural heritage.</p>
+                <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+            </article>
 
-            <!-- Hardware Project -->
-            <div class="glare-card">
-                <div class="card-content">
-                    <div class="project-header">
-                        <div class="project-logo">
-                            <img src="assets/icons/star-history-2025214.png" alt="Research Project Logo">
-                        </div>
-                        <div class="project-title">
-                            <h3>Awesome-daily-list-of-visa-sponsored-jobs</h3>
-                            <a href="https://github.com/Lamiiine/Awesome-daily-list-of-visa-sponsored-jobs" class="project-link" target="_blank">View repository →</a>
-                        </div>
-                    </div>
-                    <p>CICD to scrape and send daily list of visa-sponsored jobs to subscribers.</p>
-                    <div class="project-stats">
-                        <span>CICD</span>
-                        <span>DevOps</span>
-                    </div>
-                    <div class="project-tech">
-                        <span>cicd</span>
-                        <span>devops</span>
-                        <span>python</span>
-                        <span>github actions</span>
-                    </div>
+            <article class="project-card">
+                <div class="project-header">
+                    <div class="project-logo"><img src="assets/icons/star-history-2025214.png" alt="Repo Logo"></div>
+                    <div class="project-title"><h3>Awesome Daily List of Visa-Sponsored Jobs</h3><a href="https://github.com/Lamiiine/Awesome-daily-list-of-visa-sponsored-jobs" class="project-link" target="_blank" rel="noopener noreferrer">View Repository</a></div>
                 </div>
-            </div>
+                <p>CICD to scrape and send daily job lists to subscribers.</p>
+                <div class="project-tech"><span>CICD</span><span>DevOps</span><span>Python</span></div>
+            </article>
 
-            <!-- kahlana Project -->
-            <div class="glare-card">
-                <div class="card-content">
-                    <div class="project-header">
-                        <div class="project-logo">
-                            <img src="assets/icons/kahlana.jpg" alt="kahlana Logo">
-                        </div>
-                        <div class="project-title">
-                            <h3>kahlana</h3>
-                            <a href="https://lamiiine.github.io/Kahlana/" class="project-link" target="_blank">View Project →</a>
-                        </div>
-                    </div>
-                    <p>An e-commerce platform specializing in handcrafted Algerian artisanal products.</p>
-                    <div class="project-stats">
-                        <span>E-commerce</span>
-                        <span>Artisanal Marketplace</span>
-                    </div>
-                    <div class="project-tech">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
-                    </div>
+            <article class="project-card">
+                <div class="project-header">
+                    <div class="project-logo"><img src="assets/icons/kahlana.jpg" alt="kahlana Logo"></div>
+                    <div class="project-title"><h3>kahlana</h3><a href="https://lamiiine.github.io/Kahlana/" class="project-link" target="_blank" rel="noopener noreferrer">View Project</a></div>
                 </div>
-            </div>
-
+                <p>An e-commerce experience for Algerian artisanal products.</p>
+                <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+            </article>
         </section>
     </main>
 </body>
-</html> 
+</html>
