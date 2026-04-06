@@ -1,0 +1,621 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Permanent+Marker&family=Special+Elite&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  #app {
+    min-height: 600px;
+    background: #f5f0e8;
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    border: 3px solid #c8b99a;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 6px #e8dfc8, inset 0 0 0 8px #c8b99a;
+    padding: 16px;
+    font-family: 'Caveat', cursive;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #board-title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 22px;
+    color: #3a3a3a;
+    text-align: center;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 10;
+  }
+
+  #toolbar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    z-index: 10;
+    position: relative;
+  }
+
+  .tool-btn {
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 2px solid #888;
+    background: #fff;
+    cursor: pointer;
+    color: #333;
+    font-weight: 600;
+    transition: transform 0.1s, background 0.15s;
+    box-shadow: 2px 2px 0 #bbb;
+  }
+
+  .tool-btn:hover {
+    background: #f0e8cc;
+    transform: translateY(-1px);
+  }
+
+  .tool-btn:active {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 0 #bbb;
+  }
+
+  .tool-btn.primary {
+    background: #ffd966;
+    border-color: #c9a600;
+    box-shadow: 2px 2px 0 #a07b00;
+  }
+
+  .tool-btn.danger {
+    background: #ffb3b3;
+    border-color: #c0392b;
+    box-shadow: 2px 2px 0 #922b21;
+  }
+
+  #lanes-container {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .lane {
+    min-width: 210px;
+    max-width: 210px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.35);
+    border: 2px dashed #bbb;
+    border-radius: 10px;
+    padding: 10px 8px 12px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .lane.drag-over {
+    background: rgba(255, 210, 80, 0.18);
+    border-color: #d4a800;
+  }
+
+  .lane-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 4px;
+  }
+
+  .lane-title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 16px;
+    color: #2c2c2c;
+    flex: 1;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: border-color 0.15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lane-title:focus {
+    outline: none;
+    border-color: #f0a830;
+    background: #fff8e1;
+    white-space: normal;
+  }
+
+  .lane-count {
+    font-size: 13px;
+    font-weight: 700;
+    background: #444;
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .lane-add-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+    padding: 0 2px;
+    line-height: 1;
+    transition: color 0.15s, transform 0.1s;
+  }
+
+  .lane-add-btn:hover {
+    color: #f0a830;
+    transform: scale(1.2);
+  }
+
+  .lane-del-btn {
+    background: none;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: #bbb;
+    padding: 0 2px;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+
+  .lane-del-btn:hover {
+    color: #e74c3c;
+  }
+
+  .cards-area {
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card {
+    position: relative;
+    padding: 10px 10px 22px 10px;
+    border-radius: 3px;
+    cursor: grab;
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    color: #2a2a2a;
+    line-height: 1.4;
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.18), 1px 1px 0 rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s, box-shadow 0.15s;
+    word-break: break-word;
+    transform: rotate(var(--r, 0deg));
+    user-select: none;
+    border-top: 24px solid var(--tab-color, #e8c84a);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 0 0 3px 3px;
+  }
+
+  .card:hover {
+    transform: rotate(var(--r, 0deg)) scale(1.03);
+    box-shadow: 5px 7px 14px rgba(0, 0, 0, 0.22);
+    z-index: 5;
+  }
+
+  .card.dragging {
+    opacity: 0.55;
+    transform: rotate(3deg) scale(1.05);
+    cursor: grabbing;
+    z-index: 100;
+  }
+
+  .card-body {
+    min-height: 32px;
+  }
+
+  .card-tag {
+    position: absolute;
+    bottom: 6px;
+    left: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 1px 8px;
+    color: #444;
+  }
+
+  .card-del {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.25);
+    padding: 0;
+    transition: color 0.15s, transform 0.1s;
+    line-height: 1;
+  }
+
+  .card-del:hover {
+    color: #e74c3c;
+    transform: scale(1.2);
+  }
+
+  .card-edit-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    cursor: text;
+  }
+
+  .drop-placeholder {
+    height: 60px;
+    border: 2px dashed #d4a800;
+    border-radius: 3px;
+    background: rgba(255, 220, 60, 0.12);
+    pointer-events: none;
+  }
+
+  .modal-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    border-radius: 10px;
+  }
+
+  .modal {
+    background: #fffef5;
+    border: 2px solid #c9a600;
+    border-radius: 8px;
+    padding: 20px 22px 18px;
+    width: 280px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    font-family: 'Caveat', cursive;
+  }
+
+  .modal h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 12px;
+  }
+
+  .modal textarea {
+    width: 100%;
+    height: 80px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 8px;
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    resize: none;
+    color: #222;
+    background: #fffde8;
+  }
+
+  .modal textarea:focus {
+    outline: none;
+    border-color: #f0a830;
+  }
+
+  .modal select,
+  .modal input[type=text] {
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px 8px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    background: #fffde8;
+    color: #222;
+  }
+
+  .modal select:focus,
+  .modal input[type=text]:focus {
+    outline: none;
+    border-color: #f0a830;
+  }
+
+  .modal label {
+    font-size: 13px;
+    color: #777;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+
+  .modal-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    justify-content: flex-end;
+  }
+
+  .color-row {
+    display: flex;
+    gap: 7px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .color-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.1s, border-color 0.1s;
+  }
+
+  .color-dot:hover {
+    transform: scale(1.15);
+  }
+
+  .color-dot.selected {
+    border-color: #333;
+    transform: scale(1.15);
+  }
+
+  .add-lane-btn {
+    min-width: 50px;
+    max-width: 50px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px dashed #bbb;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #aaa;
+    cursor: pointer;
+    height: 70px;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .add-lane-btn:hover {
+    color: #f0a830;
+    border-color: #f0a830;
+    background: rgba(255, 220, 60, 0.1);
+  }
+
+  ::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c8b99a;
+    border-radius: 3px;
+  }
+</style>
+
+<div id="app">
+  <div id="board-title">&#x1F4CC; My Board</div>
+  <div id="toolbar">
+    <button class="tool-btn primary" onclick="openNewCardModal()">+ Add Card</button>
+    <button class="tool-btn" onclick="addLane()">+ Add Lane</button>
+  </div>
+  <div id="lanes-container"></div>
+  <div id="modal-area"></div>
+</div>
+
+<script>
+  const COLORS = ['#ffd966', '#ff9f43', '#f8c8d4', '#b8e0d2', '#aed6f1', '#d7bde2', '#a9dfbf', '#fadbd8'];
+  const TABS = ['#c9a600', '#d4682e', '#c75a82', '#1e8449', '#1a6b9e', '#6c3483', '#117a65', '#a93226'];
+  const TAGS = ['bug', 'feature', 'design', 'task', 'urgent', 'review', 'idea', 'blocked'];
+
+  let lanes = [
+    { id: 'l1', title: 'To Do' },
+    { id: 'l2', title: 'In Progress' },
+    { id: 'l3', title: 'Testing' },
+    { id: 'l4', title: 'Done' },
+  ];
+  let cards = [
+    { id: 'c1', lane: 'l1', text: 'Design new dashboard layout', color: 0, tag: 'design', r: -1.5 },
+    { id: 'c2', lane: 'l1', text: 'Fix login bug on mobile', color: 7, tag: 'bug', r: 1 },
+    { id: 'c3', lane: 'l2', text: 'Implement drag & drop feature', color: 2, tag: 'feature', r: -0.5 },
+    { id: 'c4', lane: 'l2', text: 'Write unit tests for auth', color: 4, tag: 'task', r: 1.5 },
+    { id: 'c5', lane: 'l3', text: 'QA the payment flow', color: 5, tag: 'review', r: -1 },
+    { id: 'c6', lane: 'l4', text: 'Deploy to production', color: 1, tag: 'task', r: 0.8 },
+  ];
+  let dragCardId = null;
+  let dragOverLane = null;
+  let modalState = null;
+  let selectedColor = 0;
+
+  function uid() { return 'id' + Math.random().toString(36).slice(2, 9); }
+
+  function render() {
+    const cont = document.getElementById('lanes-container');
+    cont.innerHTML = '';
+    lanes.forEach(lane => {
+      const laneCards = cards.filter(c => c.lane === lane.id);
+      const el = document.createElement('div');
+      el.className = 'lane' + (dragOverLane === lane.id ? ' drag-over' : '');
+      el.dataset.laneId = lane.id;
+      el.addEventListener('dragover', onDragOver);
+      el.addEventListener('drop', onDrop);
+      el.addEventListener('dragleave', onDragLeave);
+      el.innerHTML = `
+      <div class="lane-header">
+        <div class="lane-title" contenteditable="true" data-lid="${lane.id}" spellcheck="false">${lane.title}</div>
+        <span class="lane-count">${laneCards.length}</span>
+        <button class="lane-add-btn" title="Add card" onclick="openNewCardModal('${lane.id}')">+</button>
+        <button class="lane-del-btn" title="Remove lane" onclick="deleteLane('${lane.id}')">&#x2715;</button>
+      </div>
+      <div class="cards-area" data-lane="${lane.id}"></div>
+    `;
+      const titleEl = el.querySelector('.lane-title');
+      titleEl.addEventListener('blur', e => {
+        const l = lanes.find(x => x.id === e.target.dataset.lid);
+        if (l) l.title = e.target.innerText.trim() || l.title;
+        render();
+      });
+      titleEl.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); titleEl.blur(); } });
+      const area = el.querySelector('.cards-area');
+      laneCards.forEach(card => {
+        const cel = document.createElement('div');
+        cel.className = 'card';
+        cel.draggable = true;
+        cel.dataset.cardId = card.id;
+        cel.style.background = COLORS[card.color];
+        cel.style.setProperty('--tab-color', TABS[card.color]);
+        cel.style.setProperty('--r', card.r + 'deg');
+        cel.innerHTML = `
+        <div class="card-body">${card.text}</div>
+        <span class="card-tag">${card.tag}</span>
+        <button class="card-del" title="Delete" onclick="deleteCard('${card.id}')">&#x1F5D1;</button>
+      `;
+        cel.addEventListener('dragstart', e => { dragCardId = card.id; cel.classList.add('dragging'); });
+        cel.addEventListener('dragend', e => { dragCardId = null; cel.classList.remove('dragging'); dragOverLane = null; render(); });
+        cel.addEventListener('dblclick', () => openEditModal(card.id));
+        area.appendChild(cel);
+      });
+      cont.appendChild(el);
+    });
+    const addBtn = document.createElement('div');
+    addBtn.className = 'add-lane-btn';
+    addBtn.title = 'Add lane';
+    addBtn.innerHTML = '+';
+    addBtn.onclick = addLane;
+    cont.appendChild(addBtn);
+    renderModal();
+  }
+
+  function onDragOver(e) {
+    e.preventDefault();
+    const laneEl = e.currentTarget;
+    if (dragOverLane !== laneEl.dataset.laneId) {
+      // Clear previous highlight without re-rendering
+      if (dragOverLane) {
+        const prev = document.querySelector(`.lane[data-lane-id="${dragOverLane}"]`);
+        if (prev) prev.classList.remove('drag-over');
+      }
+      dragOverLane = laneEl.dataset.laneId;
+      laneEl.classList.add('drag-over');
+    }
+  }
+  function onDragLeave(e) {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      e.currentTarget.classList.remove('drag-over');
+      dragOverLane = null;
+    }
+  }
+  function onDrop(e) {
+    e.preventDefault();
+    const laneId = e.currentTarget.dataset.laneId;
+    if (dragCardId && laneId) { const c = cards.find(x => x.id === dragCardId); if (c) { c.lane = laneId; c.r = (Math.random() - 0.5) * 3; } }
+    dragCardId = null; dragOverLane = null; render();
+  }
+
+  function deleteCard(id) { cards = cards.filter(c => c.id !== id); render(); }
+  function deleteLane(id) {
+    if (lanes.length <= 1) return;
+    cards = cards.filter(c => c.lane !== id);
+    lanes = lanes.filter(l => l.id !== id);
+    render();
+  }
+  function addLane() {
+    lanes.push({ id: uid(), title: 'New Lane' });
+    render();
+    setTimeout(() => {
+      const titles = document.querySelectorAll('.lane-title');
+      const last = titles[titles.length - 1];
+      if (last) { last.focus(); document.execCommand('selectAll'); }
+    }, 50);
+  }
+
+  function openNewCardModal(laneId) {
+    selectedColor = 0;
+    modalState = { type: 'new', laneId: laneId || (lanes[0] && lanes[0].id) };
+    render();
+  }
+  function openEditModal(cardId) {
+    const c = cards.find(x => x.id === cardId);
+    selectedColor = c.color;
+    modalState = { type: 'edit', cardId };
+    render();
+  }
+  function closeModal() { modalState = null; render(); }
+
+  function renderModal() {
+    const area = document.getElementById('modal-area');
+    if (!modalState) { area.innerHTML = ''; return; }
+    const isEdit = modalState.type === 'edit';
+    const card = isEdit ? cards.find(x => x.id === modalState.cardId) : null;
+    const colorDots = COLORS.map((c, i) => `<div class="color-dot${selectedColor === i ? ' selected' : ''}" style="background:${c}" onclick="selectColor(${i})"></div>`).join('');
+    const tagOpts = TAGS.map(t => `<option value="${t}"${card && card.tag === t ? ' selected' : ''}>${t}</option>`).join('');
+    const laneOpts = lanes.map(l => `<option value="${l.id}"${(isEdit ? card.lane : modalState.laneId) === l.id ? ' selected' : ''}>${l.title}</option>`).join('');
+    area.innerHTML = `
+    <div class="modal-bg" onclick="if(event.target===this)closeModal()">
+      <div class="modal">
+        <h3>${isEdit ? 'Edit Card' : 'New Card'}</h3>
+        <label>Note</label>
+        <textarea id="m-text" placeholder="What needs to be done?">${isEdit ? card.text : ''}</textarea>
+        <label>Tag</label>
+        <select id="m-tag">${tagOpts}</select>
+        <label>Lane</label>
+        <select id="m-lane">${laneOpts}</select>
+        <label>Color</label>
+        <div class="color-row">${colorDots}</div>
+        <div class="modal-btns">
+          <button class="tool-btn" onclick="closeModal()">Cancel</button>
+          <button class="tool-btn primary" onclick="saveModal()">${isEdit ? 'Save' : 'Add'}</button>
+        </div>
+      </div>
+    </div>
+  `;
+  }
+
+  function selectColor(i) { selectedColor = i; renderModal(); }
+
+  function saveModal() {
+    const text = document.getElementById('m-text').value.trim();
+    const tag = document.getElementById('m-tag').value;
+    const lane = document.getElementById('m-lane').value;
+    if (!text) return;
+    if (modalState.type === 'new') {
+      cards.push({ id: uid(), lane, text, color: selectedColor, tag, r: (Math.random() - 0.5) * 3 });
+    } else {
+      const c = cards.find(x => x.id === modalState.cardId);
+      if (c) { c.text = text; c.tag = tag; c.lane = lane; c.color = selectedColor; }
+    }
+    closeModal();
+  }
+
+  render();
+</script>
