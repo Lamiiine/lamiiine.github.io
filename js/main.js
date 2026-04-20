@@ -1,23 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Navigation items hover effect
     const navItems = document.querySelectorAll('.nav-item');
-    
+
     navItems.forEach(item => {
         item.addEventListener('mousemove', (e) => {
             const rect = item.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             const distance = Math.sqrt(
                 Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
             );
-            
+
             const scale = Math.max(1, 2 - (distance / 40));
             item.style.transform = `scale(${scale})`;
         });
-        
+
         item.addEventListener('mouseleave', () => {
             item.style.transform = 'scale(1)';
         });
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Experience items focus effect
     const experienceItems = document.querySelectorAll('.experience-item');
-    
+
     experienceItems.forEach(item => {
         item.addEventListener('mouseenter', () => {
             experienceItems.forEach(otherItem => {
@@ -48,17 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Social items animation
     const socialItems = document.querySelectorAll('.social-item');
-    
+
     socialItems.forEach(item => {
         item.addEventListener('mousemove', (e) => {
             const rect = item.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            
+
             // Calculate rotation based on mouse position
             const xRotation = (y / rect.height) * 20;
             const yRotation = (x / rect.width) * -20;
-            
+
             item.style.transform = `
                 scale(1.1)
                 translateY(-5px)
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 rotateY(${yRotation}deg)
             `;
         });
-        
+
         item.addEventListener('mouseleave', () => {
             item.style.transform = '';
         });
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sparklesContainer.className = 'sparkles-container';
         const beamsContainer = document.createElement('div');
         beamsContainer.className = 'beams-container';
-        
+
         highlightText.appendChild(sparklesContainer);
         highlightText.appendChild(beamsContainer);
 
@@ -93,20 +93,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function createSparkles(container) {
         container.innerHTML = '';
         const numberOfSparkles = 30;
-        
+
         for (let i = 0; i < numberOfSparkles; i++) {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
-            
+
             sparkle.style.left = `${Math.random() * 100}%`;
             sparkle.style.top = `${Math.random() * 100}%`;
-            
+
             const size = Math.random() * 2 + 1;
             sparkle.style.width = `${size}px`;
             sparkle.style.height = `${size}px`;
-            
+
             sparkle.style.animationDelay = `${Math.random() * 2}s`;
-            
+
             container.appendChild(sparkle);
         }
     }
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initGlareCards() {
         const cards = document.querySelectorAll('.glare-card');
-        
+
         cards.forEach(card => {
             let isPointerInside = false;
             const state = {
@@ -154,12 +154,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     x: event.clientX - rect.left,
                     y: event.clientY - rect.top
                 };
-                
+
                 const percentage = {
                     x: (100 / rect.width) * position.x,
                     y: (100 / rect.height) * position.y
                 };
-                
+
                 const delta = {
                     x: percentage.x - 50,
                     y: percentage.y - 50
@@ -196,4 +196,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize glare cards
     initGlareCards();
+
+    // Raccoon counter logic
+    const raccoonPositions = [
+        { src: 'images/SittingRaccoon.svg', width: '6rem', left: '-10px', bottom: '-4px' },
+        { src: 'images/StandingRaccoon3.svg', width: '6rem', left: '70px', bottom: '-20px' },
+        { src: 'images/StandingRaccoon2.svg', width: '8rem', right: '125px', bottom: '-28px' },
+        { src: 'images/ClappingRaccoon.svg', width: '8rem', right: '45px', bottom: '-25px' },
+        { src: 'images/HandsUpRaccoon.svg', width: '6rem', right: '-10px', bottom: '-4px' },
+        { src: 'images/TreeRaccoon2.svg', width: '8rem', left: '-5px', bottom: '-5px', zIndex: '-2' }
+    ];
+    const MAX_RACCOONS = 6;
+    const container = document.getElementById('raccoon-container');
+    const countEl = document.getElementById('raccoon-count');
+    const minusBtn = document.getElementById('raccoon-minus');
+    const plusBtn = document.getElementById('raccoon-plus');
+
+    const ranOutEl = document.getElementById('raccoon-ran-out');
+
+    if (container && countEl && minusBtn && plusBtn) {
+        let raccoonCount = 0;
+
+        function updateCountText() {
+            countEl.textContent = raccoonCount + (raccoonCount === 1 ? ' raccoon' : ' raccoons');
+            plusBtn.disabled = raccoonCount >= MAX_RACCOONS;
+            minusBtn.disabled = raccoonCount <= 0;
+            if (ranOutEl) ranOutEl.style.display = raccoonCount >= MAX_RACCOONS ? 'block' : 'none';
+        }
+
+        function addRaccoon(delay) {
+            if (raccoonCount >= MAX_RACCOONS) return;
+            const pos = raccoonPositions[raccoonCount];
+            const img = document.createElement('img');
+            img.src = pos.src;
+            img.className = 'raccoon';
+            img.style.width = pos.width;
+            if (pos.left) img.style.left = pos.left;
+            if (pos.right) img.style.right = pos.right;
+            img.style.bottom = pos.bottom;
+            if (pos.zIndex) img.style.zIndex = pos.zIndex;
+            img.style.animationDelay = (delay || 0) + 's';
+            container.appendChild(img);
+            raccoonCount++;
+            updateCountText();
+        }
+
+        function removeRaccoon() {
+            const raccoons = container.querySelectorAll('.raccoon:not(.removing)');
+            if (raccoons.length === 0) return;
+            const last = raccoons[raccoons.length - 1];
+            last.classList.add('removing');
+            last.addEventListener('animationend', () => {
+                last.remove();
+            }, { once: true });
+            raccoonCount--;
+            updateCountText();
+        }
+
+        // Start with 0 raccoons
+        updateCountText();
+
+        plusBtn.addEventListener('click', () => addRaccoon(0));
+        minusBtn.addEventListener('click', removeRaccoon);
+    }
 }); 

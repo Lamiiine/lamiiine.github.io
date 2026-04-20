@@ -51,6 +51,14 @@
             <p class="hero-subtitle">DevOps Engineer & Full Stack Developer</p>
         </section>
 
+        <!-- Raccoon counter controls -->
+        <div class="raccoon-controls">
+            <button class="retro-button" id="raccoon-minus">--</button>
+            <span class="raccoon-count" id="raccoon-count">0 raccoons</span>
+            <button class="retro-button" id="raccoon-plus">++</button>
+            <span class="raccoon-ran-out" id="raccoon-ran-out">we ran out</span>
+        </div>
+
         <section class="social-links">
             <div class="social-container">
                 <a href="https://github.com/Lamiiine/" class="social-item" data-tooltip="GitHub" target="_blank"
@@ -69,6 +77,31 @@
                 </a>
 
             </div>
+        </section>
+
+        <section class="latest-writing">
+            <h2>Latest Writing</h2>
+            <div class="post-grid">
+                <article class="post-card">
+                    <div class="post-meta">
+                        <time datetime="2026-03-25">March 25, 2026</time>
+                        <span>8 min read</span>
+                    </div>
+                    <h3>
+                        <a href="blog/claude-code-free-locally.html">
+                            Running Claude Code for Free Locally on Your Laptop
+                        </a>
+                    </h3>
+                    <p>A practical walkthrough for installing Ollama, setting up Claude Code locally, and getting a
+                        zero-cost coding workflow on your laptop.</p>
+                    <div class="post-tags">
+                        <span>Claude Code</span>
+                        <span>Ollama</span>
+                        <span>Local Models</span>
+                    </div>
+                </article>
+            </div>
+            <a href="blog.html" class="view-all">See all writing →</a>
         </section>
 
         <section class="experience">
@@ -259,6 +292,8 @@
 
             </div>
         </section>
+
+        <div id="raccoon-container"></div>
 
     </main>
 </body>

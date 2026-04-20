@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running Claude Code for Free Locally on Your Laptop</title>
+    <meta name="description" content="A step-by-step guide to running Claude Code locally with Ollama, choosing a model, and avoiding API costs on Windows, macOS, or Linux.">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js" defer></script>
+</head>
+<body>
+    <nav class="floating-dock">
+        <a href="../index.html" class="nav-item" data-title="Home">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+        </a>
+        <a href="../projects.html" class="nav-item" data-title="Projects">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+            </svg>
+        </a>
+        <a href="../blog.html" class="nav-item" data-title="Blog">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+        </a>
+    </nav>
+
+    <main class="blog-post">
+        <article>
+            <header class="post-header">
+                <h1>Running Claude Code for Free Locally on Your Laptop</h1>
+                <div class="post-meta">
+                    <time datetime="2026-03-25">March 25, 2026</time>
+                    <span class="reading-time">8 min read</span>
+                </div>
+            </header>
+
+            <div class="post-content">
+                <p>I ran Claude Code for free on my laptop. Here's how.</p>
+
+                <p>Claude Code is incredible. It reads your files, writes code, runs commands. All from your terminal.</p>
+
+                <p>The problem? It's expensive. $100/month minimum if you use it daily.</p>
+
+                <p>So I found a way to run it for free. Locally. On my Windows laptop. Here's the exact setup I used.</p>
+
+                <figure class="post-figure">
+                    <img src="../images/blog/claude-code-free/page1_img1.png" alt="Claude Code running in a terminal on a local model" />
+                    <figcaption>Claude Code, running on a local model. Zero API costs.</figcaption>
+                </figure>
+
+                <h2>What you need</h2>
+                <ul>
+                    <li>A laptop with at least 8 GB RAM (16 GB+ is better)</li>
+                    <li>Windows, macOS, or Linux</li>
+                    <li>About 20 minutes</li>
+                </ul>
+
+                <p>That's it.</p>
+
+                <h2>Step 1 — Install Ollama</h2>
+                <p>Ollama lets you run AI models locally. Think of it as the engine.</p>
+
+                <p>Go to <a href="https://ollama.com/" target="_blank" rel="noopener noreferrer">ollama.com</a>, download the installer for your OS, run it. Then verify it works:</p>
+
+                <pre><code>ollama --version</code></pre>
+
+                <h2>Step 2 — Pull a model</h2>
+                <p>This downloads the actual AI brain to your machine. You can check the full list of models <a href="https://ollama.com/library" target="_blank" rel="noopener noreferrer">here</a>.</p>
+
+                <p>To check which models your machine can realistically handle, try <a href="https://canirun.ai/" target="_blank" rel="noopener noreferrer">CanIRun.ai</a> — it gives you info on model requirements vs. your hardware.</p>
+
+                <p>For a lighter setup:</p>
+                <pre><code>ollama pull glm-4.7-flash</code></pre>
+
+                <p>For better results (needs 16 GB RAM):</p>
+                <pre><code>ollama pull qwen2.5-coder:14b</code></pre>
+
+                <h2>Step 3 — Install Claude Code</h2>
+                <p>Windows CMD:</p>
+                <pre><code>curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</code></pre>
+
+                <p>macOS / Linux:</p>
+                <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+
+                <p>Then add Claude Code to your PATH so your terminal can find it. On Windows, run this in PowerShell:</p>
+                <pre><code>[Environment]::SetEnvironmentVariable("PATH", $env:PATH + ";C:\Users\YOURUSERNAME\.local\bin", "User")</code></pre>
+
+                <p>Restart your terminal, then verify:</p>
+                <pre><code>claude --version</code></pre>
+
+                <h2>Step 4 — Launch it</h2>
+                <p>Once everything is installed, launch Claude Code against a local model:</p>
+
+                <pre><code>ollama launch claude --model glm-4.7-flash</code></pre>
+
+                <p>You're in. Ask it anything about your codebase.</p>
+
+                <h2>Local vs cloud models</h2>
+                <p>Here's what you need to keep in mind:</p>
+
+                <ul>
+                    <li><strong>Local models</strong> run on your machine. Fast, private, free. But smaller = dumber.</li>
+                    <li><strong>Cloud models</strong> via Ollama are massive — up to 480B parameters — running on their servers. Still free. Much smarter. But your code leaves your machine.</li>
+                </ul>
+
+                <p>To use a cloud-hosted model through the same workflow:</p>
+                <pre><code>ollama launch claude --model qwen3-coder:480b-cloud</code></pre>
+
+                <p>So for personal projects, I recommend using the cloud model.</p>
+
+                <p>For work code with sensitive data, stay local. Don't send company secrets to someone else's server.</p>
+
+                <h2>My recommendation</h2>
+                <p>If you just want a free Claude Code workflow on your laptop, start with Ollama plus a local model. It's simple, private, and good enough for a lot of coding tasks.</p>
+
+                <p>If your machine has more RAM, upgrade to a stronger coder model. If you need the smartest results and the code isn't sensitive, try a cloud-backed option through the same workflow.</p>
+
+                <p>The best part is that you keep the same terminal-first experience while choosing the model that fits your budget and privacy needs.</p>
+            </div>
+        </article>
+    </main>
+</body>
+</html>
