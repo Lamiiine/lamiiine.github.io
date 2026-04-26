@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIA Finance — Zefir</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #080810;
+            --surface: #0f0f1a;
+            --surface2: #161625;
+            --surface3: #1e1e30;
+            --border: #252538;
+            --border2: #2e2e48;
+            --accent: #e8ff5a;
+            --accent-dim: rgba(232, 255, 90, 0.12);
+            --accent2: #5affc8;
+            --accent2-dim: rgba(90, 255, 200, 0.1);
+            --text: #f0f0f8;
+            --text2: #a0a0c0;
+            --muted: #585878;
+            --danger: #ff5a7e;
+            --success: #5affc8;
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(232, 255, 90, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(232, 255, 90, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 60px;
+            background: rgba(8, 8, 16, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-z {
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+            color: #080810;
+            flex-shrink: 0;
+        }
+
+        .logo-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo-product {
+            font-size: 11px;
+            color: var(--accent);
+            font-family: 'DM Mono', monospace;
+            letter-spacing: 0.1em;
+            background: var(--accent-dim);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(232, 255, 90, 0.2);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.off {
+            background: var(--danger);
+            animation: none;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.3
+            }
+        }
+
+        .api-btn {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text2);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: 'Syne', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .api-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .app {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            min-height: 100vh;
+            padding-top: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── LEFT PANEL — HERO + RESULTS ── */
+        .left-panel {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+
+        .left-panel::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .left-panel::-webkit-scrollbar-thumb {
+            background: var(--border2);
+        }
+
+        .hero {
+            padding: 40px 32px 32px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 16px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 32px;
+            line-height: 1.15;
+            margin-bottom: 12px;
+        }
+
+        h1 em {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .hero-sub {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .stat {
+            background: var(--surface2);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: 'DM Mono', monospace;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        /* ── RESULTS PANEL ── */
+        .results-area {
+            flex: 1;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .results-empty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+            filter: grayscale(1);
+            opacity: 0.3;
+        }
+
+        .empty-text {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Capacity card */
+        .capacity-card {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: var(--radius);
+            overflow: hidden;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .verdict-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-family: 'DM Mono', monospace;
+        }
+
+        .verdict-ok {
+            background: rgba(90, 255, 200, 0.15);
+            color: var(--accent2);
+        }
+
+        .verdict-partial {
+            background: rgba(232, 255, 90, 0.15);
+            color: var(--accent);
+        }
+
+        .verdict-no {
+            background: rgba(255, 90, 126, 0.15);
+            color: var(--danger);
+        }
+
+        .capacity-main {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .capacity-amount {
+            font-family: 'DM Mono', monospace;
+            font-size: 36px;
+            font-weight: 500;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .capacity-label {
+            font-size: 12px;
+            color: var(--text2);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border-top: 1px solid var(--border);
+        }
+
+        .metric {
+            background: var(--surface2);
+            padding: 14px 20px;
+        }
+
+        .metric-val {
+            font-family: 'DM Mono', monospace;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text);
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .metric-val.accent {
+            color: var(--accent);
+        }
+
+        .metric-val.danger {
+            color: var(--danger);
+        }
+
+        .metric-lbl {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        /* Scenarios */
+        .scenarios {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .scenario-row {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .scenario-row:hover {
+            border-color: var(--border2);
+        }
+
+        .scenario-row.active {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .scenario-dur {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .scenario-right {
+            text-align: right;
+        }
+
+        .scenario-payment {
+            font-family: 'DM Mono', monospace;
+            font-size: 15px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .scenario-rate {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .scenario-total {
+            font-size: 11px;
+            color: var(--text2);
+        }
+
+        /* Debt ratio bar */
+        .ratio-section {
+            margin-top: 12px;
+        }
+
+        .ratio-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text2);
+            margin-bottom: 6px;
+        }
+
+        .ratio-bar {
+            height: 6px;
+            background: var(--surface3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .ratio-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ratio-ok {
+            background: var(--accent2);
+        }
+
+        .ratio-warn {
+            background: var(--accent);
+        }
+
+        .ratio-bad {
+            background: var(--danger);
+        }
+
+        .ratio-limit {
+            font-size: 10px;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+            margin-top: 4px;
+        }
+
+        /* PDF Button */
+        .pdf-btn {
+            width: 100%;
+            margin-top: 12px;
+            background: var(--accent);
+            color: #080810;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pdf-btn:hover {
+            background: #f5ff80;
+            transform: translateY(-1px);
+        }
+
+        .pdf-btn:active {
+            transform: translateY(0);
+        }
+
+        .disclaimer {
+            font-size: 10px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: var(--surface3);
+            border-radius: 6px;
+            font-family: 'DM Mono', monospace;
+        }
+
+        /* ── RIGHT PANEL — CHAT ── */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+        }
+
+        .chat-top {
+            padding: 20px 28px 16px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .chat-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text2);
+        }
+
+        .chat-subtitle {
+            font-size: 11px;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+            margin-top: 2px;
+        }
+
+        /* Property input */
+        .property-bar {
+            margin: 0 28px 0;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .property-label {
+            font-size: 11px;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+            white-space: nowrap;
+        }
+
+        .property-input {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .property-input:focus {
+            border-color: var(--accent);
+        }
+
+        .property-input::placeholder {
+            color: var(--muted);
+        }
+
+        /* Messages */
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .messages::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: var(--border2);
+        }
+
+        .msg {
+            display: flex;
+            gap: 10px;
+            animation: msgIn 0.25s ease;
+        }
+
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .msg.user {
+            flex-direction: row-reverse;
+        }
+
+        .msg-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .msg-avatar.zia {
+            background: var(--accent);
+            color: #080810;
+        }
+
+        .msg-avatar.user {
+            background: var(--surface3);
+            color: var(--text2);
+            border: 1px solid var(--border2);
+        }
+
+        .msg-bubble {
+            max-width: 78%;
+            padding: 11px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .msg.zia .msg-bubble {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-top-left-radius: 4px;
+            color: var(--text);
+        }
+
+        .msg.user .msg-bubble {
+            background: var(--accent-dim);
+            border: 1px solid rgba(232, 255, 90, 0.25);
+            border-top-right-radius: 4px;
+            color: var(--text);
+            text-align: right;
+        }
+
+        .msg-bubble strong {
+            color: var(--accent);
+        }
+
+        .msg-bubble .mono {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--accent2);
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding: 4px 2px;
+        }
+
+        .typing-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--muted);
+            animation: typingBounce 1.2s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+
+            30% {
+                transform: translateY(-6px);
+                opacity: 1;
+            }
+        }
+
+        /* Quick reply chips */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .chip {
+            background: var(--surface3);
+            border: 1px solid var(--border2);
+            color: var(--text2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .chip:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Input area */
+        .input-area {
+            padding: 16px 28px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 11px 14px;
+            border-radius: 8px;
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            outline: none;
+            resize: none;
+            min-height: 42px;
+            max-height: 120px;
+            transition: border-color 0.2s;
+            line-height: 1.4;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent);
+        }
+
+        .chat-input::placeholder {
+            color: var(--muted);
+        }
+
+        .send-btn {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            background: #f5ff80;
+            transform: scale(1.05);
+        }
+
+        .send-btn:active {
+            transform: scale(0.97);
+        }
+
+        .send-btn:disabled {
+            background: var(--border);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .send-btn svg {
+            color: #080810;
+        }
+
+        .input-hint {
+            font-size: 10px;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* API Key Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(8, 8, 16, 0.85);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 14px;
+            padding: 32px;
+            width: 420px;
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal input {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 11px 14px;
+            border-radius: 8px;
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            outline: none;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+
+        .modal input:focus {
+            border-color: var(--accent);
+        }
+
+        .modal-btn {
+            width: 100%;
+            background: var(--accent);
+            color: #080810;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Syne', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn:hover {
+            background: #f5ff80;
+        }
+
+        .modal-note {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 10px;
+            text-align: center;
+            font-family: 'DM Mono', monospace;
+        }
+
+        /* Progress steps */
+        .steps-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .step-dot {
+            height: 3px;
+            flex: 1;
+            border-radius: 2px;
+            background: var(--border2);
+            transition: background 0.4s;
+        }
+
+        .step-dot.done {
+            background: var(--accent2);
+        }
+
+        .step-dot.active {
+            background: var(--accent);
+        }
+
+        @media (max-width: 900px) {
+            .app {
+                grid-template-columns: 1fr;
+            }
+
+            .left-panel {
+                position: relative;
+                height: auto;
+            }
+
+            .right-panel {
+                position: relative;
+                height: 80vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <div class="logo-z">Z</div>
+            <span class="logo-name">Zefir</span>
+            <span class="logo-product">ZIA Finance · POC</span>
+        </div>
+        <div class="header-right">
+            <div class="api-status" style="margin-right:8px;">
+                <div class="status-dot" id="oatDot" style="background:var(--muted);animation:none"></div>
+                <span id="oatIndicator" style="color:var(--muted);font-size:10px">OAT 10 ans: chargement…</span>
+            </div>
+            <div class="api-status">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Gemini actif</span>
+            </div>
+        </div>
+    </header>
+
+
+
+    <!-- APP -->
+    <div class="app">
+
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="hero">
+                <div class="hero-tag">ZIA Finance</div>
+                <h1>Votre capacité<br>d'emprunt en <em>5 minutes</em></h1>
+                <p class="hero-sub">
+                    Parlez à ZIA comme à votre conseiller bancaire. Elle calcule votre capacité selon la règle HCSF
+                    (35%), génère vos scénarios et produit une attestation téléchargeable.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-val">35%</span>
+                        <div class="stat-lbl">Taux max HCSF</div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-val">45j</span>
+                        <div class="stat-lbl">Délai banque moyen</div>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-val">5min</span>
+                        <div class="stat-lbl">Avec ZIA Finance</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-area" id="resultsArea">
+                <div class="results-empty" id="emptyState">
+                    <div class="empty-icon">🏦</div>
+                    <div class="empty-text">
+                        Répondez aux questions de ZIA pour voir<br>votre capacité d'emprunt et vos scénarios.
+                    </div>
+                </div>
+                <!-- Results injected here -->
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL — CHAT -->
+        <div class="right-panel">
+            <div class="chat-top">
+                <div class="chat-title">ZIA Finance — Assistant financement</div>
+                <div class="chat-subtitle">Alimenté par Gemini 2.0 Flash · Règles HCSF 2024</div>
+            </div>
+
+            <div class="property-bar">
+                <span class="property-label">BIEN :</span>
+                <input type="text" class="property-input" id="propertyPrice" placeholder="Prix du bien ex: 385000"
+                    oninput="updatePropertyPrice(this.value)">
+                <span class="property-label">€</span>
+            </div>
+
+            <div class="messages" id="messages"></div>
+
+            <div class="input-area">
+                <div class="input-row">
+                    <textarea class="chat-input" id="chatInput" placeholder="Répondez ici ou posez une question…"
+                        onkeydown="handleKey(event)" rows="1" oninput="autoResize(this)"></textarea>
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-hint">Entrée pour envoyer · Shift+Entrée pour nouvelle ligne</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ══════════════════════════════════════════════
+        //  STATE
+        // ══════════════════════════════════════════════
+        const apiKey = 'AIzaSyBnC9iYwdD4Z6WhF-HInC2wJfyQshB6-Xs';
+        let conversationHistory = [];
+        let userData = {
+            revenuBrut: null,      // € annuel
+            revenuNet: null,       // computed
+            credits: null,         // € mensuel existants
+            apport: null,          // € disponible
+            prixBien: null,        // € bien ciblé
+            duree: null,           // années (calculé multiple scénarios)
+            step: 0
+        };
+        let calculatedResults = null;
+        let selectedScenario = 20; // années par défaut
+
+        const STEPS = ['revenu', 'credits', 'apport', 'calcul'];
+
+        // ══════════════════════════════════════════════
+        //  LIVE OAT RATE — ECB SDMX API
+        //  Series: IRS.M.FR.L.L40.CI.0.EUR.N.Z
+        //  French 10-year government bond yield (monthly)
+        //  Public, no auth, CORS-open
+        // ══════════════════════════════════════════════
+
+        let liveOAT = null; // set on page load
+
+        async function fetchLiveOAT() {
+            const indicator = document.getElementById('oatIndicator');
+            try {
+                // ECB public SDMX REST API — French long-term interest rate (IRS)
+                // M = monthly, FR = France, L40 = 10-year maturity, lastNObservations=1
+                const url = 'https://data-api.ecb.europa.eu/service/data/IRS/M.FR.L.L40.CI.0.EUR.N.Z' +
+                    '?lastNObservations=1&format=jsondata&detail=dataonly';
+
+                const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+                if (!res.ok) throw new Error(`ECB API ${res.status}`);
+
+                const json = await res.json();
+                // Navigate SDMX-JSON structure
+                const obs = json?.dataSets?.[0]?.series?.['0:0:0:0:0:0:0:0:0']?.observations;
+                if (!obs) throw new Error('No observation data');
+
+                const values = Object.values(obs);
+                if (!values.length) throw new Error('Empty observations');
+
+                const rate = parseFloat(values[values.length - 1][0]);
+                if (isNaN(rate)) throw new Error('Invalid rate value');
+
+                liveOAT = rate;
+
+                // Update UI indicator
+                if (indicator) {
+                    indicator.textContent = `OAT 10 ans: ${rate.toFixed(2)}% (BCE · live)`;
+                    indicator.style.color = 'var(--accent2)';
+                }
+                console.log(`✓ Live OAT rate fetched: ${rate.toFixed(3)}%`);
+            } catch (err) {
+                // Fallback to hardcoded value (reliable Apr 2026 figure)
+                liveOAT = 3.15;
+                if (indicator) {
+                    indicator.textContent = `OAT 10 ans: ${liveOAT.toFixed(2)}% (valeur de secours)`;
+                    indicator.style.color = 'var(--muted)';
+                }
+                console.warn('ECB API fetch failed, using fallback:', err.message);
+            }
+        }
+
+        function getRate(years) {
+            // Base = live OAT 10y rate (or fallback 3.15%)
+            // Bank margin varies by duration — market averages Apr 2026
+            const base = liveOAT ?? 3.15;
+            const margins = { 10: 0.55, 15: 0.70, 20: 0.85, 25: 1.05 };
+            return (base + (margins[years] || 0.85)) / 100;
+        }
+
+        function monthlyPayment(principal, annualRate, years) {
+            const r = annualRate / 12;
+            const n = years * 12;
+            if (r === 0) return principal / n;
+            return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+        }
+
+        function maxBorrow(netMonthly, existingCredits, years) {
+            const maxPayment = (netMonthly * 0.35) - existingCredits;
+            if (maxPayment <= 0) return 0;
+            const r = getRate(years) / 12;
+            const n = years * 12;
+            return maxPayment * (Math.pow(1 + r, n) - 1) / (r * Math.pow(1 + r, n));
+        }
+
+        function computeResults(data, prixBien) {
+            // Net = brut * 0.77 (approx after charges sociales)
+            const netMonthly = (data.revenuBrut * 0.77) / 12;
+            const scenarios = [10, 15, 20, 25].map(years => {
+                const maxLoan = maxBorrow(netMonthly, data.credits, years);
+                const loanNeeded = prixBien - data.apport;
+                const loanActual = Math.min(maxLoan, loanNeeded);
+                const payment = monthlyPayment(loanActual, getRate(years), years);
+                const debtRatio = ((payment + data.credits) / netMonthly) * 100;
+                const totalCost = payment * years * 12;
+                const interestCost = totalCost - loanActual;
+                const canAfford = loanActual >= loanNeeded && debtRatio <= 35;
+                return {
+                    years, rate: getRate(years) * 100,
+                    maxLoan: Math.round(maxLoan),
+                    loanNeeded: Math.round(loanNeeded),
+                    loanActual: Math.round(loanActual),
+                    payment: Math.round(payment),
+                    debtRatio: Math.round(debtRatio * 10) / 10,
+                    totalCost: Math.round(totalCost),
+                    interestCost: Math.round(interestCost),
+                    canAfford
+                };
+            });
+            const bestScenario = scenarios.find(s => s.canAfford && s.years >= 20) || scenarios[2];
+            return {
+                netMonthly: Math.round(netMonthly),
+                maxDebtPayment: Math.round(netMonthly * 0.35),
+                apport: data.apport,
+                prixBien,
+                scenarios,
+                bestScenario,
+                feasible: scenarios.some(s => s.canAfford),
+                apportPct: Math.round((data.apport / prixBien) * 100)
+            };
+        }
+
+        // ══════════════════════════════════════════════
+        //  RENDER RESULTS
+        // ══════════════════════════════════════════════
+
+        function renderResults(res) {
+            const area = document.getElementById('resultsArea');
+            const best = res.scenarios.find(s => s.years === selectedScenario) || res.bestScenario;
+            const verdict = best.canAfford ? 'ok' : (best.debtRatio < 42 ? 'partial' : 'no');
+            const verdictLabels = { ok: '✓ Finançable', partial: '⚠ Limite', no: '✗ Insuffisant' };
+
+            const scenariosHTML = res.scenarios.map(s => `
+    <div class="scenario-row ${s.years === selectedScenario ? 'active' : ''}"
+      onclick="selectScenario(${s.years})">
+      <div>
+        <div class="scenario-dur">${s.years} ans</div>
+        <div class="scenario-total" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">
+          Coût total: ${fmt(s.totalCost)} €
+        </div>
+      </div>
+      <div class="scenario-right">
+        <div class="scenario-payment">${fmt(s.payment)} €/mois</div>
+        <div class="scenario-rate">${s.rate.toFixed(2)}% · Taux d'endettement: ${s.debtRatio}%</div>
+      </div>
+    </div>
+  `).join('');
+
+            const ratioColor = best.debtRatio <= 35 ? 'ratio-ok' : best.debtRatio <= 40 ? 'ratio-warn' : 'ratio-bad';
+
+            area.innerHTML = `
+    <div class="steps-bar">
+      ${STEPS.map((s, i) => `<div class="step-dot ${i < userData.step ? 'done' : i === userData.step - 1 ? 'active' : ''}"></div>`).join('')}
+    </div>
+
+    <div class="capacity-card">
+      <div class="card-header">
+        <span class="card-label">Capacité maximale · ${selectedScenario} ans</span>
+        <span class="verdict-badge verdict-${verdict}">${verdictLabels[verdict]}</span>
+      </div>
+      <div class="capacity-main">
+        <div class="capacity-amount">${fmt(best.maxLoan)} €</div>
+        <div class="capacity-label">emprunt maximum · apport ${fmt(res.apport)} € (${res.apportPct}%)</div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric-val accent">${fmt(best.payment)} €</span>
+          <div class="metric-lbl">Mensualité estimée</div>
+        </div>
+        <div class="metric">
+          <span class="metric-val ${best.debtRatio > 35 ? 'danger' : ''}">${best.debtRatio}%</span>
+          <div class="metric-lbl">Taux d'endettement</div>
+        </div>
+        <div class="metric">
+          <span class="metric-val">${fmt(res.netMonthly)} €</span>
+          <div class="metric-lbl">Revenus nets/mois</div>
+        </div>
+        <div class="metric">
+          <span class="metric-val">${fmt(best.interestCost)} €</span>
+          <div class="metric-lbl">Coût intérêts total</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ratio-section">
+      <div class="ratio-label">
+        <span>Taux d'endettement · règle HCSF</span>
+        <span style="color:var(--accent);font-family:'DM Mono',monospace">${best.debtRatio}% / 35% max</span>
+      </div>
+      <div class="ratio-bar">
+        <div class="ratio-fill ${ratioColor}" style="width:${Math.min(best.debtRatio / 35 * 100, 100)}%"></div>
+      </div>
+      <div class="ratio-limit">Limite légale: 35% (HCSF 2022) · votre maximum: ${fmt(res.maxDebtPayment)} €/mois</div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:6px;letter-spacing:0.08em;text-transform:uppercase">Scénarios de durée</div>
+      <div class="scenarios">${scenariosHTML}</div>
+    </div>
+
+    <button class="pdf-btn" onclick="generatePDF()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Télécharger l'attestation de capacité
+    </button>
+
+    <div class="disclaimer">
+      ⚠ Simulation indicative basée sur les règles HCSF. Ne constitue pas une offre de prêt. 
+      Taux OAT source: API publique BCE · ${liveOAT ? liveOAT.toFixed(2) + '% live' : '3.15% (secours)'} · Les conditions finales dépendent de votre dossier bancaire complet.
+    </div>
+  `;
+        }
+
+        function selectScenario(years) {
+            selectedScenario = years;
+            if (calculatedResults) renderResults(calculatedResults);
+        }
+
+        function fmt(n) {
+            return new Intl.NumberFormat('fr-FR').format(n);
+        }
+
+        function updatePropertyPrice(val) {
+            const price = parseFloat(val.replace(/\s/g, ''));
+            if (!isNaN(price) && price > 0) {
+                userData.prixBien = price;
+                if (calculatedResults) {
+                    calculatedResults = computeResults(userData, price);
+                    renderResults(calculatedResults);
+                }
+            }
+        }
+
+        // ══════════════════════════════════════════════
+        //  GEMINI API
+        // ══════════════════════════════════════════════
+
+        const SYSTEM_PROMPT = `Tu es ZIA Finance, l'assistante de financement immobilier de Zefir. Tu aides les acheteurs à calculer leur capacité d'emprunt en France.
+
+Tu dois collecter ces informations dans cet ordre, une à la fois :
+1. Revenu brut annuel (ou mensuel brut) — seul ou en couple
+2. Crédits mensuels existants (auto, conso, autre immo) — 0 si aucun
+3. Apport disponible (épargne pour le projet)
+
+Règles :
+- Pose UNE seule question à la fois, de façon naturelle et rassurante
+- Valide chaque réponse avant de passer à la suivante
+- Convertis automatiquement mensuel→annuel si l'utilisateur donne un chiffre mensuel
+- Si le prix du bien est connu, mentionne-le dans ton analyse
+- Quand tu as les 3 informations, résume et dis que tu calcules
+- Tu peux répondre en français courant, pas de jargon bancaire
+- Sois chaleureux, précis, et rapide — Zefir c'est la vitesse
+- Format: pas de markdown lourd, phrases courtes
+
+Quand tu as collecté revenuBrut, credits ET apport, réponds avec exactement ce format JSON dans ta réponse (entre balises):
+<DATA>{"revenuBrut": X, "credits": Y, "apport": Z}</DATA>
+
+Commence par te présenter brièvement et demander le revenu.`;
+
+        async function callGemini(userMessage) {
+
+            conversationHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+
+            const body = {
+                system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+                contents: conversationHistory,
+                generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
+            };
+
+            try {
+                const res = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
+                    { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
+                );
+                const data = await res.json();
+                if (data.error) throw new Error(data.error.message);
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                conversationHistory.push({ role: 'model', parts: [{ text }] });
+                return text;
+            } catch (e) {
+                console.error(e);
+                return `Erreur de connexion: ${e.message}. Vérifiez votre clé API.`;
+            }
+        }
+
+        // ══════════════════════════════════════════════
+        //  CHAT LOGIC
+        // ══════════════════════════════════════════════
+
+        function addMessage(role, content, chips = []) {
+            const msgs = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = `msg ${role}`;
+            const avatar = role === 'zia' ? 'Z' : 'M';
+            div.innerHTML = `
+    <div class="msg-avatar ${role}">${avatar}</div>
+    <div>
+      <div class="msg-bubble">${content}</div>
+      ${chips.length ? `<div class="chips">${chips.map(c => `<div class="chip" onclick="sendChip('${c}')">${c}</div>`).join('')}</div>` : ''}
+    </div>
+  `;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        function addTyping() {
+            const msgs = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = 'msg zia'; div.id = 'typing';
+            div.innerHTML = `
+    <div class="msg-avatar zia">Z</div>
+    <div class="msg-bubble">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+      </div>
+    </div>
+  `;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        function removeTyping() {
+            document.getElementById('typing')?.remove();
+        }
+
+        function parseData(text) {
+            const match = text.match(/<DATA>(.*?)<\/DATA>/s);
+            if (!match) return null;
+            try { return JSON.parse(match[1]); } catch { return null; }
+        }
+
+        function cleanText(text) {
+            return text.replace(/<DATA>.*?<\/DATA>/s, '').trim()
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+        }
+
+        async function sendMessage(text) {
+            const input = document.getElementById('chatInput');
+            const msg = text || input.value.trim();
+            if (!msg) return;
+
+            input.value = '';
+            autoResize(input);
+            document.getElementById('sendBtn').disabled = true;
+
+            addMessage('user', msg);
+            addTyping();
+
+            const response = await callGemini(msg);
+            removeTyping();
+            document.getElementById('sendBtn').disabled = false;
+
+            if (!response) return;
+
+            // Check if data was collected
+            const extractedData = parseData(response);
+            const displayText = cleanText(response);
+
+            addMessage('zia', displayText);
+
+            if (extractedData) {
+                userData = { ...userData, ...extractedData };
+                userData.step = 4;
+
+                const prixBien = userData.prixBien ||
+                    parseFloat(document.getElementById('propertyPrice').value.replace(/\s/g, '')) ||
+                    400000;
+
+                userData.prixBien = prixBien;
+                calculatedResults = computeResults(userData, prixBien);
+                renderResults(calculatedResults);
+
+                // Follow-up from ZIA
+                setTimeout(() => {
+                    const best = calculatedResults.bestScenario;
+                    const emoji = calculatedResults.feasible ? '✅' : '⚠️';
+                    addMessage('zia',
+                        `${emoji} Calcul terminé ! Sur <strong>${selectedScenario} ans</strong>, votre mensualité estimée est de <span class="mono">${fmt(best.payment)} €</span> pour un emprunt de <span class="mono">${fmt(best.loanActual)} €</span>.<br><br>Vous pouvez télécharger votre attestation de capacité ci-contre pour l'accompagner avec votre offre.`,
+                        calculatedResults.feasible ? ['Quel est le coût total ?', 'Peut-on réduire la mensualité ?', 'Impact si j\'augmente l\'apport ?'] : ['Quel apport faut-il ?', 'Comment améliorer ma capacité ?']
+                    );
+                }, 800);
+            }
+        }
+
+        async function sendChip(text) {
+            await sendMessage(text);
+        }
+
+        function handleKey(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function autoResize(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+        }
+
+        // ══════════════════════════════════════════════
+        //  PDF GENERATION
+        // ══════════════════════════════════════════════
+
+        function generatePDF() {
+            if (!calculatedResults) return;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+            const res = calculatedResults;
+            const best = res.scenarios.find(s => s.years === selectedScenario) || res.bestScenario;
+            const today = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
+            const refId = 'ZIA-' + Date.now().toString(36).toUpperCase();
+
+            // Header band
+            doc.setFillColor(232, 255, 90);
+            doc.rect(0, 0, 210, 18, 'F');
+            doc.setTextColor(8, 8, 16);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('ZEFIR — ZIA FINANCE', 15, 11);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Attestation de Capacité de Financement', 15, 16.5);
+            doc.text(`Réf: ${refId}`, 195, 11, { align: 'right' });
+            doc.text(today, 195, 16.5, { align: 'right' });
+
+            // Title
+            doc.setTextColor(8, 8, 16);
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('ATTESTATION DE CAPACITÉ', 15, 34);
+            doc.text("D'EMPRUNT IMMOBILIER", 15, 42);
+
+            // Divider
+            doc.setDrawColor(232, 255, 90);
+            doc.setLineWidth(0.8);
+            doc.line(15, 46, 195, 46);
+
+            // Disclaimer
+            doc.setFontSize(8); doc.setFont('helvetica', 'italic');
+            doc.setTextColor(100, 100, 100);
+            doc.text('Document établi sur la base des informations fournies par le demandeur. Simulation non contractuelle.', 15, 51);
+            doc.text("Conforme aux règles HCSF (Haut Conseil de Stabilité Financière) en vigueur.", 15, 55);
+
+            // Section 1 — Profile
+            const boxY = 62;
+            doc.setFillColor(240, 240, 250);
+            doc.roundedRect(15, boxY, 85, 42, 2, 2, 'F');
+            doc.roundedRect(110, boxY, 85, 42, 2, 2, 'F');
+
+            doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(100, 100, 150);
+            doc.text('PROFIL EMPRUNTEUR', 20, boxY + 7);
+            doc.setTextColor(20, 20, 40); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+
+            const rows1 = [
+                ['Revenus nets mensuels', `${fmt(res.netMonthly)} €`],
+                ['Crédits en cours', `${fmt(userData.credits)} €/mois`],
+                ['Apport disponible', `${fmt(res.apport)} €`],
+                ['Ratio apport/prix', `${res.apportPct}%`],
+            ];
+            rows1.forEach(([label, val], i) => {
+                doc.setFont('helvetica', 'normal'); doc.setTextColor(80, 80, 100);
+                doc.text(label, 20, boxY + 15 + i * 7);
+                doc.setFont('helvetica', 'bold'); doc.setTextColor(20, 20, 40);
+                doc.text(val, 97, boxY + 15 + i * 7, { align: 'right' });
+            });
+
+            doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(100, 100, 150);
+            doc.text('BIEN CIBLÉ', 115, boxY + 7);
+            doc.setTextColor(20, 20, 40); doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+
+            const rows2 = [
+                ['Prix du bien', `${fmt(res.prixBien)} €`],
+                ['Montant à emprunter', `${fmt(best.loanNeeded)} €`],
+                ['Durée retenue', `${selectedScenario} ans`],
+                ['Taux estimé', `${best.rate.toFixed(2)}%`],
+            ];
+            rows2.forEach(([label, val], i) => {
+                doc.setFont('helvetica', 'normal'); doc.setTextColor(80, 80, 100);
+                doc.text(label, 115, boxY + 15 + i * 7);
+                doc.setFont('helvetica', 'bold'); doc.setTextColor(20, 20, 40);
+                doc.text(val, 192, boxY + 15 + i * 7, { align: 'right' });
+            });
+
+            // Section 2 — Result highlight
+            const resY = 115;
+            const feasibleColor = best.canAfford ? [20, 60, 20] : [60, 20, 20];
+            const feasibleBg = best.canAfford ? [220, 255, 220] : [255, 220, 220];
+            doc.setFillColor(...feasibleBg);
+            doc.roundedRect(15, resY, 180, 28, 3, 3, 'F');
+            doc.setFontSize(10); doc.setFont('helvetica', 'bold'); doc.setTextColor(...feasibleColor);
+            const feasLabel = best.canAfford ? '✓ FINANCEMENT RÉALISABLE' : '⚠ CAPACITÉ INSUFFISANTE';
+            doc.text(feasLabel, 105, resY + 10, { align: 'center' });
+            doc.setFontSize(9); doc.setFont('helvetica', 'normal');
+            doc.text(`Capacité max: ${fmt(best.maxLoan)} € · Mensualité: ${fmt(best.payment)} €/mois · Taux d'endettement: ${best.debtRatio}% (limite 35%)`, 105, resY + 20, { align: 'center' });
+
+            // Section 3 — All scenarios table
+            const tblY = 153;
+            doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(100, 100, 150);
+            doc.text('TABLEAU DES SCÉNARIOS', 15, tblY);
+
+            const headers = ['Durée', 'Taux', 'Mensualité', 'Taux endett.', 'Coût total', 'Faisabilité'];
+            const colW = [22, 20, 30, 30, 35, 28];
+            let xPos = 15;
+            doc.setFillColor(232, 255, 90);
+            doc.rect(15, tblY + 3, 180, 7, 'F');
+            doc.setTextColor(8, 8, 16); doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5);
+            headers.forEach((h, i) => {
+                doc.text(h, xPos + 2, tblY + 8.5);
+                xPos += colW[i];
+            });
+
+            res.scenarios.forEach((sc, idx) => {
+                const rowY = tblY + 14 + idx * 9;
+                if (idx % 2 === 0) {
+                    doc.setFillColor(248, 248, 255);
+                    doc.rect(15, rowY - 4, 180, 9, 'F');
+                }
+                const rowVals = [
+                    `${sc.years} ans`,
+                    `${sc.rate.toFixed(2)}%`,
+                    `${fmt(sc.payment)} €/mois`,
+                    `${sc.debtRatio}%`,
+                    `${fmt(sc.totalCost)} €`,
+                    sc.canAfford ? '✓ OK' : '✗ NON'
+                ];
+                xPos = 15;
+                doc.setFont('helvetica', sc.years === selectedScenario ? 'bold' : 'normal');
+                doc.setTextColor(sc.canAfford ? 20 : 160, sc.canAfford ? 100 : 20, 20);
+                rowVals.forEach((v, i) => {
+                    doc.setFontSize(8);
+                    doc.text(v, xPos + 2, rowY + 1);
+                    xPos += colW[i];
+                });
+            });
+
+            // Footer
+            doc.setFillColor(232, 255, 90);
+            doc.rect(0, 277, 210, 20, 'F');
+            doc.setTextColor(8, 8, 16); doc.setFontSize(7.5); doc.setFont('helvetica', 'normal');
+            doc.text('Zefir SAS · zefir.fr · ZIA Finance est un outil de simulation. Ne constitue pas une offre de crédit au sens de la loi.', 15, 285);
+            doc.text(`Règles HCSF 2024 · OAT source: BCE SDMX API (${liveOAT?.toFixed(2) ?? '3.15'}%) · Généré le ${today} · Réf: ${refId}`, 15, 290);
+            doc.text('Page 1/1', 195, 290, { align: 'right' });
+
+            doc.save(`ZIA-Finance-Attestation-${refId}.pdf`);
+        }
+
+
+
+        // ══════════════════════════════════════════════
+        //  INIT
+        // ══════════════════════════════════════════════
+
+        async function startChat() {
+            addTyping();
+            const intro = await callGemini('Bonjour, je souhaite calculer ma capacité de financement immobilier.');
+            removeTyping();
+            if (intro) addMessage('zia', cleanText(intro));
+        }
+
+        function init() {
+            // Fetch live OAT rate first
+            fetchLiveOAT().then(() => {
+                // Update oat dot to green once loaded
+                const dot = document.getElementById('oatDot');
+                if (dot && liveOAT !== null) dot.style.background = liveOAT === 3.15 ? 'var(--muted)' : 'var(--accent2)';
+            });
+
+            startChat();
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+
+</html>
