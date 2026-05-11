@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Benchmarked CodeAct vs Tool Calling. 91% Fewer Tokens.</title>
+    <meta name="description" content="The CodeAct paper says LLMs should write code instead of calling tools. I tested it with 120 mock API tools on Mistral Small. The token savings are massive.">
+    <meta property="og:title" content="I Benchmarked CodeAct vs Tool Calling. 91% Fewer Tokens.">
+    <meta property="og:description" content="The CodeAct paper says LLMs should write code instead of calling tools. I tested it with 120 mock API tools on Mistral Small. The token savings are massive.">
+    <meta property="og:image" content="https://lamiiine.github.io/thumbnail-blog2.png">
+    <meta property="og:url" content="https://lamiiine.github.io/blog/code-mode-benchmark.html">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="I Benchmarked CodeAct vs Tool Calling. 91% Fewer Tokens.">
+    <meta name="twitter:description" content="The CodeAct paper says LLMs should write code instead of calling tools. I tested it with 120 mock API tools on Mistral Small. The token savings are massive.">
+    <meta name="twitter:image" content="https://lamiiine.github.io/thumbnail-blog2.png">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js" defer></script>
+    <style>
+        .benchmark-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            font-size: 0.95em;
+        }
+        .benchmark-table th,
+        .benchmark-table td {
+            padding: 0.75em 1em;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .benchmark-table th {
+            color: #888;
+            font-weight: 500;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .benchmark-table td:nth-child(n+2) {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+        .benchmark-table th:nth-child(n+2) {
+            text-align: right;
+        }
+        .savings {
+            color: #4ade80;
+            font-weight: 600;
+        }
+        .highlight-number {
+            color: #f97316;
+            font-weight: 600;
+        }
+        .callout {
+            background: rgba(74, 222, 128, 0.08);
+            border-left: 3px solid #4ade80;
+            padding: 1em 1.25em;
+            margin: 1.5em 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .callout p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="floating-dock">
+        <a href="../index.html" class="nav-item" data-title="Home">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+        </a>
+        <a href="../projects.html" class="nav-item" data-title="Projects">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+            </svg>
+        </a>
+        <a href="../blog.html" class="nav-item" data-title="Blog">
+            <svg class="icon" viewBox="0 0 24 24">
+                <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+        </a>
+    </nav>
+
+    <main class="blog-post">
+        <article>
+            <header class="post-header">
+                <h1>I Benchmarked CodeAct vs Tool Calling. 91% Fewer Tokens.</h1>
+                <div class="post-meta">
+                    <time datetime="2026-05-10">May 10, 2026</time>
+                    <span class="reading-time">5 min read</span>
+                </div>
+            </header>
+
+            <div class="post-content">
+                <p>A research paper from UIUC called <a href="https://arxiv.org/abs/2402.01030" target="_blank" rel="noopener noreferrer">"Executable Code Actions Elicit Better LLM Agents"</a> (CodeAct) makes a simple claim: instead of having LLM agents produce JSON tool calls, let them write executable code. They tested 17 LLMs and found up to 20% higher success rate.</p>
+
+                <p>The paper focuses on success rate. I wanted to measure something else: <strong>token efficiency</strong>. How much cheaper is CodeAct in practice?</p>
+
+                <p>So I built a benchmark.</p>
+
+                <h2>The paper's idea in 30 seconds</h2>
+
+                <p>Today, most LLM agents work by generating structured JSON to call tools one at a time. Each call requires a round trip: the model outputs a JSON tool call, the system executes it, feeds the result back, and the model decides what to do next. Repeat.</p>
+
+                <p>CodeAct says: skip all that. Give the model a typed API and let it write a Python (or TypeScript) program that does the whole task at once. The program runs in a sandbox, and only the final output comes back.</p>
+
+                <p>The authors argue this works better because LLMs have seen billions of lines of real code during training, but very few examples of tool calling. Code is their native language.</p>
+
+                <h2>My setup</h2>
+
+                <p>I generated <strong>120 mock API tools</strong> across 20 resources (Users, Projects, Tasks, Bugs, Invoices, Sprints, etc.), each with 6 actions: list, get, create, update, delete, search. Think of it as a full project management platform API.</p>
+
+                <p>Then I ran <strong>5 tasks</strong> of increasing complexity against <strong>Mistral Small</strong> (free tier) in two modes:</p>
+
+                <ul>
+                    <li><strong>Tool Calling</strong>: All 120 tools presented as function definitions. The model calls them one at a time across multiple rounds.</li>
+                    <li><strong>CodeAct</strong>: The 120 tools converted into a TypeScript API definition (~16K chars). The model writes one code snippet. Single round.</li>
+                </ul>
+
+                <h2>Results</h2>
+
+                <table class="benchmark-table">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Tool Tokens</th>
+                            <th>CodeAct Tokens</th>
+                            <th>Savings</th>
+                            <th>Rounds</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Find user + get team info</td>
+                            <td class="highlight-number">51,932</td>
+                            <td>4,323</td>
+                            <td class="savings">91.7%</td>
+                            <td>4 → 1</td>
+                        </tr>
+                        <tr>
+                            <td>Find tasks + add comments</td>
+                            <td class="highlight-number">52,663</td>
+                            <td>4,513</td>
+                            <td class="savings">91.4%</td>
+                            <td>4 → 1</td>
+                        </tr>
+                        <tr>
+                            <td>Create project + milestone + tasks</td>
+                            <td class="highlight-number">27,012</td>
+                            <td>4,649</td>
+                            <td class="savings">82.8%</td>
+                            <td>2 → 1</td>
+                        </tr>
+                        <tr>
+                            <td>Aggregate data across projects</td>
+                            <td class="highlight-number">146,073</td>
+                            <td>4,579</td>
+                            <td class="savings">96.9%</td>
+                            <td>10 → 1</td>
+                        </tr>
+                        <tr>
+                            <td>Search bugs + notify assignees</td>
+                            <td class="highlight-number">66,369</td>
+                            <td>4,615</td>
+                            <td class="savings">93.0%</td>
+                            <td>5 → 1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout">
+                    <p><strong>Average token savings: 91.2%</strong>. CodeAct used ~4,500 tokens per task. Tool Calling averaged ~68,800.</p>
+                </div>
+
+                <h2>Why the gap is so large</h2>
+
+                <p>Every round of tool calling resends the entire conversation history plus all 120 tool schemas to the model. That's ~13,000 tokens just for the tool definitions. Do 4 rounds and you've burned 52,000 tokens on schema repetition alone.</p>
+
+                <p>CodeAct pays the API definition cost once (~4,000 tokens for the TypeScript types) and gets back a complete solution in a single round.</p>
+
+                <p>The worst case was the data aggregation task. Tool calling hit the 10 round limit and consumed <strong>146,073 tokens</strong>. It had to list projects, then for each project fetch tasks, time entries, and invoices. Each step resent everything. CodeAct wrote a clean async function with loops and did it in <strong>4,579 tokens</strong>. That's a 97% reduction.</p>
+
+                <h2>Code quality was better too</h2>
+
+                <p>This matches the paper's findings. The code that CodeAct produced was well structured: proper error handling, async/await, clear variable names, loops for batch operations. The tool calling approach sometimes called the wrong tool or forgot to chain results between steps.</p>
+
+                <p>The paper's explanation: LLMs have been trained on millions of real codebases. They've seen very few examples of tool calling JSON. Code is their native output format. Asking an LLM to write code that calls APIs is asking it to do something it already excels at. Asking it to produce tool call JSON is asking it to work in a format it barely knows.</p>
+
+                <h2>What CodeAct adds beyond just token savings</h2>
+
+                <p>The original paper highlights benefits I also observed:</p>
+
+                <ul>
+                    <li><strong>Composability</strong>: The model can combine multiple API calls with loops, conditionals, and data transformations in a single code block. Tool calling can only do one call at a time.</li>
+                    <li><strong>Self-debugging</strong>: CodeAct agents can catch errors and revise their code. Tool calling agents just fail.</li>
+                    <li><strong>Flexibility</strong>: The model can use standard library functions (string manipulation, date math, array operations) alongside API calls. No need for a dedicated tool for every small operation.</li>
+                </ul>
+
+                <p>The tradeoff is that you need a sandbox to execute the generated code. The paper uses a Python interpreter. For production, you'd want something isolated.</p>
+
+                <h2>Reproduce it</h2>
+
+                <p>The entire benchmark is a <a href="https://github.com/Lamiiine/codeAct" target="_blank" rel="noopener noreferrer">single Python file</a>. No dependencies. Set your Mistral API key (free tier works) and run:</p>
+
+                <pre><code>export MISTRAL_API_KEY=your_key
+python3 benchmark.py</code></pre>
+
+                <p>It generates 120 mock tools, runs 5 tasks in both modes, and prints a comparison table.</p>
+
+                <h2>Bottom line</h2>
+
+                <p>The CodeAct paper was right. Letting LLMs write code instead of calling tools saves 91% of tokens on average across 120 tools with Mistral Small. The more complex the task, the bigger the gap. The data aggregation task hit 97% savings.</p>
+
+                <p>If you're building AI agents with many tools, consider the CodeAct approach: convert your tool schemas into a typed API definition, let the model write code, and execute it in a sandbox. Your token bill will thank you.</p>
+            </div>
+        </article>
+    </main>
+</body>
+</html>
